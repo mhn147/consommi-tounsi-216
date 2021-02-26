@@ -19,7 +19,7 @@ public class UserService implements IUserService {
     }
 
     public void updateType(long id, UserType type) {
-        Optional<User> oUser=userRepository.findById(id);
+        Optional<User> oUser = userRepository.findById(id);
         if (oUser.isPresent()) {
             User user = oUser.get();
             user.setType(type);
