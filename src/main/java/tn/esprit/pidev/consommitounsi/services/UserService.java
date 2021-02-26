@@ -1,10 +1,10 @@
-package tn.esprit.pidev.consommitounsi.services.user;
+package tn.esprit.pidev.consommitounsi.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tn.esprit.pidev.consommitounsi.entities.user.User;
-import tn.esprit.pidev.consommitounsi.entities.user.UserType;
-import tn.esprit.pidev.consommitounsi.repositories.user.UserRepository;
+import tn.esprit.pidev.consommitounsi.entities.User;
+import tn.esprit.pidev.consommitounsi.entities.UserType;
+import tn.esprit.pidev.consommitounsi.repositories.UserRepository;
 
 import java.util.List;
 import java.util.Optional;

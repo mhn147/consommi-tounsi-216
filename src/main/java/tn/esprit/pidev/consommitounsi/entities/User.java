@@ -1,4 +1,4 @@
-package tn.esprit.pidev.consommitounsi.entities.user;
+package tn.esprit.pidev.consommitounsi.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;

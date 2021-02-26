@@ -1,10 +1,10 @@
-package tn.esprit.pidev.consommitounsi.controllers.user;
+package tn.esprit.pidev.consommitounsi.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import tn.esprit.pidev.consommitounsi.entities.user.User;
-import tn.esprit.pidev.consommitounsi.entities.user.UserType;
-import tn.esprit.pidev.consommitounsi.services.user.IUserService;
+import tn.esprit.pidev.consommitounsi.entities.User;
+import tn.esprit.pidev.consommitounsi.entities.UserType;
+import tn.esprit.pidev.consommitounsi.services.IUserService;
 
 import java.util.List;
 
