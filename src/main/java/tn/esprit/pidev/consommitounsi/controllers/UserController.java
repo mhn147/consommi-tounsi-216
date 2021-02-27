@@ -16,11 +16,11 @@ public class UserController {
     @PostMapping("/user/add")
     @ResponseBody
     public int addUser(@RequestBody User user) {
-        int error=0;
+        int error = 0;
         if (userService.getByUsernameOrEmail(user.getUsername())!=null)
-            error=1;
+            error = 1;
         else if (userService.getByUsernameOrEmail(user.getEmail())!=null)
-            error=2;
+            error = 2;
         else
         {
             //hash password
