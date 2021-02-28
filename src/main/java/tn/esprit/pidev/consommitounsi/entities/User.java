@@ -13,6 +13,7 @@ public class  User implements Serializable {
     private String username;
     private String email;
     private String password;
+    private String phoneNumber;
     @Enumerated(EnumType.STRING)
     private UserType type;
 
@@ -66,6 +67,14 @@ public class  User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public UserType getType() {
