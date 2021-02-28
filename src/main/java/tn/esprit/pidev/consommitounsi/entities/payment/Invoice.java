@@ -1,11 +1,12 @@
 package tn.esprit.pidev.consommitounsi.entities.payment;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
-public class Invoice {
+public class Invoice implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long invoiceNumber;

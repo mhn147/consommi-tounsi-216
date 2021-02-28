@@ -1,11 +1,12 @@
 package tn.esprit.pidev.consommitounsi.entities.payment;
 
 import javax.persistence.Entity;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
-public class OnlinePayment extends Payment {
+public class OnlinePayment extends Payment implements Serializable {
     private String cardNumber;
     private String firstName;
     private String lastName;

@@ -3,10 +3,11 @@ package tn.esprit.pidev.consommitounsi.entities.payment;
 import tn.esprit.pidev.consommitounsi.entities.common.Address;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-public class OrderDelivery {
+public class OrderDelivery implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
