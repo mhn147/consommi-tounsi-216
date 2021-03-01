@@ -14,9 +14,12 @@ public class Topic implements Serializable {
     private long id;
     private String title;
     private String description;
+    @Temporal(TemporalType.TIMESTAMP)
     private Date date;
     @ManyToOne
     private User user;
+    @OneToMany(mappedBy = "topic", cascade = CascadeType.REMOVE)
+    private List<Post> posts;
     @OneToMany(mappedBy = "topic", cascade = CascadeType.REMOVE)
     private List<Star> stars;
 
@@ -62,6 +65,14 @@ public class Topic implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
     }
 
     public List<Star> getStars() {
