@@ -1,7 +1,6 @@
 package tn.esprit.pidev.consommitounsi.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.pidev.consommitounsi.entities.forum.Post;
 import tn.esprit.pidev.consommitounsi.entities.forum.Topic;
@@ -10,7 +9,7 @@ import tn.esprit.pidev.consommitounsi.services.forum.ITopicService;
 
 import java.util.List;
 
-@Controller
+@RestController
 public class ForumController {
     @Autowired
     ITopicService topicService;
