@@ -4,6 +4,7 @@ import tn.esprit.pidev.consommitounsi.entities.common.Address;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -12,15 +13,11 @@ public class OrderDelivery implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private int durationInHours;
-    // TODO Relation
-    @OneToOne
-    private Address deliveryAddress;
 
     public OrderDelivery() {}
 
-    public OrderDelivery(int durationInHours, Address deliveryAddress) {
+    public OrderDelivery(int durationInHours) {
         this.durationInHours = durationInHours;
-        this.deliveryAddress = deliveryAddress;
     }
 
     public long getId() {
@@ -39,24 +36,16 @@ public class OrderDelivery implements Serializable {
         this.durationInHours = durationInHours;
     }
 
-    public Address getDeliveryAddress() {
-        return deliveryAddress;
-    }
-
-    public void setDeliveryAddress(Address deliveryAddress) {
-        this.deliveryAddress = deliveryAddress;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OrderDelivery that = (OrderDelivery) o;
-        return id == that.id && durationInHours == that.durationInHours && Objects.equals(deliveryAddress, that.deliveryAddress);
+        return id == that.id && durationInHours == that.durationInHours;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, durationInHours, deliveryAddress);
+        return Objects.hash(id, durationInHours);
     }
 }

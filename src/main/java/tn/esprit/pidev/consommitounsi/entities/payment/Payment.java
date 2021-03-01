@@ -3,6 +3,7 @@ package tn.esprit.pidev.consommitounsi.entities.payment;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Objects;
 
 @Entity
@@ -10,14 +11,14 @@ public class Payment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Temporal(TemporalType.TIME)
-    private LocalDate purchaseTime;
+    @Temporal(TemporalType.DATE)
+    private Calendar purchaseTime;
     private double amount;
     private String details;
 
     public Payment() {}
 
-    public Payment(LocalDate purchaseTime, double amount, String details) {
+    public Payment(Calendar purchaseTime, double amount, String details) {
         this.purchaseTime = purchaseTime;
         this.amount = amount;
         this.details = details;
@@ -31,11 +32,11 @@ public class Payment implements Serializable {
         this.id = id;
     }
 
-    public LocalDate getPurchaseTime() {
+    public Calendar getPurchaseTime() {
         return purchaseTime;
     }
 
-    public void setPurchaseTime(LocalDate purchaseTime) {
+    public void setPurchaseTime(Calendar purchaseTime) {
         this.purchaseTime = purchaseTime;
     }
 

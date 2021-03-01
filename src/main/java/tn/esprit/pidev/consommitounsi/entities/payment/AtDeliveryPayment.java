@@ -3,6 +3,7 @@ package tn.esprit.pidev.consommitounsi.entities.payment;
 import javax.persistence.Entity;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Objects;
 
 @Entity
@@ -15,7 +16,7 @@ public class AtDeliveryPayment extends Payment implements Serializable {
         this.paymentDocument = paymentDocument;
     }
 
-    public AtDeliveryPayment(LocalDate purchaseTime, double amount, String details, String paymentDocument) {
+    public AtDeliveryPayment(Calendar purchaseTime, double amount, String details, String paymentDocument) {
         super(purchaseTime, amount, details);
         this.paymentDocument = paymentDocument;
     }

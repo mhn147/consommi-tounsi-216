@@ -23,6 +23,8 @@ public class Item implements Serializable {
     @Transient
     private double totalTaxesAmount;
 
+    // TODO Product Association
+
     public Item() {}
 
     public Item(int quantity, double discountRate, double discountAmount, double subTotal,

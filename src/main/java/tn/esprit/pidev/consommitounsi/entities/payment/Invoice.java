@@ -3,6 +3,8 @@ package tn.esprit.pidev.consommitounsi.entities.payment;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -11,9 +13,9 @@ public class Invoice implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long invoiceNumber;
     @Temporal(TemporalType.DATE)
-    private LocalDate invoiceDate;
+    private Calendar invoiceDate;
     @Temporal(TemporalType.DATE)
-    private LocalDate dueDate;
+    private Calendar dueDate;
     private double totalDiscountAmount;
     @Transient
     private double subTotal;
@@ -23,9 +25,12 @@ public class Invoice implements Serializable {
     @Transient
     private double total;
 
+//    @OneToOne
+//    private Order order;
+
     public Invoice () {}
 
-    public Invoice(LocalDate invoiceDate, LocalDate dueDate,
+    public Invoice(Calendar invoiceDate, Calendar dueDate,
                    double totalDiscountAmount, double subTotal, double totalVATAmount,
                    double totalTaxesExceptVATAmount, double totalTaxesAmount) {
         this.invoiceDate = invoiceDate;
@@ -45,19 +50,19 @@ public class Invoice implements Serializable {
         this.invoiceNumber = invoiceNumber;
     }
 
-    public LocalDate getInvoiceDate() {
+    public Calendar getInvoiceDate() {
         return invoiceDate;
     }
 
-    public void setInvoiceDate(LocalDate invoiceDate) {
+    public void setInvoiceDate(Calendar invoiceDate) {
         this.invoiceDate = invoiceDate;
     }
 
-    public LocalDate getDueDate() {
+    public Calendar getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(LocalDate dueDate) {
+    public void setDueDate(Calendar dueDate) {
         this.dueDate = dueDate;
     }
 
