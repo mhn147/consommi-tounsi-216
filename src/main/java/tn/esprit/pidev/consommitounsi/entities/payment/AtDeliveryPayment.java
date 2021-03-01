@@ -2,9 +2,10 @@ package tn.esprit.pidev.consommitounsi.entities.payment;
 
 import javax.persistence.Entity;
 import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Objects;
 
-@Entity
+//@Entity
 public class AtDeliveryPayment extends Payment {
     private String paymentDocument;
 
@@ -14,7 +15,7 @@ public class AtDeliveryPayment extends Payment {
         this.paymentDocument = paymentDocument;
     }
 
-    public AtDeliveryPayment(LocalDate purchaseTime, double amount, String details, String paymentDocument) {
+    public AtDeliveryPayment(Calendar purchaseTime, double amount, String details, String paymentDocument) {
         super(purchaseTime, amount, details);
         this.paymentDocument = paymentDocument;
     }

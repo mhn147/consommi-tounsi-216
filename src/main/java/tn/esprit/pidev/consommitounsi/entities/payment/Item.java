@@ -3,7 +3,7 @@ package tn.esprit.pidev.consommitounsi.entities.payment;
 import javax.persistence.*;
 import java.util.Objects;
 
-@Entity
+//@Entity
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

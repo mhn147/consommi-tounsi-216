@@ -2,9 +2,10 @@ package tn.esprit.pidev.consommitounsi.entities.payment;
 
 import javax.persistence.Entity;
 import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Objects;
 
-@Entity
+//@Entity
 public class OnlinePayment extends Payment {
     private String cardNumber;
     private String firstName;
@@ -18,7 +19,7 @@ public class OnlinePayment extends Payment {
         this.lastName = lastName;
     }
 
-    public OnlinePayment(LocalDate purchaseTime, double amount, String details, String cardNumber, String firstName, String lastName) {
+    public OnlinePayment(Calendar purchaseTime, double amount, String details, String cardNumber, String firstName, String lastName) {
         super(purchaseTime, amount, details);
         this.cardNumber = cardNumber;
         this.firstName = firstName;

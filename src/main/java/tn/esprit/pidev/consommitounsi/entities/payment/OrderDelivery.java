@@ -5,7 +5,7 @@ import tn.esprit.pidev.consommitounsi.entities.common.Address;
 import javax.persistence.*;
 import java.util.Objects;
 
-@Entity
+//@Entity
 public class OrderDelivery {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
