@@ -3,23 +3,28 @@ package tn.esprit.pidev.consommitounsi.entities.payment;
 import tn.esprit.pidev.consommitounsi.entities.common.Address;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
-//@Entity
-public class OrderDelivery {
+@Entity
+@Table(name = "t_order_delivery")
+public class OrderDelivery implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private int durationInHours;
-    // TODO Relation
-    @OneToOne
-    private Address deliveryAddress;
+
+    @OneToMany
+    private List<Address> deliveriesAddresses;
+
+    @OneToMany
+    private List<Order> orders;
 
     public OrderDelivery() {}
 
-    public OrderDelivery(int durationInHours, Address deliveryAddress) {
+    public OrderDelivery(int durationInHours) {
         this.durationInHours = durationInHours;
-        this.deliveryAddress = deliveryAddress;
     }
 
     public long getId() {
@@ -38,12 +43,20 @@ public class OrderDelivery {
         this.durationInHours = durationInHours;
     }
 
-    public Address getDeliveryAddress() {
-        return deliveryAddress;
+    public List<Address> getDeliveriesAddresses() {
+        return deliveriesAddresses;
     }
 
-    public void setDeliveryAddress(Address deliveryAddress) {
-        this.deliveryAddress = deliveryAddress;
+    public void setDeliveriesAddresses(List<Address> deliveriesAddresses) {
+        this.deliveriesAddresses = deliveriesAddresses;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 
     @Override
@@ -51,11 +64,11 @@ public class OrderDelivery {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OrderDelivery that = (OrderDelivery) o;
-        return id == that.id && durationInHours == that.durationInHours && Objects.equals(deliveryAddress, that.deliveryAddress);
+        return id == that.id && durationInHours == that.durationInHours;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, durationInHours, deliveryAddress);
+        return Objects.hash(id, durationInHours);
     }
 }

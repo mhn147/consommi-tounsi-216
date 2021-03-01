@@ -1,11 +1,12 @@
 package tn.esprit.pidev.consommitounsi.entities.payment;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Objects;
 
-//@Entity
+@Entity
 public class OnlinePayment extends Payment {
     private String cardNumber;
     private String firstName;

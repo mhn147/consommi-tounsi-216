@@ -1,10 +1,12 @@
 package tn.esprit.pidev.consommitounsi.entities.payment;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
-//@Entity
-public class Item {
+@Entity
+@Table(name = "t_item")
+public class Item implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

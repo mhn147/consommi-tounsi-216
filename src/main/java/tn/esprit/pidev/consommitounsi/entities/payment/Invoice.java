@@ -1,12 +1,15 @@
 package tn.esprit.pidev.consommitounsi.entities.payment;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Objects;
 
-//@Entity
-public class Invoice {
+@Entity
+@Table(name = "t_invoice")
+public class Invoice implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long invoiceNumber;
@@ -22,6 +25,15 @@ public class Invoice {
     private double totalTaxesAmount;
     @Transient
     private double total;
+
+    @OneToMany
+    private List<Item> items;
+
+    @OneToOne
+    private Order order;
+
+    @OneToOne
+    private Payment payment;
 
     public Invoice () {}
 
@@ -109,6 +121,30 @@ public class Invoice {
 
     public void setTotal(double total) {
         this.total = total;
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
     }
 
     @Override
