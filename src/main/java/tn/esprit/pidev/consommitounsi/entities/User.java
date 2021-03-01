@@ -89,4 +89,12 @@ public class  User implements Serializable {
     public void setType(UserType type) {
         this.type = type;
     }
+
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
+    }
 }

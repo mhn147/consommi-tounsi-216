@@ -70,4 +70,8 @@ public class UserService implements IUserService {
     public Address getAddressById(long id) {
         return addressRepository.findById(id).orElse(null);
     }
+
+    public List<Address> getUserAddresses(long userId) {
+        return addressRepository.getUserAddresses(userId);
+    }
 }

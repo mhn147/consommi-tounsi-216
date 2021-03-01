@@ -17,4 +17,5 @@ public interface IUserService {
     void updateAddress(Address a);
     void deleteAddressById(long id);
     Address getAddressById(long id);
+    List<Address> getUserAddresses(long userId);
 }

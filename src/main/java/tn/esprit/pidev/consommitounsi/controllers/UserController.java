@@ -91,6 +91,12 @@ public class UserController {
         return userService.getAddressById(id);
     }
 
+    @GetMapping("/users/{userId}/addresses")
+    @ResponseBody
+    public List<Address> getUserAddresses(@PathVariable("userId")long userId) {
+        return userService.getUserAddresses(userId);
+    }
+
     @DeleteMapping("/addresses/{id}")
     @ResponseBody
     public void deleteAddress(@PathVariable("id")long id) {
