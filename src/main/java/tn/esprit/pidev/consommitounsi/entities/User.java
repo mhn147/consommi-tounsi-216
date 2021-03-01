@@ -1,7 +1,10 @@
 package tn.esprit.pidev.consommitounsi.entities;
 
+import tn.esprit.pidev.consommitounsi.entities.common.Address;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 public class  User implements Serializable {
@@ -16,6 +19,8 @@ public class  User implements Serializable {
     private String phoneNumber;
     @Enumerated(EnumType.STRING)
     private UserType type;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Address> addresses;
 
     public User() {
         super();
