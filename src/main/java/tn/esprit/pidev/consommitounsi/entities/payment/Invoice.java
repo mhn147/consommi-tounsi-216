@@ -35,7 +35,8 @@ public class Invoice implements Serializable {
     @OneToOne
     private Payment payment;
 
-    public Invoice () {}
+    public Invoice() {
+    }
 
     public Invoice(Calendar invoiceDate, Calendar dueDate,
                    double totalDiscountAmount, double subTotal, double totalVATAmount,

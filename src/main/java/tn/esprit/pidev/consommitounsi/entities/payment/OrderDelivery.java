@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "t_order_delivery")
+@Table(name = "t_order_delivery_test")
 public class OrderDelivery implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +21,8 @@ public class OrderDelivery implements Serializable {
     @OneToMany
     private List<Order> orders;
 
-    public OrderDelivery() {}
+    public OrderDelivery() {
+    }
 
     public OrderDelivery(int durationInHours) {
         this.durationInHours = durationInHours;

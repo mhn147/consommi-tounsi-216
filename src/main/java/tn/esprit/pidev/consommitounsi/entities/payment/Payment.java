@@ -20,7 +20,8 @@ public class Payment implements Serializable {
     @OneToOne(mappedBy = "payment")
     private Invoice invoice;
 
-    public Payment() {}
+    public Payment() {
+    }
 
     public Payment(Calendar purchaseTime, double amount, String details) {
         this.purchaseTime = purchaseTime;

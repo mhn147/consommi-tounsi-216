@@ -12,7 +12,8 @@ public class OnlinePayment extends Payment {
     private String firstName;
     private String lastName;
 
-    public OnlinePayment() {}
+    public OnlinePayment() {
+    }
 
     public OnlinePayment(String cardNumber, String firstName, String lastName) {
         this.cardNumber = cardNumber;

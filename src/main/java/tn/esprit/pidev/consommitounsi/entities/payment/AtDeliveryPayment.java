@@ -9,7 +9,8 @@ import java.util.Objects;
 public class AtDeliveryPayment extends Payment{
     private String paymentDocument;
 
-    public AtDeliveryPayment() {}
+    public AtDeliveryPayment() {
+    }
 
     public AtDeliveryPayment(String paymentDocument) {
         this.paymentDocument = paymentDocument;

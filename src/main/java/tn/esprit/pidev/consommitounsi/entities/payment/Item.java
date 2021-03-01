@@ -24,7 +24,8 @@ public class Item implements Serializable {
     @Transient
     private double totalTaxesAmount;
 
-    public Item() {}
+    public Item() {
+    }
 
     public Item(int quantity, double discountRate, double discountAmount, double subTotal,
                 double VATRate, double VATAmount, double taxesExceptVATAmount, double totalTaxesAmount) {
