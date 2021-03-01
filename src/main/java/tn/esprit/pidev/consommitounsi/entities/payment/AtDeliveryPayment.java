@@ -5,8 +5,8 @@ import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Objects;
 
-//@Entity
-public class AtDeliveryPayment extends Payment {
+@Entity
+public class AtDeliveryPayment extends Payment{
     private String paymentDocument;
 
     public AtDeliveryPayment() {}

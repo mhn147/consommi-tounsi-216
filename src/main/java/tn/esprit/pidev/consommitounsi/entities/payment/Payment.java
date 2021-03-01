@@ -1,12 +1,14 @@
 package tn.esprit.pidev.consommitounsi.entities.payment;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Objects;
 
 @Entity
-public class Payment {
+@Table(name = "t_payment")
+public class Payment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -14,6 +16,9 @@ public class Payment {
     private Calendar purchaseTime;
     private double amount;
     private String details;
+
+    @OneToOne(mappedBy = "payment")
+    private Invoice invoice;
 
     public Payment() {}
 
@@ -53,6 +58,14 @@ public class Payment {
 
     public void setDetails(String details) {
         this.details = details;
+    }
+
+    public Invoice getInvoice() {
+        return invoice;
+    }
+
+    public void setInvoice(Invoice invoice) {
+        this.invoice = invoice;
     }
 
     @Override
