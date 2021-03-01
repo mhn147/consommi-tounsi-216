@@ -1,8 +1,9 @@
-package tn.esprit.pidev.consommitounsi.entities;
+package tn.esprit.pidev.consommitounsi.entities.reclamation;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
+@Entity
 public class Reclamation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

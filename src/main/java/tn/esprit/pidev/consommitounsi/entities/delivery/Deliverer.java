@@ -1,9 +1,13 @@
-package tn.esprit.pidev.consommitounsi.entities;
+package tn.esprit.pidev.consommitounsi.entities.delivery;
 
+import tn.esprit.pidev.consommitounsi.entities.User;
+
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.io.Serializable;
 
-public class Deliverer extends User {
+@Entity
+public class Deliverer extends User implements Serializable {
 
     private float salary;
     private float bonuses;

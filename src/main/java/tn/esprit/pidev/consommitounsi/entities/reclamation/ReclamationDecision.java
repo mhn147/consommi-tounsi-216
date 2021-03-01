@@ -1,4 +1,4 @@
-package tn.esprit.pidev.consommitounsi.entities;
+package tn.esprit.pidev.consommitounsi.entities.reclamation;
 
 public enum ReclamationDecision {
     PENDING,
