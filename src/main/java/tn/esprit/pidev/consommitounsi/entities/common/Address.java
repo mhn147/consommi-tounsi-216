@@ -1,13 +1,14 @@
 package tn.esprit.pidev.consommitounsi.entities.common;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import tn.esprit.pidev.consommitounsi.entities.User;
+
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-public class Address {
+public class Address implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -16,15 +17,12 @@ public class Address {
     private String city;
     private String governorate;
     private String postCode;
+    @JsonIgnore
+    @ManyToOne
+    private User user;
 
-    public Address() {}
-
-    public Address(String recipientName, String street, String city, String governorate, String postCode) {
-        this.recipientName = recipientName;
-        this.street = street;
-        this.city = city;
-        this.governorate = governorate;
-        this.postCode = postCode;
+    public Address() {
+        super();
     }
 
     public long getId() {
@@ -75,16 +73,11 @@ public class Address {
         this.postCode = postCode;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Address address = (Address) o;
-        return id == address.id && Objects.equals(recipientName, address.recipientName) && Objects.equals(street, address.street) && Objects.equals(city, address.city) && Objects.equals(governorate, address.governorate) && Objects.equals(postCode, address.postCode);
+    public User getUser() {
+        return user;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, recipientName, street, city, governorate, postCode);
+    public void setUser(User user) {
+        this.user = user;
     }
 }

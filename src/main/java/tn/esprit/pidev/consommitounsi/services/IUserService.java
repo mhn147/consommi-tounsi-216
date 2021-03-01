@@ -2,6 +2,7 @@ package tn.esprit.pidev.consommitounsi.services;
 
 import tn.esprit.pidev.consommitounsi.entities.User;
 import tn.esprit.pidev.consommitounsi.entities.UserType;
+import tn.esprit.pidev.consommitounsi.entities.common.Address;
 
 import java.util.List;
 
@@ -12,4 +13,8 @@ public interface IUserService {
     User getByUsernameOrEmail(String username);
     List<User> getAll();
     void delete(long id);
+    void addAddress(Address a, long userId);
+    void updateAddress(Address a);
+    void deleteAddressById(long id);
+    Address getAddressById(long id);
 }

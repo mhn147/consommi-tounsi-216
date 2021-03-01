@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import tn.esprit.pidev.consommitounsi.entities.User;
 import tn.esprit.pidev.consommitounsi.entities.UserErrors;
 import tn.esprit.pidev.consommitounsi.entities.UserType;
+import tn.esprit.pidev.consommitounsi.entities.common.Address;
 import tn.esprit.pidev.consommitounsi.services.IUserService;
 
 import java.util.List;
@@ -70,5 +71,29 @@ public class UserController {
     @ResponseBody
     public void deleteUser(@PathVariable("id")long id) {
         userService.delete(id);
+    }
+
+    @PostMapping("/addresses/{userId}")
+    @ResponseBody
+    public void addAddress(@RequestBody Address a, @PathVariable("userId") long userId) {
+        userService.addAddress(a, userId);
+    }
+
+    @PostMapping("/addresses/edit")
+    @ResponseBody
+    public void updateAddress(@RequestBody Address a) {
+        userService.updateAddress(a);
+    }
+
+    @GetMapping("/addresses/{id}")
+    @ResponseBody
+    public Address getAddressById(@PathVariable("id")long id) {
+        return userService.getAddressById(id);
+    }
+
+    @DeleteMapping("/addresses/{id}")
+    @ResponseBody
+    public void deleteAddress(@PathVariable("id")long id) {
+        userService.deleteAddressById(id);
     }
 }
