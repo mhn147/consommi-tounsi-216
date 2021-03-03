@@ -27,7 +27,7 @@ public class Product implements Serializable {
     private Category category;
 
     @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE})
-    private List<Advertisement>advertisementproduct;
+    private List<Advertisement> advertisementproduct;
 
     public Product() {
 
