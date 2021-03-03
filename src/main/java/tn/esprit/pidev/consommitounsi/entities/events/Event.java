@@ -13,7 +13,7 @@ public class Event implements Serializable {
     private String description;
     private String location;
     @OneToMany
-    private List<Donation> donationss;
+    private List<Donation> Events_donations;
 
     public Event() {
 
@@ -51,12 +51,12 @@ public class Event implements Serializable {
         this.location = location;
     }
 
-    public List<Donation> getDonationss() {
-        return donationss;
+    public List<Donation> getEvents_donations() {
+        return Events_donations;
     }
 
-    public void setDonationss(List<Donation> donationss) {
-        this.donationss = donationss;
+    public void setEvents_donations(List<Donation> Events_donations) {
+        this.Events_donations = Events_donations;
     }
 
     public Event(long id, String name, String description, String location) {
