@@ -1,10 +1,13 @@
 package tn.esprit.pidev.consommitounsi.entities;
 
+import tn.esprit.pidev.consommitounsi.entities.common.Address;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
-public class User implements Serializable {
+public class  User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -13,8 +16,11 @@ public class User implements Serializable {
     private String username;
     private String email;
     private String password;
+    private String phoneNumber;
     @Enumerated(EnumType.STRING)
     private UserType type;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Address> addresses;
 
     public User() {
         super();
@@ -68,11 +74,27 @@ public class User implements Serializable {
         this.password = password;
     }
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
     public UserType getType() {
         return type;
     }
 
     public void setType(UserType type) {
         this.type = type;
+    }
+
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
     }
 }

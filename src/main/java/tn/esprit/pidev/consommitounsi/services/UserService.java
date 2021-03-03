@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.esprit.pidev.consommitounsi.entities.User;
 import tn.esprit.pidev.consommitounsi.entities.UserType;
+import tn.esprit.pidev.consommitounsi.entities.common.Address;
+import tn.esprit.pidev.consommitounsi.repositories.AddressRepository;
 import tn.esprit.pidev.consommitounsi.repositories.UserRepository;
 
 import java.util.List;
@@ -13,6 +15,8 @@ import java.util.Optional;
 public class UserService implements IUserService {
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    AddressRepository addressRepository;
 
     public void addOrUpdate(User user) {
         userRepository.save(user);
@@ -28,8 +32,7 @@ public class UserService implements IUserService {
     }
 
     public User getById(long id) {
-        Optional<User> user = userRepository.findById(id);
-        return user.orElse(null);
+        return userRepository.findById(id).orElse(null);
     }
 
     public User getByUsernameOrEmail(String username) {
@@ -42,5 +45,33 @@ public class UserService implements IUserService {
 
     public void delete(long id) {
         userRepository.deleteById(id);
+    }
+
+    public void addAddress(Address a, long userId) {
+        User u = userRepository.findById(userId).orElse(null);
+        if (u!=null) {
+            a.setUser(u);
+            addressRepository.save(a);
+        }
+    }
+
+    public void updateAddress(Address a) {
+        Address address = addressRepository.findById(a.getId()).orElse(null);
+        if (address!=null) {
+            a.setUser(address.getUser());
+            addressRepository.save(a);
+        }
+    }
+
+    public void deleteAddressById(long id) {
+        addressRepository.deleteById(id);
+    }
+
+    public Address getAddressById(long id) {
+        return addressRepository.findById(id).orElse(null);
+    }
+
+    public List<Address> getUserAddresses(long userId) {
+        return addressRepository.getUserAddresses(userId);
     }
 }
