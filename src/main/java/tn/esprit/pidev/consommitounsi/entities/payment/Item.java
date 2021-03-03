@@ -26,7 +26,7 @@ public class Item implements Serializable {
 
     public Item() {}
 
-    public Item(int quantity, double discountRate, double discountAmount, double subTotal,
+     public Item(int quantity, double discountRate, double discountAmount, double subTotal,
                 double VATRate, double VATAmount, double taxesExceptVATAmount, double totalTaxesAmount) {
         this.quantity = quantity;
         this.discountRate = discountRate;
