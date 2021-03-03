@@ -2,6 +2,7 @@ package tn.esprit.pidev.consommitounsi.services.payment;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tn.esprit.pidev.consommitounsi.entities.payment.Invoice;
 import tn.esprit.pidev.consommitounsi.entities.payment.Item;
 import tn.esprit.pidev.consommitounsi.repositories.payment.IItemRepository;
 import tn.esprit.pidev.consommitounsi.services.common.IService;
@@ -32,6 +33,11 @@ public class ItemService implements IService<Item>, IItemService {
     }
 
     @Override
+    public Item add(Item item) {
+        return this.itemRepository.save(item);
+    }
+
+    @Override
     @Transactional
     public Item update(Item item, Long id) {
         Item oldItem = this.getById(id);
@@ -43,7 +49,7 @@ public class ItemService implements IService<Item>, IItemService {
     }
 
     @Override
-    public void Remove(Long id) {
+    public void remove(Long id) {
         Item item = this.getById(id);
         itemRepository.delete(item);
     }

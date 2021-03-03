@@ -33,6 +33,11 @@ public class OrderDeliveryService implements IOrderDeliveryService, IService<Ord
     }
 
     @Override
+    public OrderDelivery add(OrderDelivery orderDelivery) {
+        return this.orderDeliveryRepository.save(orderDelivery);
+    }
+
+    @Override
     @Transactional
     public OrderDelivery update(OrderDelivery orderDelivery, Long id) {
         OrderDelivery oldOrderDelivery = this.getById(id);
@@ -44,7 +49,7 @@ public class OrderDeliveryService implements IOrderDeliveryService, IService<Ord
     }
 
     @Override
-    public void Remove(Long id) {
+    public void remove(Long id) {
         OrderDelivery orderDelivery = this.getById(id);
         orderDeliveryRepository.delete(orderDelivery);
     }

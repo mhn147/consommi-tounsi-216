@@ -32,6 +32,11 @@ public class InvoiceService implements IInvoiceService, IService<Invoice> {
     }
 
     @Override
+    public Invoice add(Invoice invoice) {
+        return this.invoiceRepository.save(invoice);
+    }
+
+    @Override
     @Transactional
     public Invoice update(Invoice invoice, Long id) {
         Invoice oldInvoice = this.getById(id);
@@ -43,7 +48,7 @@ public class InvoiceService implements IInvoiceService, IService<Invoice> {
     }
 
     @Override
-    public void Remove(Long id) {
+    public void remove(Long id) {
         Invoice invoice = this.getById(id);
         invoiceRepository.delete(invoice);
     }

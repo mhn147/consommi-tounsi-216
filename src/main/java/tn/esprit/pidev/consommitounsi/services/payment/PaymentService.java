@@ -32,6 +32,11 @@ public class PaymentService implements IPaymentService, IService<Payment> {
     }
 
     @Override
+    public Payment add(Payment payment) {
+        return this.paymentRepository.save(payment);
+    }
+
+    @Override
     @Transactional
     public Payment update(Payment payment, Long id) {
         Payment oldPayment = this.getById(id);
@@ -43,7 +48,7 @@ public class PaymentService implements IPaymentService, IService<Payment> {
     }
 
     @Override
-    public void Remove(Long id) {
+    public void remove(Long id) {
         Payment payment = this.getById(id);
         paymentRepository.delete(payment);
     }

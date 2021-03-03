@@ -32,6 +32,11 @@ public class OrderService implements IOrderService, IService<Order> {
     }
 
     @Override
+    public Order add(Order order) {
+        return this.orderRepository.save(order);
+    }
+
+    @Override
     @Transactional
     public Order update(Order order, Long id) {
         Order oldOrder = this.getById(id);
@@ -43,7 +48,7 @@ public class OrderService implements IOrderService, IService<Order> {
     }
 
     @Override
-    public void Remove(Long id) {
+    public void remove(Long id) {
         Order order = this.getById(id);
         orderRepository.delete(order);
     }
