@@ -1,21 +1,19 @@
-package tn.esprit.pidev.consommitounsi.services;
+package tn.esprit.pidev.consommitounsi.services.products;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.esprit.pidev.consommitounsi.entities.advertisements.Advertisement;
-import tn.esprit.pidev.consommitounsi.entities.products.Product;
-import tn.esprit.pidev.consommitounsi.repositories.AdvertisementRepository;
-import tn.esprit.pidev.consommitounsi.repositories.ProductRepository;
+import tn.esprit.pidev.consommitounsi.repositories.products.AdvertisementRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class AdvertisementService {
+public class AdvertisementService implements IAdvertisementService {
     @Autowired
     AdvertisementRepository advertisementRepository;
 
-    //getting all books record by using the method findaAll() of CrudRepository
+    //getting all ads record by using the method findaAll() of CrudRepository
     public List<Advertisement> getAllAdvertisement()
     {
         List<Advertisement> advertisement = new ArrayList<Advertisement>();

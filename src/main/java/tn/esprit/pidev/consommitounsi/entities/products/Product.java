@@ -15,9 +15,13 @@ public class Product implements Serializable {
     private long id;
     private String name;
     private String description;
-    private String price;
+    private double price;
     private String picture;
+    @Transient
     private double vatamount;
+
+    @ManyToMany(mappedBy = "products")
+    private List<CompanyTax> taxes;
 
     @ManyToOne
     private Category category;
@@ -29,7 +33,7 @@ public class Product implements Serializable {
 
     }
 
-    public Product(long id, String name, String description, String price, String picture, double vatamount ) {
+    public Product(long id, String name, String description, double price, String picture, double vatamount ) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -62,11 +66,11 @@ public class Product implements Serializable {
         this.description = description;
     }
 
-    public String getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -79,12 +83,40 @@ public class Product implements Serializable {
     }
 
     public double getVatamount() {
-        return vatamount;
+        double vatAmount = 0;
+        for (CompanyTax tax: this.taxes) {
+            if (tax.getTaxType() == TaxType.RATE && tax.getName().equals("VAT")) {
+                vatAmount = this.price * tax.getTaxValue();
+            }
+        }
+        return vatAmount;
     }
 
     public void setVatamount(double vatamount) {
         this.vatamount = vatamount;
     }
 
+    public List<CompanyTax> getTaxes() {
+        return taxes;
+    }
 
+    public void setTaxes(List<CompanyTax> taxes) {
+        this.taxes = taxes;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public List<Advertisement> getAdvertisementproduct() {
+        return advertisementproduct;
+    }
+
+    public void setAdvertisementproduct(List<Advertisement> advertisementproduct) {
+        this.advertisementproduct = advertisementproduct;
+    }
 }

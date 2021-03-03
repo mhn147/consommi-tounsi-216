@@ -1,11 +1,9 @@
-package tn.esprit.pidev.consommitounsi.controllers.AdvertisementsController;
+package tn.esprit.pidev.consommitounsi.controllers.products;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.pidev.consommitounsi.entities.advertisements.Advertisement;
-import tn.esprit.pidev.consommitounsi.entities.products.Product;
-import tn.esprit.pidev.consommitounsi.services.AdvertisementService;
-import tn.esprit.pidev.consommitounsi.services.ProductService;
+import tn.esprit.pidev.consommitounsi.services.products.AdvertisementService;
 
 import java.util.List;
 
