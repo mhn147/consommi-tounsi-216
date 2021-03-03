@@ -11,5 +11,5 @@ public interface DeliveryRepository extends CrudRepository<User, Long> {
     @Query("SELECT u FROM User u WHERE u.type = :username Or u.email = :username")
     User getUserByUsernameOrEmail(@Param("username")String username);
     @Query("SELECT u FROM User u WHERE u.type = :type")
-    User getUserByUserType(@Param("usertype")String username);
+    User getUserByUserType(@Param("type")String username);
 }

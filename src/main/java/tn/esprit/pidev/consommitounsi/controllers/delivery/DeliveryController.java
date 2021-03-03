@@ -14,6 +14,7 @@ import java.util.List;
 public class DeliveryController {
     @Autowired
     IDeliveryService deliveryService;
+
     @PostMapping("/AddDeliverer")
     @ResponseBody
     public int addDeliverer(@RequestBody User user) {
@@ -31,13 +32,7 @@ public class DeliveryController {
         return error;
     }
 
-    @PostMapping("/user/update")
-    @ResponseBody
-    public void updateUser(@RequestBody User user) {
-        //hash password
-        user.setType(deliveryService.getById(user.getId()).getType());
-        deliveryService.addOrUpdate(user);
-    }
+
 
     public void updateUserType(@PathVariable("id")long id, @PathVariable("type")UserType type) {
         deliveryService.updateType(id, type);
