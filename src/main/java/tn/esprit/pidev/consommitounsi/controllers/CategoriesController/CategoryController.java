@@ -1,15 +1,18 @@
 package tn.esprit.pidev.consommitounsi.controllers.CategoriesController;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.pidev.consommitounsi.entities.products.Category;
 import tn.esprit.pidev.consommitounsi.services.products.CategoryService;
+
 
 import java.util.List;
 
 @RestController
 @RequestMapping
 public class CategoryController {
+
     @Autowired
     CategoryService categoryService;
 
@@ -46,6 +49,7 @@ public class CategoryController {
         categoryService.saveOrUpdate(category);
         return category;
     }
+
 
 
 }
