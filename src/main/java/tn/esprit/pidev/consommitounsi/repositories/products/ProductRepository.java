@@ -1,4 +1,4 @@
-package tn.esprit.pidev.consommitounsi.repositories;
+package tn.esprit.pidev.consommitounsi.repositories.products;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;

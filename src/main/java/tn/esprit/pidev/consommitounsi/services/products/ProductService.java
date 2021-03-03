@@ -1,10 +1,9 @@
-package tn.esprit.pidev.consommitounsi.services;
+package tn.esprit.pidev.consommitounsi.services.products;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import tn.esprit.pidev.consommitounsi.entities.products.Product;
-import tn.esprit.pidev.consommitounsi.repositories.ProductRepository;
+import tn.esprit.pidev.consommitounsi.repositories.products.ProductRepository;
 
 import java.util.ArrayList;
 import java.util.List;
