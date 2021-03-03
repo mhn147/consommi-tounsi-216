@@ -10,6 +10,7 @@ public interface IDeliveryService {
     void addOrUpdate(User user);
     void updateType(long id, UserType type);
     User getById(long id);
+    User getByUsernameOrEmail(String username);
     User getByUserType(String type);
     List<User> getAll();
     void delete(long id);
