@@ -18,7 +18,7 @@ public class Event implements Serializable {
     public Event() {
 
     }
-    
+
     public long getId() {
         return id;
     }
