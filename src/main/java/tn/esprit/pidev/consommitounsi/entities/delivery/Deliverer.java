@@ -1,6 +1,6 @@
 package tn.esprit.pidev.consommitounsi.entities.delivery;
 
-import tn.esprit.pidev.consommitounsi.entities.User;
+import tn.esprit.pidev.consommitounsi.entities.user.User;
 import tn.esprit.pidev.consommitounsi.entities.payment.AtDeliveryPayment;
 import tn.esprit.pidev.consommitounsi.entities.payment.OrderDelivery;
 

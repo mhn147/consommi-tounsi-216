@@ -2,10 +2,10 @@ package tn.esprit.pidev.consommitounsi.services.forum;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tn.esprit.pidev.consommitounsi.entities.User;
+import tn.esprit.pidev.consommitounsi.entities.user.User;
 import tn.esprit.pidev.consommitounsi.entities.forum.Topic;
 import tn.esprit.pidev.consommitounsi.entities.forum.Star;
-import tn.esprit.pidev.consommitounsi.repositories.UserRepository;
+import tn.esprit.pidev.consommitounsi.repositories.user.UserRepository;
 import tn.esprit.pidev.consommitounsi.repositories.forum.TopicRepository;
 import tn.esprit.pidev.consommitounsi.repositories.forum.StarRepository;
 

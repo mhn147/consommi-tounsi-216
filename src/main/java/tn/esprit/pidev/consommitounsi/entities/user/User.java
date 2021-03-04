@@ -1,4 +1,4 @@
-package tn.esprit.pidev.consommitounsi.entities;
+package tn.esprit.pidev.consommitounsi.entities.user;
 
 import tn.esprit.pidev.consommitounsi.entities.common.Address;
 import tn.esprit.pidev.consommitounsi.entities.payment.Invoice;
@@ -6,6 +6,7 @@ import tn.esprit.pidev.consommitounsi.entities.payment.Order;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -19,6 +20,10 @@ public class  User implements Serializable {
     private String email;
     private String password;
     private String phoneNumber;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date birthDate;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
     @Enumerated(EnumType.STRING)
     private UserType type;
 
@@ -89,6 +94,22 @@ public class  User implements Serializable {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 
     public UserType getType() {

@@ -1,7 +1,7 @@
-package tn.esprit.pidev.consommitounsi.services;
+package tn.esprit.pidev.consommitounsi.services.user;
 
-import tn.esprit.pidev.consommitounsi.entities.User;
-import tn.esprit.pidev.consommitounsi.entities.UserType;
+import tn.esprit.pidev.consommitounsi.entities.user.User;
+import tn.esprit.pidev.consommitounsi.entities.user.UserType;
 import tn.esprit.pidev.consommitounsi.entities.common.Address;
 
 import java.util.List;

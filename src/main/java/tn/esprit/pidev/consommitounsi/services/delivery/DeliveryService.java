@@ -2,12 +2,9 @@ package tn.esprit.pidev.consommitounsi.services.delivery;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tn.esprit.pidev.consommitounsi.entities.User;
-import tn.esprit.pidev.consommitounsi.entities.UserType;
+import tn.esprit.pidev.consommitounsi.entities.user.User;
 import tn.esprit.pidev.consommitounsi.repositories.delivery.DeliveryRepository;
-import tn.esprit.pidev.consommitounsi.services.UserService;
-
-import java.util.Optional;
+import tn.esprit.pidev.consommitounsi.services.user.UserService;
 
 @Service
 public class DeliveryService extends UserService implements IDeliveryService {

@@ -1,11 +1,10 @@
 package tn.esprit.pidev.consommitounsi.entities.common;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import tn.esprit.pidev.consommitounsi.entities.User;
+import tn.esprit.pidev.consommitounsi.entities.user.User;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Objects;
 
 @Entity
 public class Address implements Serializable {

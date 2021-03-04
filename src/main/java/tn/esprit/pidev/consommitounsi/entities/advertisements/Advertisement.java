@@ -1,6 +1,6 @@
 package tn.esprit.pidev.consommitounsi.entities.advertisements;
 
-import tn.esprit.pidev.consommitounsi.entities.User;
+import tn.esprit.pidev.consommitounsi.entities.user.User;
 import tn.esprit.pidev.consommitounsi.entities.products.Product;
 
 import javax.persistence.*;

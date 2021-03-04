@@ -1,10 +1,9 @@
 package tn.esprit.pidev.consommitounsi.entities.reclamation;
 
-import tn.esprit.pidev.consommitounsi.entities.User;
+import tn.esprit.pidev.consommitounsi.entities.user.User;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 
 @Entity
 public class Reclamation implements Serializable {

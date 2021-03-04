@@ -1,11 +1,10 @@
 package tn.esprit.pidev.consommitounsi.entities.payment;
 
-import tn.esprit.pidev.consommitounsi.entities.User;
+import tn.esprit.pidev.consommitounsi.entities.user.User;
 import tn.esprit.pidev.consommitounsi.entities.products.Product;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;

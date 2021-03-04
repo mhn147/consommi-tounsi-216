@@ -2,7 +2,6 @@ package tn.esprit.pidev.consommitounsi.services.reclamation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tn.esprit.pidev.consommitounsi.entities.User;
 import tn.esprit.pidev.consommitounsi.entities.reclamation.Reclamation;
 import tn.esprit.pidev.consommitounsi.entities.reclamation.ReclamationDecision;
 import tn.esprit.pidev.consommitounsi.repositories.reclamation.ReclamationRepository;

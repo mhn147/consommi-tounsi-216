@@ -2,10 +2,8 @@ package tn.esprit.pidev.consommitounsi.controllers.reclamation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import tn.esprit.pidev.consommitounsi.entities.User;
 import tn.esprit.pidev.consommitounsi.entities.reclamation.Reclamation;
 import tn.esprit.pidev.consommitounsi.services.reclamation.IReclamationService;
-import tn.esprit.pidev.consommitounsi.services.reclamation.ReclamationService;
 
 import java.util.List;
 
