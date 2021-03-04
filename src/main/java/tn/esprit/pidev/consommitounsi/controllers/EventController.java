@@ -12,11 +12,11 @@ import java.util.List;
 
 @RestController
 @EnableAutoConfiguration
-
 public class EventController {
     @Autowired
 
     EventService eventService;
+
     @PostMapping("/AddEvent")
     public Event addEvent(@RequestBody Event event) {
         eventService.saveOrUpdateEvents(event);

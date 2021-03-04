@@ -1,5 +1,7 @@
 package tn.esprit.pidev.consommitounsi.entities.payment;
 
+import tn.esprit.pidev.consommitounsi.entities.products.Product;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -23,6 +25,9 @@ public class Item implements Serializable {
     private double taxesExceptVATAmount;
     @Transient
     private double totalTaxesAmount;
+
+    @ManyToOne
+    private Product product;
 
     public Item() {}
 
@@ -114,6 +119,14 @@ public class Item implements Serializable {
     public void setTotalTaxesAmount(double totalTaxesAmount) {
         // TODO
         this.totalTaxesAmount = totalTaxesAmount;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     @Override

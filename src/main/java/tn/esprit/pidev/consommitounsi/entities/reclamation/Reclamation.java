@@ -17,6 +17,9 @@ public class Reclamation implements Serializable {
     @Enumerated(EnumType.STRING)
     private ReclamationDecision decision;
 
+    @ManyToOne
+    private User user;
+
     public Reclamation() {
         super();
     }
@@ -61,4 +64,11 @@ public class Reclamation implements Serializable {
         this.decision = decision;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

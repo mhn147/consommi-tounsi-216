@@ -21,6 +21,9 @@ public class OrderDelivery implements Serializable {
     @OneToOne
     private Order order;
 
+    @ManyToOne
+    private Address address;
+
     public OrderDelivery() {}
 
     public OrderDelivery(int durationInHours) {
@@ -57,6 +60,22 @@ public class OrderDelivery implements Serializable {
 
     public void setOrders(Order order) {
         this.order = order;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     @Override
