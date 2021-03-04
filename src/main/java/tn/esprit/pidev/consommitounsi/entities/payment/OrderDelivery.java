@@ -18,8 +18,8 @@ public class OrderDelivery implements Serializable {
     @OneToMany
     private List<Address> deliveriesAddresses;
 
-    @OneToMany
-    private List<Order> orders;
+    @OneToOne
+    private Order order;
 
     public OrderDelivery() {}
 
@@ -51,12 +51,12 @@ public class OrderDelivery implements Serializable {
         this.deliveriesAddresses = deliveriesAddresses;
     }
 
-    public List<Order> getOrders() {
-        return orders;
+    public Order getOrders() {
+        return order;
     }
 
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
+    public void setOrders(Order order) {
+        this.order = order;
     }
 
     @Override

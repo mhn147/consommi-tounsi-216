@@ -1,5 +1,7 @@
 package tn.esprit.pidev.consommitounsi.entities.payment;
 
+import tn.esprit.pidev.consommitounsi.entities.products.Product;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -20,8 +22,11 @@ public class Invoice implements Serializable {
     private double totalDiscountAmount;
     @Transient
     private double subTotal;
+    @Transient
     private double totalVATAmount;
+    @Transient
     private double totalTaxesExceptVATAmount;
+    @Transient
     private double totalTaxesAmount;
     @Transient
     private double total;
@@ -35,18 +40,16 @@ public class Invoice implements Serializable {
     @OneToOne
     private Payment payment;
 
+    @OneToMany
+    private List<Product> products;
+
     public Invoice () {}
 
     public Invoice(Calendar invoiceDate, Calendar dueDate,
-                   double totalDiscountAmount, double subTotal, double totalVATAmount,
-                   double totalTaxesExceptVATAmount, double totalTaxesAmount) {
+                   double totalDiscountAmount) {
         this.invoiceDate = invoiceDate;
         this.dueDate = dueDate;
         this.totalDiscountAmount = totalDiscountAmount;
-        this.subTotal = subTotal;
-        this.totalVATAmount = totalVATAmount;
-        this.totalTaxesExceptVATAmount = totalTaxesExceptVATAmount;
-        this.totalTaxesAmount = totalTaxesAmount;
     }
 
     public long getInvoiceNumber() {
@@ -82,7 +85,10 @@ public class Invoice implements Serializable {
     }
 
     public double getSubTotal() {
-        // !!! TODO
+        double subTotal = 0;
+        for (Product product: products) {
+            subTotal += product.getPrice();
+        }
         return subTotal;
     }
 
@@ -91,6 +97,10 @@ public class Invoice implements Serializable {
     }
 
     public double getTotalVATAmount() {
+        double totalVATAmount = 0;
+        for (Product product: this.products) {
+            totalVATAmount += product.getVatamount();
+        }
         return totalVATAmount;
     }
 
@@ -99,6 +109,7 @@ public class Invoice implements Serializable {
     }
 
     public double getTotalTaxesExceptVATAmount() {
+        // TODO
         return totalTaxesExceptVATAmount;
     }
 
@@ -107,6 +118,7 @@ public class Invoice implements Serializable {
     }
 
     public double getTotalTaxesAmount() {
+        // TODO
         return totalTaxesAmount;
     }
 
@@ -115,8 +127,8 @@ public class Invoice implements Serializable {
     }
 
     public double getTotal() {
-        // !!! TODO
-        return total;
+        return this.getSubTotal() + this.getTotalTaxesAmount()
+                - this.totalDiscountAmount;
     }
 
     public void setTotal(double total) {
@@ -145,6 +157,14 @@ public class Invoice implements Serializable {
 
     public void setPayment(Payment payment) {
         this.payment = payment;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 
     @Override
