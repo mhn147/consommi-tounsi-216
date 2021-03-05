@@ -36,7 +36,9 @@ public class ForumController {
 
     @GetMapping("/topics")
     @ResponseBody
-    public List<Topic> getAllTopics() {
+    public List<Topic> getAllTopics(@RequestParam("sort")String sort) {
+        if (sort.equals("popular"))
+            return topicService.getAllOrderedByPopularity();
         return topicService.getAllOrderedByDate();
     }
 

@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface PostRepository extends CrudRepository<Post, Long> {
-    @Query("select p from Post p where p.topic.id = :topicId order by p.date desc")
+    @Query("select p from Post p where p.topic.id = :topicId order by p.date")
     List<Post> getAllPostsOrderedByDate(@Param("topicId") long topicId);
 }
