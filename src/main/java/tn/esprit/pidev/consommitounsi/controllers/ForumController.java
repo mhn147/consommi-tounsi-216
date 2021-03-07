@@ -1,12 +1,19 @@
 package tn.esprit.pidev.consommitounsi.controllers;
 
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.pidev.consommitounsi.entities.forum.Post;
+import tn.esprit.pidev.consommitounsi.entities.forum.PostLike;
+import tn.esprit.pidev.consommitounsi.entities.forum.Star;
 import tn.esprit.pidev.consommitounsi.entities.forum.Topic;
 import tn.esprit.pidev.consommitounsi.services.forum.IPostService;
 import tn.esprit.pidev.consommitounsi.services.forum.ITopicService;
+import tn.esprit.pidev.consommitounsi.services.forum.TopicService;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.List;
 
 @RestController
@@ -37,9 +44,14 @@ public class ForumController {
     @GetMapping("/topics")
     @ResponseBody
     public List<Topic> getAllTopics(@RequestParam("sort")String sort) {
+        List<Topic> topics=topicService.getAllOrderedByDate();
         if (sort.equals("popular"))
-            return topicService.getAllOrderedByPopularity();
-        return topicService.getAllOrderedByDate();
+            return TopicService.orderByPopularity(topics,
+                    new int[]{3,2,1},
+                    t->(double)t.getStars().stream().mapToInt(Star::getValue).sum(),
+                    t->(double)t.getPosts().size(),
+                    t->t.getPosts().stream().mapToInt(p->p.getContent().length()).average().orElse(0));
+        return topics;
     }
 
     @DeleteMapping("/topics/{id}")
@@ -74,8 +86,15 @@ public class ForumController {
 
     @GetMapping("/topics/{topicId}/posts")
     @ResponseBody
-    public List<Post> getAllPostsOrderedByDate(@PathVariable("topicId")long topicId) {
-        return postService.getAllPostsOrderedByDate(topicId);
+    public List<Post> getAllPostsByTopic(@PathVariable("topicId")long topicId, @RequestParam("sort") String sort) {
+        List<Post> posts=postService.getAllPostsOrderedByDate(topicId);
+        if (sort.equals("relevant"))
+            return TopicService.orderByPopularity(posts,
+                    new int[]{3,1,2},
+                    p->(double)p.getLikes().stream().filter(PostLike::isLiked).count()/(p.getLikes().size()==0 ? 1 : (double)p.getLikes().size()),
+                    p->(double)p.getLikes().size(),
+                    p->(double)p.getContent().length());
+        return posts;
     }
 
     @DeleteMapping("/posts/{id}")
@@ -88,5 +107,19 @@ public class ForumController {
     @ResponseBody
     public void likePost(@PathVariable("postId")long postId, @PathVariable("userId")long userId, @PathVariable("like")boolean like) {
         postService.likePost(postId, userId, like);
+    }
+
+    @GetMapping("/posts/forbidden")
+    @ResponseBody
+    public String getFobiddenWords() {
+        return postService.getForbiddenWords();
+    }
+
+    @PostMapping("/posts/forbidden")
+    @ResponseBody
+    public void setForbiddenWords(@RequestBody String forbiddenWords) {
+        if (forbiddenWords==null)
+            forbiddenWords="";
+        postService.setForbiddenWords(forbiddenWords);
     }
 }

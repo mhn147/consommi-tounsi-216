@@ -9,7 +9,6 @@ public interface ITopicService {
     void update(Topic t);
     Topic getById(long id);
     List<Topic> getAllOrderedByDate();
-    List<Topic> getAllOrderedByPopularity();
     void delete(long id);
     void rate(long topicId, long userId, int value);
 }

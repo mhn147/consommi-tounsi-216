@@ -1,7 +1,9 @@
 package tn.esprit.pidev.consommitounsi.services.forum;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 import tn.esprit.pidev.consommitounsi.entities.user.User;
 import tn.esprit.pidev.consommitounsi.entities.forum.Post;
 import tn.esprit.pidev.consommitounsi.entities.forum.PostLike;
@@ -11,6 +13,12 @@ import tn.esprit.pidev.consommitounsi.repositories.forum.PostLikeRepository;
 import tn.esprit.pidev.consommitounsi.repositories.forum.PostRepository;
 import tn.esprit.pidev.consommitounsi.repositories.forum.TopicRepository;
 
+import javax.swing.tree.ExpandVetoException;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.nio.file.Files;
 import java.util.Date;
 import java.util.List;
 
@@ -29,6 +37,15 @@ public class PostService implements IPostService {
         User user = userRepository.findById(userId).orElse(null);
         Topic topic = topicRepository.findById(topicId).orElse(null);
         if (user!=null && topic!=null) {
+            String[] forbiddenWords=getForbiddenWords().split(" ");
+            String[] content=p.getContent().replaceAll(" +", " ").split(" ");
+            for (int i=0;i<content.length;i++) {
+                for (String forbiddenWord : forbiddenWords) {
+                    if (content[i].toLowerCase().contains(forbiddenWord.toLowerCase()))
+                        content[i]=content[i].replaceAll(".", "*");
+                }
+            }
+            p.setContent(String.join(" ", content));
             p.setUser(user);
             p.setTopic(topic);
             p.setDate(new Date());
@@ -78,6 +95,30 @@ public class PostService implements IPostService {
                 pl.setLiked(like);
                 postLikeRepository.save(pl);
             }
+        }
+    }
+
+    public String getForbiddenWords() {
+        String content="";
+        try {
+            File file=new ClassPathResource("forbidden_words_post.txt").getFile();
+            content= new String(Files.readAllBytes(file.toPath()));
+            System.out.println(content);
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        }
+        return content;
+    }
+
+    public void setForbiddenWords(String words) {
+        try {
+            File file=new ClassPathResource("forbidden_words_post.txt").getFile();
+            FileWriter fw=new FileWriter(file);
+            PrintWriter pw=new PrintWriter(fw);
+            pw.write(words.replaceAll("[\\t\\n\\r]+", " ").replaceAll(" +", " "));
+            pw.close();
+        } catch(Exception ex) {
+            ex.printStackTrace();
         }
     }
 }

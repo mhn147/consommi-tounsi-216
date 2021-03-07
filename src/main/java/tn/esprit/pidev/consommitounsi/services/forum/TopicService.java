@@ -10,6 +10,7 @@ import tn.esprit.pidev.consommitounsi.repositories.forum.TopicRepository;
 import tn.esprit.pidev.consommitounsi.repositories.forum.StarRepository;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,36 +48,30 @@ public class TopicService implements ITopicService {
         return topicRepository.findAllOrderedByDate();
     }
 
-    public List<Topic> getAllOrderedByPopularity() {
-        List <Topic> topics=(List <Topic>)topicRepository.findAll();
-        HashMap<Topic, Double> starScores=new HashMap<>();
-        HashMap<Topic, Double> postScores=new HashMap<>();
-        HashMap<Topic, Double> postLengthScores=new HashMap<>();
-        double maxStarScores=1, maxPostScores=1, maxPostLengthScores=1;
-        for (Topic t : topics) {
-            double score=t.getStars().stream().mapToInt(Star::getValue).sum();
-            if (score>maxStarScores)
-                maxStarScores=score;
-            starScores.put(t, score);
-            score = t.getPosts().size();
-            if (score>maxPostScores)
-                maxPostScores=score;
-            postScores.put(t, score);
-            score=t.getPosts().stream().mapToInt(p->p.getContent().length()).average().orElse(0);
-            if (score>maxPostLengthScores)
-                maxPostLengthScores=score;
-            postLengthScores.put(t, score);
+    public static <T> List<T> orderByPopularity(List<T> elements, int[] coefficients,Function<T, Double>... getScores) {
+        List<HashMap<T, Double>> scores=new ArrayList<>();
+        for (int i=0;i<getScores.length;i++)
+            scores.add(new HashMap<>());
+        double[] maxScores=new double[getScores.length];
+        Arrays.fill(maxScores, 1);
+        for (T element : elements) {
+            for (int i=0;i<getScores.length;i++) {
+                double score=getScores[i].apply(element);
+                if (score>maxScores[i])
+                    maxScores[i]=score;
+                scores.get(i).put(element, score);
+            }
         }
-        HashMap<Topic, Double> result=new HashMap<>();
-        for (Topic t : topics) {
-            double sum=(starScores.get(t)/maxStarScores)*100*3;
-            sum+=(postScores.get(t)/maxPostScores)*100*2;
-            sum+=(postLengthScores.get(t)/maxPostLengthScores)*100;
-            result.put(t, sum/6);
+        HashMap<T, Double> finalScore=new HashMap<>();
+        for (T element : elements) {
+            double sum=0;
+            for (int i=0;i<getScores.length;i++)
+                sum+=(scores.get(i).get(element)/maxScores[i])*100*coefficients[i];
+            finalScore.put(element, sum/Arrays.stream(coefficients).sum());
         }
-        ArrayList<Map.Entry<Topic, Double>> listResult=new ArrayList<>(result.entrySet());
-        Collections.sort(listResult, (e1, e2)->e2.getValue().compareTo(e1.getValue()));
-        return listResult.stream().map(Map.Entry::getKey).collect(Collectors.toList());
+        ArrayList<Map.Entry<T, Double>> results=new ArrayList<>(finalScore.entrySet());
+        Collections.sort(results, (e1, e2)->e2.getValue().compareTo(e1.getValue()));
+        return results.stream().map(Map.Entry::getKey).collect(Collectors.toList());
     }
 
     public void delete(long id) {
