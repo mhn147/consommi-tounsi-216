@@ -33,19 +33,8 @@ public class OrderDeliveryService implements IOrderDeliveryService, IService<Ord
     }
 
     @Override
-    public OrderDelivery add(OrderDelivery orderDelivery) {
+    public OrderDelivery addOrUpdate(OrderDelivery orderDelivery) {
         return this.orderDeliveryRepository.save(orderDelivery);
-    }
-
-    @Override
-    @Transactional
-    public OrderDelivery update(OrderDelivery orderDelivery, Long id) {
-        OrderDelivery oldOrderDelivery = this.getById(id);
-
-        // TODO Validation
-        oldOrderDelivery = orderDelivery;
-
-        return orderDelivery;
     }
 
     @Override

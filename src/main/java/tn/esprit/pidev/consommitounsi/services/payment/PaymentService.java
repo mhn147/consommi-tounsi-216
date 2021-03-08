@@ -21,7 +21,7 @@ public class PaymentService implements IPaymentService, IService<Payment> {
 
     @Override
     public List<Payment> getAll() {
-        return (List<Payment>)paymentRepository.findAll();
+        return (List<Payment>) paymentRepository.findAll();
     }
 
     @Override
@@ -32,19 +32,8 @@ public class PaymentService implements IPaymentService, IService<Payment> {
     }
 
     @Override
-    public Payment add(Payment payment) {
+    public Payment addOrUpdate(Payment payment) {
         return this.paymentRepository.save(payment);
-    }
-
-    @Override
-    @Transactional
-    public Payment update(Payment payment, Long id) {
-        Payment oldPayment = this.getById(id);
-
-        // TODO Validation
-        oldPayment = payment;
-
-        return payment;
     }
 
     @Override

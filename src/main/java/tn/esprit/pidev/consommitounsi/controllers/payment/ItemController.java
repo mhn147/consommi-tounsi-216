@@ -2,9 +2,7 @@ package tn.esprit.pidev.consommitounsi.controllers.payment;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import tn.esprit.pidev.consommitounsi.entities.payment.Invoice;
 import tn.esprit.pidev.consommitounsi.entities.payment.Item;
-import tn.esprit.pidev.consommitounsi.services.payment.InvoiceService;
 import tn.esprit.pidev.consommitounsi.services.payment.ItemService;
 
 import java.util.List;
@@ -32,7 +30,7 @@ public class ItemController {
 
     @PostMapping
     public Item add(@RequestBody Item item) {
-        return this.itemService.add(item);
+        return this.itemService.addOrUpdate(item);
     }
 
     @DeleteMapping(path = "{itemId}")
@@ -43,6 +41,7 @@ public class ItemController {
     @PutMapping(path = "{itemId}")
     public void update(@PathVariable("itemId") Long itemId,
                        @RequestBody Item item) {
-        this.itemService.update(item, itemId);
+        item.setId(itemId);
+        this.itemService.addOrUpdate(item);
     }
 }

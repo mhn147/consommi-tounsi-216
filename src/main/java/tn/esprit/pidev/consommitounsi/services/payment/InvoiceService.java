@@ -32,19 +32,8 @@ public class InvoiceService implements IInvoiceService, IService<Invoice> {
     }
 
     @Override
-    public Invoice add(Invoice invoice) {
+    public Invoice addOrUpdate(Invoice invoice) {
         return this.invoiceRepository.save(invoice);
-    }
-
-    @Override
-    @Transactional
-    public Invoice update(Invoice invoice, Long id) {
-        Invoice oldInvoice = this.getById(id);
-
-        // TODO Validation
-        oldInvoice = invoice;
-
-        return invoice;
     }
 
     @Override
