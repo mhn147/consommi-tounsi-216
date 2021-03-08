@@ -30,7 +30,7 @@ public class InvoiceController {
 
     @PostMapping
     public Invoice add(@RequestBody Invoice invoice) {
-        return this.invoiceService.add(invoice);
+        return this.invoiceService.addOrUpdate(invoice);
     }
 
     @DeleteMapping(path = "{invoiceId}")
@@ -38,9 +38,10 @@ public class InvoiceController {
         this.invoiceService.remove(invoiceId);
     }
 
-    @PutMapping(path = "{invoiceId}")
-    public void update(@PathVariable("invoiceId") Long invoiceId,
+    @PutMapping(path = "{invoiceNumber}")
+    public void update(@PathVariable("invoiceNumber") Long invoiceNumber,
                        @RequestBody Invoice invoice) {
-        this.invoiceService.update(invoice, invoiceId);
+        invoice.setInvoiceNumber(invoiceNumber);
+        this.invoiceService.addOrUpdate(invoice);
     }
 }
