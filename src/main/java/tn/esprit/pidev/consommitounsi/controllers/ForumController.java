@@ -1,19 +1,12 @@
 package tn.esprit.pidev.consommitounsi.controllers;
 
-import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
-import tn.esprit.pidev.consommitounsi.entities.forum.Post;
-import tn.esprit.pidev.consommitounsi.entities.forum.PostLike;
-import tn.esprit.pidev.consommitounsi.entities.forum.Star;
-import tn.esprit.pidev.consommitounsi.entities.forum.Topic;
+import tn.esprit.pidev.consommitounsi.entities.forum.*;
 import tn.esprit.pidev.consommitounsi.services.forum.IPostService;
 import tn.esprit.pidev.consommitounsi.services.forum.ITopicService;
 import tn.esprit.pidev.consommitounsi.services.forum.TopicService;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.List;
 
 @RestController
@@ -64,6 +57,18 @@ public class ForumController {
     @ResponseBody
     public void rateTopic(@PathVariable("topicId")long topicId, @PathVariable("userId")long userId, @PathVariable("value")int value) {
         topicService.rate(topicId, userId, value);
+    }
+
+    @GetMapping("/topics/duplicates")
+    @ResponseBody
+    public List<DuplicateTopic> getDuplicates() {
+        return topicService.getDuplicates();
+    }
+
+    @PutMapping("/topics/{topicId}")
+    @ResponseBody
+    public void resolveDuplicate(@PathVariable("topicId") long topicId) {
+        topicService.resolveDuplicate(topicId);
     }
 
     @PostMapping("/posts/{userId}/{topicId}")
