@@ -8,6 +8,7 @@ import tn.esprit.pidev.consommitounsi.entities.events.Event;
 import tn.esprit.pidev.consommitounsi.entities.forum.Topic;
 import tn.esprit.pidev.consommitounsi.services.event.EventService;
 
+import java.text.ParseException;
 import java.util.List;
 
 @RestController
@@ -32,6 +33,12 @@ public class EventController {
     @ResponseBody
     public Event getEventById(@PathVariable("id") long id) {
         return eventService.getEventById(id);
+    }
+
+    @GetMapping("/SelectedEvents/{id}")
+    @ResponseBody
+    public List<Event> getSelectedEvents(@PathVariable("id") long id) throws ParseException {
+        return eventService.getSelectedEvents(id);
     }
 
     @DeleteMapping("/deleteEvent/{id}")

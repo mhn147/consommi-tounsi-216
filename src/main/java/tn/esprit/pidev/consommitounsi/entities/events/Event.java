@@ -12,6 +12,8 @@ public class Event implements Serializable {
     private String name;
     private String description;
     private String location;
+    @Enumerated(EnumType.STRING)
+    private EventType eventType;
     @OneToMany
     private List<Donation> Events_donations;
 
@@ -51,6 +53,14 @@ public class Event implements Serializable {
         this.location = location;
     }
 
+    public EventType getEventType() {
+        return eventType;
+    }
+
+    public void setEventType(EventType eventType) {
+        this.eventType = eventType;
+    }
+
     public List<Donation> getEvents_donations() {
         return Events_donations;
     }
@@ -59,11 +69,11 @@ public class Event implements Serializable {
         this.Events_donations = Events_donations;
     }
 
-    public Event(long id, String name, String description, String location) {
+    public Event(long id, String name, String description, String location, EventType eventType) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.location = location;
+        this.eventType = eventType;
     }
-
 }
