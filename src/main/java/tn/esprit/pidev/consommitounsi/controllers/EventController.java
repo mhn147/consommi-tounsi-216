@@ -29,6 +29,12 @@ public class EventController {
         return eventService.getAllEvents();
     }
 
+    @GetMapping("/LastEvents")
+    @ResponseBody
+    public List<Event> getLastEvents() {
+        return eventService.getLastEvents();
+    }
+
     @GetMapping("/event/{id}")
     @ResponseBody
     public Event getEventById(@PathVariable("id") long id) {

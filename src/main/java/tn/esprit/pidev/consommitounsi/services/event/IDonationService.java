@@ -10,4 +10,5 @@ public interface IDonationService {
     List<Donation> getAllDonations();
     void saveOrUpdateDonation(Donation donation);
     void DeleteDonation(long id);
+
 }

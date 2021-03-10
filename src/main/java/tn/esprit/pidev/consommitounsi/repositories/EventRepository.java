@@ -23,4 +23,8 @@ public interface EventRepository extends CrudRepository<Event, Long> {
     @Query("select e from Event e where  e.eventType='COOKING' ")
     List<Event> getCookingEvent();
 
+    @Query("select e from Event e order by  e.eventDate DESC ")
+    List<Event> getLastEvent();
+
+
 }
