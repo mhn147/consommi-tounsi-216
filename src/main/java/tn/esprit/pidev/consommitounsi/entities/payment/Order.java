@@ -1,5 +1,6 @@
 package tn.esprit.pidev.consommitounsi.entities.payment;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import tn.esprit.pidev.consommitounsi.entities.user.User;
 
 import javax.persistence.*;
@@ -49,6 +50,7 @@ public class Order implements Serializable   {
     }
 
     @ManyToOne
+    @JsonIgnore
     public User user;
 
     @Override

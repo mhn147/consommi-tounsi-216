@@ -2,10 +2,13 @@ package tn.esprit.pidev.consommitounsi.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import tn.esprit.pidev.consommitounsi.entities.payment.Order;
+import tn.esprit.pidev.consommitounsi.entities.payment.OrderStatus;
 import tn.esprit.pidev.consommitounsi.entities.user.User;
 import tn.esprit.pidev.consommitounsi.entities.user.UserErrors;
 import tn.esprit.pidev.consommitounsi.entities.user.UserType;
 import tn.esprit.pidev.consommitounsi.entities.common.Address;
+import tn.esprit.pidev.consommitounsi.services.payment.IOrderService;
 import tn.esprit.pidev.consommitounsi.services.user.IUserService;
 
 import java.util.List;
@@ -14,6 +17,8 @@ import java.util.List;
 public class UserController {
     @Autowired
     IUserService userService;
+    @Autowired
+    IOrderService orderService;
 
     @PostMapping("/users")
     @ResponseBody
@@ -25,6 +30,10 @@ public class UserController {
         //hash password
         user.setType(UserType.CUSTOMER);
         userService.addOrUpdate(user);
+        Order cart = new Order();
+        cart.setStatus(OrderStatus.CART);
+        cart.setUser(user);
+        orderService.addOrUpdate(cart);
         return UserErrors.SUCCESS;
     }
 
