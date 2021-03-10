@@ -29,36 +29,56 @@ public class CartController {
     }
 
     @PostMapping("{cartId}/items")
-    public ResponseEntity<ResponseModel<Item>> addItem(@PathVariable("cartId") Long cartId,
+    public ResponseEntity<ResponseModel<Order>> addItem(@PathVariable("cartId") Long cartId,
                                                        @RequestBody Item item) {
         if (item == null) {
-            ResponseModel<Item> response = new ResponseModel<>("",
-                    "The cart item cannot be empty.",
-                    null);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+            return this.buildResponse(HttpStatus.BAD_REQUEST, "",
+                    "The cart-item is empty.", null);
         }
 
         if (item.getQuantity() <= 0 || item.getProduct() == null) {
-            ResponseModel<Item> response = new ResponseModel<>("",
-                    "The cart-item's product is empty or invalid.",
-                    null);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+            return this.buildResponse(HttpStatus.BAD_REQUEST, "",
+                    "The cart-item's product is empty or invalid.", null);
         }
 
 
         if (this.cartService.itemProductExistsInCart(cartId, item.getProduct().getId())) {
-            ResponseModel<Item> response = new ResponseModel<>("",
-                "The cart already contains this product.",
-                null);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+            return this.buildResponse(HttpStatus.BAD_REQUEST, "",
+                    "The cart already contains this product.", null);
         }
 
         this.itemService.addOrUpdate(item);
         this.cartService.addItem(cartId, item);
 
-        ResponseModel<Item> response = new ResponseModel<>("Item added to cart #" + cartId + ".",
+        return this.buildResponse(HttpStatus.CREATED, "The cart already contains this product.",
+                "", null);
+    }
+
+    @PatchMapping("{cartId}/items/{itemId}")
+    public ResponseEntity<ResponseModel<Order>> updateQantity(@PathVariable("cartId") Long cartId,
+                                                              @PathVariable("itemId") Long itemId,
+                                                              @RequestBody int quantity) {
+        Item item = this.itemService.getById(itemId);
+        if (item == null) {
+            return this.buildResponse(HttpStatus.BAD_REQUEST, "",
+                    "The cart-item does not exist.", null);
+        }
+        if (quantity <= 0 || item.getProduct() == null) {
+            return this.buildResponse(HttpStatus.BAD_REQUEST, "",
+                    "The cart-item's product is empty or invalid.", null);
+        }
+
+        this.itemService.updateItemQuantity(item, quantity);
+        Order cart = this.orderService.getById(cartId);
+        return this.buildResponse(HttpStatus.OK, "Cart-item's quantity has changed to " + quantity,
                 "",
-                item);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+                cart);
+    }
+
+    private ResponseEntity<ResponseModel<Order>> buildResponse(HttpStatus httpStatus, String success, String error, Order body) {
+        ResponseModel<Order> response = new ResponseModel<>(success,
+                error,
+                body);
+        return ResponseEntity.status(httpStatus).body(response);
     }
 }

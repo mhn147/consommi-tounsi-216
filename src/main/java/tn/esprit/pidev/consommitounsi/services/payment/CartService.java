@@ -1,11 +1,13 @@
 package tn.esprit.pidev.consommitounsi.services.payment;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.esprit.pidev.consommitounsi.entities.payment.Item;
 import tn.esprit.pidev.consommitounsi.entities.payment.Order;
 import tn.esprit.pidev.consommitounsi.entities.products.Product;
 import tn.esprit.pidev.consommitounsi.models.payment.ResponseModel;
 import tn.esprit.pidev.consommitounsi.repositories.payment.IInvoiceRepository;
+import tn.esprit.pidev.consommitounsi.repositories.payment.IItemRepository;
 import tn.esprit.pidev.consommitounsi.repositories.payment.IOrderRepository;
 
 import javax.transaction.Transactional;
@@ -15,8 +17,13 @@ import java.util.List;
 @Service
 public class CartService extends OrderService implements ICartService {
 
-    public CartService(IOrderRepository orderRepository) {
+    private final IItemRepository itemRepository;
+
+    @Autowired
+    public CartService(IOrderRepository orderRepository,
+                       IItemRepository itemRepository) {
         super(orderRepository);
+        this.itemRepository = itemRepository;
     }
 
 
