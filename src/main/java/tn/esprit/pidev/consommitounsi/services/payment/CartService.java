@@ -48,8 +48,11 @@ public class CartService extends OrderService implements ICartService {
     }
 
     @Override
-    public Order removeItem(Item item) {
-        return null;
+    public Order removeItem(long cartId, Item item) {
+        Order cart = super.getById(cartId);
+        cart.getItems().remove(item);
+        this.orderRepository.save(cart);
+        return cart;
     }
 
     @Override

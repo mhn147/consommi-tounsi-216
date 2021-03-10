@@ -7,7 +7,7 @@ import tn.esprit.pidev.consommitounsi.models.payment.ResponseModel;
 
 public interface ICartService {
     Order addItem(long cartId, Item item);
-    Order removeItem(Item item);
+    Order removeItem(long cartId, Item item);
     Order confirmCart();
     boolean  itemProductExistsInCart(long cartId, long productId);
 }

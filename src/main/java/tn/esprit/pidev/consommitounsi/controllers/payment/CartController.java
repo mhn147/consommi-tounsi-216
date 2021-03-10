@@ -4,14 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
 import tn.esprit.pidev.consommitounsi.entities.payment.Item;
 import tn.esprit.pidev.consommitounsi.entities.payment.Order;
 import tn.esprit.pidev.consommitounsi.models.payment.ResponseModel;
 import tn.esprit.pidev.consommitounsi.services.payment.ICartService;
 import tn.esprit.pidev.consommitounsi.services.payment.IItemService;
 import tn.esprit.pidev.consommitounsi.services.payment.IOrderService;
-import tn.esprit.pidev.consommitounsi.services.payment.ItemService;
 
 @RestController
 @RequestMapping(path = "cart")
@@ -75,6 +73,20 @@ public class CartController {
                 cart);
     }
 
+    @DeleteMapping("{cartId}/items/{itemId}")
+    public ResponseEntity<ResponseModel<Order>> removeItem(@PathVariable("cartId") Long cartId,
+                                                              @PathVariable("itemId") Long itemId) {
+        Item item = this.itemService.getById(itemId);
+        if (item == null) {
+            return this.buildResponse(HttpStatus.BAD_REQUEST, "",
+                    "The cart-item does not exist.", null);
+        }
+
+        Order cart = this.cartService.removeItem(cartId, item);
+        return this.buildResponse(HttpStatus.OK, "Item has been removed from the cart.",
+                "",
+                cart);
+    }
     private ResponseEntity<ResponseModel<Order>> buildResponse(HttpStatus httpStatus, String success, String error, Order body) {
         ResponseModel<Order> response = new ResponseModel<>(success,
                 error,
