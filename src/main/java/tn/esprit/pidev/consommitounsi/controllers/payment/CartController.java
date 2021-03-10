@@ -37,6 +37,7 @@ public class CartController {
                     null);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
+
         if (item.getQuantity() <= 0 || item.getProduct() == null) {
             ResponseModel<Item> response = new ResponseModel<>("",
                     "The cart-item's product is empty or invalid.",
@@ -44,9 +45,20 @@ public class CartController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
 
+
+        if (this.cartService.itemProductExistsInCart(cartId, item.getProduct().getId())) {
+            ResponseModel<Item> response = new ResponseModel<>("",
+                "The cart already contains this product.",
+                null);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
         this.itemService.addOrUpdate(item);
         this.cartService.addItem(cartId, item);
 
-        return null;
+        ResponseModel<Item> response = new ResponseModel<>("Item added to cart #" + cartId + ".",
+                "",
+                item);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }

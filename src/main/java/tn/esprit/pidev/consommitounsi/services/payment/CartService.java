@@ -3,6 +3,7 @@ package tn.esprit.pidev.consommitounsi.services.payment;
 import org.springframework.stereotype.Service;
 import tn.esprit.pidev.consommitounsi.entities.payment.Item;
 import tn.esprit.pidev.consommitounsi.entities.payment.Order;
+import tn.esprit.pidev.consommitounsi.entities.products.Product;
 import tn.esprit.pidev.consommitounsi.models.payment.ResponseModel;
 import tn.esprit.pidev.consommitounsi.repositories.payment.IInvoiceRepository;
 import tn.esprit.pidev.consommitounsi.repositories.payment.IOrderRepository;
@@ -29,8 +30,14 @@ public class CartService extends OrderService implements ICartService {
     }
 
     @Override
-    public Order updateItem(Item item) {
-        return null;
+    public boolean itemProductExistsInCart(long cartId, long productId) {
+        Order cart = super.getById(cartId);
+        for (Item item: cart.getItems()) {
+            if (item.getProduct().getId() == productId) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
