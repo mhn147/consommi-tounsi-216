@@ -20,7 +20,7 @@ public class  User implements Serializable {
     private String email;
     private String password;
     private String phoneNumber;
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date birthDate;
     @Enumerated(EnumType.STRING)
     private Gender gender;

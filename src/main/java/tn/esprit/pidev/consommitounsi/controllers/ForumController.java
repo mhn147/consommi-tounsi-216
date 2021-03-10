@@ -6,6 +6,7 @@ import tn.esprit.pidev.consommitounsi.entities.forum.Post;
 import tn.esprit.pidev.consommitounsi.entities.forum.Topic;
 import tn.esprit.pidev.consommitounsi.services.forum.IPostService;
 import tn.esprit.pidev.consommitounsi.services.forum.ITopicService;
+import tn.esprit.pidev.consommitounsi.utils.UserSession;
 
 import java.util.List;
 
@@ -16,16 +17,19 @@ public class ForumController {
     @Autowired
     IPostService postService;
 
-    @PostMapping("/topics/{userId}")
+    @PostMapping("/customer/topics/{userId}")
     @ResponseBody
     public void addTopic(@RequestBody Topic t, @PathVariable("userId") long userId) {
-        topicService.add(t, userId);
+        if (UserSession.hasId(userId))
+            topicService.add(t, userId);
     }
 
-    @PostMapping("/topics")
+    @PostMapping("/customer/topics")
     @ResponseBody
     public void updateTopic(@RequestBody Topic t) {
-        topicService.update(t);
+        Topic topic=topicService.getById(t.getId());
+        if (topic!=null&&(UserSession.hasId(topic.getUser().getId())||UserSession.isAdmin()))
+            topicService.update(t);
     }
 
     @GetMapping("/topics/{id}")
@@ -40,28 +44,33 @@ public class ForumController {
         return topicService.getAllOrderedByDate();
     }
 
-    @DeleteMapping("/topics/{id}")
+    @DeleteMapping("/customer/topics/{id}")
     @ResponseBody
     public void deleteTopic(@PathVariable("id") long id) {
-        topicService.delete(id);
+        Topic t=topicService.getById(id);
+        if (t!=null&&(UserSession.hasId(t.getUser().getId())||UserSession.isAdmin()))
+            topicService.delete(id);
     }
 
-    @PutMapping("/topics/{topicId}/{userId}/{value}")
+    @PutMapping("/customer/topics/{topicId}/{userId}/{value}")
     @ResponseBody
     public void rateTopic(@PathVariable("topicId")long topicId, @PathVariable("userId")long userId, @PathVariable("value")int value) {
         topicService.rate(topicId, userId, value);
     }
 
-    @PostMapping("/posts/{userId}/{topicId}")
+    @PostMapping("/customer/posts/{userId}/{topicId}")
     @ResponseBody
     public void addPost(@RequestBody Post p,@PathVariable("userId") long userId,@PathVariable("topicId") long topicId) {
-        postService.addPost(p, userId, topicId);
+        if (UserSession.hasId(userId))
+            postService.addPost(p, userId, topicId);
     }
 
-    @PostMapping("/posts/edit")
+    @PostMapping("/customer/posts/edit")
     @ResponseBody
     public void updatePost(@RequestBody Post p) {
-        postService.updatePost(p);
+        Post post=postService.getPostById(p.getId());
+        if (post!=null && (UserSession.hasId(post.getUser().getId())||UserSession.isAdmin()))
+            postService.updatePost(p);
     }
 
     @GetMapping("/posts/{id}")
@@ -76,13 +85,15 @@ public class ForumController {
         return postService.getAllPostsOrderedByDate(topicId);
     }
 
-    @DeleteMapping("/posts/{id}")
+    @DeleteMapping("/customer/posts/{id}")
     @ResponseBody
     public void deletePost(@PathVariable("id") long id) {
-        postService.deletePost(id);
+        Post p = postService.getPostById(id);
+        if (p!=null&&(UserSession.hasId(p.getUser().getId())||UserSession.isAdmin()))
+            postService.deletePost(id);
     }
 
-    @PutMapping("/posts/{postId}/{userId}/{like}")
+    @PutMapping("/customer/posts/{postId}/{userId}/{like}")
     @ResponseBody
     public void likePost(@PathVariable("postId")long postId, @PathVariable("userId")long userId, @PathVariable("like")boolean like) {
         postService.likePost(postId, userId, like);
