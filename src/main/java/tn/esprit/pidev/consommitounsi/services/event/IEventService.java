@@ -14,5 +14,5 @@ public interface IEventService {
      List<Event> getSelectedEvents(long userId) throws ParseException;
      void saveOrUpdateEvents(Event event);
      void DeleteEvent(long id);
-
+     void  RefreshEvent();
 }

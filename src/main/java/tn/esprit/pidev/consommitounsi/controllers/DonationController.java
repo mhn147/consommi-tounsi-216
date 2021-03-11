@@ -28,7 +28,7 @@ public class DonationController {
 
     @GetMapping("/Donation/{id}")
     @ResponseBody
-    public Donation getEventById(@PathVariable("id") long id) {
+    public Donation getDonationById(@PathVariable("id") long id) {
         return donationService.getDonationById(id);
     }
 

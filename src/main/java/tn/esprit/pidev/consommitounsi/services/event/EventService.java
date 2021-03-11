@@ -1,10 +1,12 @@
 package tn.esprit.pidev.consommitounsi.services.event;
 
 import org.hibernate.Criteria;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.esprit.pidev.consommitounsi.entities.common.Address;
 import tn.esprit.pidev.consommitounsi.entities.events.Event;
+import tn.esprit.pidev.consommitounsi.entities.forum.PostLike;
 import tn.esprit.pidev.consommitounsi.entities.user.Gender;
 import tn.esprit.pidev.consommitounsi.entities.user.User;
 import tn.esprit.pidev.consommitounsi.repositories.EventRepository;
@@ -62,10 +64,11 @@ public class EventService implements IEventService {
 
         if(user.getGender()== Gender.MALE && user.getBirthDate().after(jeune) ){
             return  (List<Event>)eventRepository.getSportEvent();
+
         }
-         //  +18 //
-         else if(user.getBirthDate().before(girls) ){
-            return  (List<Event>)eventRepository.getCultureEvent();
+         //  +45 //
+         else if(user.getBirthDate().before(charity) ){
+            return  (List<Event>)eventRepository.getBusinessEvent();
         }
         //  girls cooking +18 ans inf 45 ans //
         else if(user.getGender()== Gender.FEMALE && user.getBirthDate().after(charity) && user.getBirthDate().before(girls) ) {
@@ -93,4 +96,13 @@ public class EventService implements IEventService {
     public void DeleteEvent(long id) {
     eventRepository.deleteById(id);
     }
+
+    @Override
+    public void RefreshEvent() {
+        eventRepository.RefreshEvent();
+
+    }
+
+
 }
+

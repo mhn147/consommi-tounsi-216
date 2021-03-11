@@ -53,7 +53,11 @@ public class EventController {
         eventService.DeleteEvent(id);
     }
 
+    @DeleteMapping("/refreshEvent")
+    @ResponseBody
+    public void refreshEvent() {
+        eventService.RefreshEvent();
 
-
+    }
 
 }
