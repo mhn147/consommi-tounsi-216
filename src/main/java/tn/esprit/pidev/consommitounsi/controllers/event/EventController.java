@@ -1,4 +1,4 @@
-package tn.esprit.pidev.consommitounsi.controllers;
+package tn.esprit.pidev.consommitounsi.controllers.event;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;

@@ -1,4 +1,4 @@
-package tn.esprit.pidev.consommitounsi.repositories;
+package tn.esprit.pidev.consommitounsi.repositories.event;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

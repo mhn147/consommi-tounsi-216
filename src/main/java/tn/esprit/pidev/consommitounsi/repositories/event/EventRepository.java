@@ -1,4 +1,4 @@
-package tn.esprit.pidev.consommitounsi.repositories;
+package tn.esprit.pidev.consommitounsi.repositories.event;
 
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

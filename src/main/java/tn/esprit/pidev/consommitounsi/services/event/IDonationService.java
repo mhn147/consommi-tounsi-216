@@ -8,7 +8,7 @@ import java.util.List;
 public interface IDonationService {
     Donation getDonationById(long id);
     List<Donation> getAllDonations();
-    void saveOrUpdateDonation(Donation donation);
+    void Donate(Donation donation,long userId,long evId);
     void DeleteDonation(long id);
 
 }
