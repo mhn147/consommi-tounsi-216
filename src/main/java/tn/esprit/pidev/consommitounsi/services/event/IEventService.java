@@ -1,6 +1,7 @@
 package tn.esprit.pidev.consommitounsi.services.event;
 
 import tn.esprit.pidev.consommitounsi.entities.events.Event;
+import tn.esprit.pidev.consommitounsi.entities.user.User;
 
 import java.text.ParseException;
 import java.util.List;
@@ -15,4 +16,5 @@ public interface IEventService {
      void saveOrUpdateEvents(Event event);
      void DeleteEvent(long id);
      void  RefreshEvent();
+     User getWinner();
 }

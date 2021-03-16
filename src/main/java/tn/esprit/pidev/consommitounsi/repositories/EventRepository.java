@@ -3,6 +3,8 @@ package tn.esprit.pidev.consommitounsi.repositories;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Repository;
 import tn.esprit.pidev.consommitounsi.entities.common.Address;
 import tn.esprit.pidev.consommitounsi.entities.events.Event;
@@ -28,9 +30,12 @@ public interface EventRepository extends CrudRepository<Event, Long> {
     @Query("select e from Event e order by  e.eventDate DESC ")
     List<Event> getLastEvent();
 
+    @Scheduled(fixedRate = 1000L)
     @Transactional
     @Modifying
     @Query("delete from Event e where e.eventDate <= current_date OR e.sumCollect=e.maxCollect ")
     void RefreshEvent();
+
+
 
 }

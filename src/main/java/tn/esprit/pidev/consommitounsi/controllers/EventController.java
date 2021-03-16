@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import tn.esprit.pidev.consommitounsi.entities.chat.Chat;
 import tn.esprit.pidev.consommitounsi.entities.events.Event;
 import tn.esprit.pidev.consommitounsi.entities.forum.Topic;
+import tn.esprit.pidev.consommitounsi.entities.user.User;
 import tn.esprit.pidev.consommitounsi.services.event.EventService;
 
 import java.text.ParseException;
@@ -59,5 +60,8 @@ public class EventController {
         eventService.RefreshEvent();
 
     }
+    @GetMapping("/winner")
+    @ResponseBody
+   public User getWinner(){return eventService.getWinner(); }
 
 }

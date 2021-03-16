@@ -3,6 +3,8 @@ package tn.esprit.pidev.consommitounsi.services.event;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import tn.esprit.pidev.consommitounsi.entities.common.Address;
 import tn.esprit.pidev.consommitounsi.entities.events.Event;
@@ -16,8 +18,10 @@ import tn.esprit.pidev.consommitounsi.repositories.user.UserRepository;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 
 @Service
@@ -75,14 +79,11 @@ public class EventService implements IEventService {
 
             return (List<Event>) eventRepository.getCookingEvent();
         }
-
         // plus 45 //
         else if( user.getBirthDate().before(charity)) {
 
             return (List<Event>) eventRepository.getCharityEvent();
         }
-
-
 
         return (List<Event>)eventRepository.findAll();
     }
@@ -97,10 +98,22 @@ public class EventService implements IEventService {
     eventRepository.deleteById(id);
     }
 
+    @Scheduled(fixedRate = 1000000L)
     @Override
     public void RefreshEvent() {
         eventRepository.RefreshEvent();
 
+    }
+
+    @Override
+    public User getWinner( ) {
+
+        long sum=userRepository.count();
+        long leftLimit = 1L;
+        long rightLimit = sum+1L;
+        long generatedLong = leftLimit + (long) (Math.random() * (rightLimit - leftLimit));
+        User user = userRepository.findById(generatedLong).orElse(null);
+        return user;
     }
 
 
