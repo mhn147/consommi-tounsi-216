@@ -1,5 +1,6 @@
 package tn.esprit.pidev.consommitounsi.entities.forum;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import tn.esprit.pidev.consommitounsi.entities.user.User;
 
 import javax.persistence.*;
