@@ -11,4 +11,6 @@ public interface IPostService {
     List<Post> getAllPostsOrderedByDate(long topicId);
     void deletePost(long id);
     void likePost(long postId, long userId, boolean like);
+    String getForbiddenWords();
+    void setForbiddenWords(String words);
 }
