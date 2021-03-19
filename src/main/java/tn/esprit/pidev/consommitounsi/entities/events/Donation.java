@@ -1,5 +1,7 @@
 package tn.esprit.pidev.consommitounsi.entities.events;
 
+import tn.esprit.pidev.consommitounsi.entities.user.User;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -12,6 +14,9 @@ public class Donation implements Serializable {
     private int amount;
     @ManyToOne
     private Event ev;
+
+    @ManyToOne
+    private User user;
 
     public Donation() {
 
@@ -44,5 +49,13 @@ public class Donation implements Serializable {
     public Donation(long id, int amount) {
         this.id = id;
         this.amount = amount;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

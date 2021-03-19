@@ -33,19 +33,8 @@ public class ItemService implements IService<Item>, IItemService {
     }
 
     @Override
-    public Item add(Item item) {
+    public Item addOrUpdate(Item item) {
         return this.itemRepository.save(item);
-    }
-
-    @Override
-    @Transactional
-    public Item update(Item item, Long id) {
-        Item oldItem = this.getById(id);
-
-        // TODO Validation
-        oldItem = item;
-
-        return item;
     }
 
     @Override

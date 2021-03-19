@@ -1,10 +1,9 @@
 package tn.esprit.pidev.consommitounsi.entities.reclamation;
 
-import tn.esprit.pidev.consommitounsi.entities.User;
+import tn.esprit.pidev.consommitounsi.entities.user.User;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 
 @Entity
 public class Reclamation implements Serializable {
@@ -16,6 +15,9 @@ public class Reclamation implements Serializable {
     private String images;
     @Enumerated(EnumType.STRING)
     private ReclamationDecision decision;
+
+    @ManyToOne
+    private User user;
 
     public Reclamation() {
         super();
@@ -61,4 +63,11 @@ public class Reclamation implements Serializable {
         this.decision = decision;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

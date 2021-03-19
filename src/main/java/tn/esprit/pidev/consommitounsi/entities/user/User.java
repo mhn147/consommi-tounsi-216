@@ -1,9 +1,12 @@
-package tn.esprit.pidev.consommitounsi.entities;
+package tn.esprit.pidev.consommitounsi.entities.user;
 
 import tn.esprit.pidev.consommitounsi.entities.common.Address;
+import tn.esprit.pidev.consommitounsi.entities.payment.Invoice;
+import tn.esprit.pidev.consommitounsi.entities.payment.Order;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -17,10 +20,21 @@ public class  User implements Serializable {
     private String email;
     private String password;
     private String phoneNumber;
+    @Temporal(TemporalType.DATE)
+    private Date birthDate;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
     @Enumerated(EnumType.STRING)
     private UserType type;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Address> addresses;
+
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders;
+
+    @OneToMany(mappedBy = "user")
+    private List<Invoice> invoices;
 
     public User() {
         super();
@@ -82,6 +96,22 @@ public class  User implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
     public UserType getType() {
         return type;
     }
@@ -96,5 +126,21 @@ public class  User implements Serializable {
 
     public void setAddresses(List<Address> addresses) {
         this.addresses = addresses;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+
+    public List<Invoice> getInvoices() {
+        return invoices;
+    }
+
+    public void setInvoices(List<Invoice> invoices) {
+        this.invoices = invoices;
     }
 }

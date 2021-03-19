@@ -2,9 +2,9 @@ package tn.esprit.pidev.consommitounsi.services.chat;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tn.esprit.pidev.consommitounsi.entities.User;
+import tn.esprit.pidev.consommitounsi.entities.user.User;
 import tn.esprit.pidev.consommitounsi.entities.chat.Chat;
-import tn.esprit.pidev.consommitounsi.repositories.UserRepository;
+import tn.esprit.pidev.consommitounsi.repositories.user.UserRepository;
 import tn.esprit.pidev.consommitounsi.repositories.chat.ChatRepository;
 
 import java.util.Date;

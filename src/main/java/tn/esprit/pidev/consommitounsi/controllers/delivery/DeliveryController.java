@@ -2,10 +2,8 @@ package tn.esprit.pidev.consommitounsi.controllers.delivery;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import tn.esprit.pidev.consommitounsi.entities.User;
-import tn.esprit.pidev.consommitounsi.entities.UserType;
-import tn.esprit.pidev.consommitounsi.entities.delivery.Deliverer;
-import tn.esprit.pidev.consommitounsi.services.delivery.DeliveryService;
+import tn.esprit.pidev.consommitounsi.entities.user.User;
+import tn.esprit.pidev.consommitounsi.entities.user.UserType;
 import tn.esprit.pidev.consommitounsi.services.delivery.IDeliveryService;
 
 import java.util.List;

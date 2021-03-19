@@ -1,10 +1,10 @@
 package tn.esprit.pidev.consommitounsi.entities.payment;
 
+import tn.esprit.pidev.consommitounsi.entities.user.User;
 import tn.esprit.pidev.consommitounsi.entities.products.Product;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
@@ -42,6 +42,9 @@ public class Invoice implements Serializable {
 
     @OneToMany
     private List<Product> products;
+
+    @ManyToOne
+    private User user;
 
     public Invoice () {}
 
@@ -165,6 +168,14 @@ public class Invoice implements Serializable {
 
     public void setProducts(List<Product> products) {
         this.products = products;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

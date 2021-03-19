@@ -32,21 +32,9 @@ public class OrderService implements IOrderService, IService<Order> {
     }
 
     @Override
-    public Order add(Order order) {
+    public Order addOrUpdate(Order order) {
         return this.orderRepository.save(order);
     }
-
-    @Override
-    @Transactional
-    public Order update(Order order, Long id) {
-        Order oldOrder = this.getById(id);
-
-        // TODO Validation
-        oldOrder = order;
-
-        return order;
-    }
-
     @Override
     public void remove(Long id) {
         Order order = this.getById(id);

@@ -1,5 +1,7 @@
 package tn.esprit.pidev.consommitounsi.entities.payment;
 
+import tn.esprit.pidev.consommitounsi.entities.user.User;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -46,6 +48,9 @@ public class Order implements Serializable   {
         this.items = items;
     }
 
+    @ManyToOne
+    public User user;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -57,5 +62,13 @@ public class Order implements Serializable   {
     @Override
     public int hashCode() {
         return Objects.hash(id, status);
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

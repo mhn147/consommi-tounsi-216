@@ -1,4 +1,4 @@
-package tn.esprit.pidev.consommitounsi.repositories;
+package tn.esprit.pidev.consommitounsi.repositories.user;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

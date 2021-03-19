@@ -1,5 +1,6 @@
 package tn.esprit.pidev.consommitounsi.entities.advertisements;
 
+import tn.esprit.pidev.consommitounsi.entities.user.User;
 import tn.esprit.pidev.consommitounsi.entities.products.Product;
 
 import javax.persistence.*;
@@ -22,7 +23,10 @@ public class Advertisement implements Serializable {
     private String type;
 
 
-    @ManyToMany(mappedBy="advertisementproduct",cascade = { CascadeType.PERSIST, CascadeType.REMOVE})
+    @ManyToMany
+    private List<User> users;
+
+    @ManyToMany(mappedBy="advertisementproduct", cascade = { CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Product> products;
 
     public Advertisement(){
@@ -94,6 +98,23 @@ public class Advertisement implements Serializable {
     public void setCost(double cost) {
         this.cost = cost;
     }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
+
     public String getType() {
         return type;
     }

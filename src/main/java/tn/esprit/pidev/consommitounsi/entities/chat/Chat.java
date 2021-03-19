@@ -1,6 +1,6 @@
 package tn.esprit.pidev.consommitounsi.entities.chat;
 
-import tn.esprit.pidev.consommitounsi.entities.User;
+import tn.esprit.pidev.consommitounsi.entities.user.User;
 
 import javax.persistence.*;
 import java.io.Serializable;
