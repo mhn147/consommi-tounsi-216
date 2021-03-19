@@ -1,5 +1,7 @@
 package tn.esprit.pidev.consommitounsi.entities.products;
 
+import org.springframework.stereotype.Indexed;
+import tn.esprit.pidev.consommitounsi.entities.User;
 import tn.esprit.pidev.consommitounsi.entities.advertisements.Advertisement;
 
 import javax.persistence.*;
@@ -8,6 +10,7 @@ import java.util.List;
 
 
 @Entity
+@Indexed
 @Table
 public class Product implements Serializable {
     @Id
@@ -15,6 +18,9 @@ public class Product implements Serializable {
     private long id;
     private String name;
     private String description;
+
+    //@Field(analyze = Analyze.NO) // You already have something like this, make sure to set analyze = NO
+    //@Facet(forField = "price", encoding = FacetEncodingType.DOUBLE) // You need to add this
     private double price;
     private String picture;
     @Transient
@@ -29,7 +35,19 @@ public class Product implements Serializable {
     @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Advertisement> advertisementproduct;
 
+
+    @ManyToOne
+    private User user;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
+    private List<Comment> comments;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
+    private List<Rating> ratings;
+
+
+
+
     public Product() {
+        super();
 
     }
 
@@ -119,4 +137,27 @@ public class Product implements Serializable {
     public void setAdvertisementproduct(List<Advertisement> advertisementproduct) {
         this.advertisementproduct = advertisementproduct;
     }
-}
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public List<Rating> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(List<Rating> ratings) {
+        this.ratings = ratings;
+}}
