@@ -31,7 +31,7 @@ public class Item implements Serializable {
 
     public Item() {}
 
-     public Item(int quantity, double discountRate, double discountAmount, double subTotal,
+    public Item(int quantity, double discountRate, double discountAmount, double subTotal,
                 double VATRate, double VATAmount, double taxesExceptVATAmount, double totalTaxesAmount) {
         this.quantity = quantity;
         this.discountRate = discountRate;
@@ -41,6 +41,11 @@ public class Item implements Serializable {
         this.VATAmount = VATAmount;
         this.taxesExceptVATAmount = taxesExceptVATAmount;
         this.totalTaxesAmount = totalTaxesAmount;
+    }
+
+    public Item(int quantity, Product product) {
+        this(quantity, 0, 0, 0, 0, 0, 0, 0);
+        this.product = product;
     }
 
     public long getId() {

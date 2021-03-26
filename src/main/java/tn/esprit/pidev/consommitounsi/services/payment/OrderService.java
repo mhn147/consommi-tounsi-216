@@ -46,6 +46,6 @@ public class OrderService implements IOrderService, IService<Order> {
 
     @Override
     public Order getCartByUserId(Long userId) {
-        return this.orderRepository.getCartByUserId(OrderStatus.CART, userId);
+        return this.orderRepository.getCartByUserId(userId);
     }
 }

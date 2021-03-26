@@ -33,6 +33,7 @@ public class Order implements Serializable   {
         this.id = id;
     }
 
+    @Enumerated(EnumType.STRING)
     public OrderStatus getStatus() {
         return status;
     }

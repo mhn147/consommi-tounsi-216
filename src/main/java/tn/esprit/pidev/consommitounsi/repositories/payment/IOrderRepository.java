@@ -7,7 +7,8 @@ import tn.esprit.pidev.consommitounsi.entities.payment.Order;
 import tn.esprit.pidev.consommitounsi.entities.payment.OrderStatus;
 
 public interface IOrderRepository extends CrudRepository<Order, Long> {
-    @Query("SELECT o FROM Order o WHERE o.status= :orderStatus AND o.user.id= :userId") // status == 'OrderStatus.CART'
-    Order getCartByUserId(@Param("orderStatus")OrderStatus orderStatus,
-                          @Param("userId")long userId);
+    @Query("SELECT o FROM Order o WHERE " +
+            "o.status= tn.esprit.pidev.consommitounsi.entities.payment.OrderStatus.CART" +
+            "  AND o.user.id= :userId") // status == 'OrderStatus.CART'
+    Order getCartByUserId(@Param("userId")long userId);
 }

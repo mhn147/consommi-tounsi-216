@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.esprit.pidev.consommitounsi.entities.payment.Item;
 import tn.esprit.pidev.consommitounsi.entities.payment.Order;
+import tn.esprit.pidev.consommitounsi.entities.payment.OrderStatus;
 import tn.esprit.pidev.consommitounsi.entities.products.Product;
 import tn.esprit.pidev.consommitounsi.models.payment.ResponseModel;
 import tn.esprit.pidev.consommitounsi.repositories.payment.IInvoiceRepository;
@@ -52,6 +53,28 @@ public class CartService extends OrderService implements ICartService {
         Order cart = super.getById(cartId);
         cart.getItems().remove(item);
         this.orderRepository.save(cart);
+        return cart;
+    }
+
+    @Override
+    public boolean containsItem(long cartId, long itemId) {
+        Order cart = this.orderRepository.findById(cartId).orElse(null);
+        if (cart == null) {
+            return false;
+        }
+
+        for (Item item : cart.getItems()) {
+            if (item.getId() == itemId)
+                return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public Order getByUserId(long userId) {
+        Order cart = this.orderRepository.getCartByUserId(userId);
+
         return cart;
     }
 
