@@ -1,5 +1,6 @@
 package tn.esprit.pidev.consommitounsi.services.event;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -15,18 +16,24 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
 
 @Service
 public class EventService implements IEventService {
 
 
+    public static final String ACCOUNT_SID = "ACfd2452c214604ff33b015cf75bff9348";
+    public static final String AUTH_TOKEN = "ce2fceb2a81624de8d1d97e443f878ee";
     @Autowired
     EventRepository eventRepository;
     @Autowired
     UserRepository userRepository;
     @Autowired
     AddressRepository addressRepository;
+
+
 
 
     @Override
@@ -81,6 +88,7 @@ public class EventService implements IEventService {
         return (List<Event>)eventRepository.findAll();
     }
 
+
     @Override
     public void saveOrUpdateEvents(Event event) {
         eventRepository.save(event);
@@ -98,18 +106,7 @@ public class EventService implements IEventService {
 
     }
 
-    @Override
-    public User getWinner( ) {
 
-        long sum = userRepository.count();
-        long leftLimit = 1L;
-        long rightLimit = sum + 1L;
-
-            long generatedLong = leftLimit + (long) (Math.random() * (rightLimit - leftLimit));
-            User user = userRepository.findById(generatedLong).orElse(null);
-
-        return user;
-    }
 
 }
 

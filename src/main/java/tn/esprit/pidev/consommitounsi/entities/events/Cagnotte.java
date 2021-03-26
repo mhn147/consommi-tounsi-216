@@ -3,6 +3,7 @@ package tn.esprit.pidev.consommitounsi.entities.events;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -12,6 +13,8 @@ public class Cagnotte implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private int jackpot;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date CagnotteDate;
     @OneToMany
     private List<Ticket> tickets;
 
@@ -35,6 +38,14 @@ public class Cagnotte implements Serializable {
         this.jackpot = jackpot;
     }
 
+    public Date getCagnotteDate() {
+        return CagnotteDate;
+    }
+
+    public void setCagnotteDate(Date cagnotteDate) {
+        CagnotteDate = cagnotteDate;
+    }
+
     public List<Ticket> getTickets() {
         return tickets;
     }
@@ -43,9 +54,9 @@ public class Cagnotte implements Serializable {
         this.tickets = tickets;
     }
 
-    public Cagnotte(long id, int jackpot) {
+    public Cagnotte(long id, int jackpot, Date cagnotteDate) {
         this.id = id;
         this.jackpot = jackpot;
+        CagnotteDate = cagnotteDate;
     }
-
 }

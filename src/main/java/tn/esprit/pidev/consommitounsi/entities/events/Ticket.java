@@ -4,13 +4,15 @@ import tn.esprit.pidev.consommitounsi.entities.user.User;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 public class Ticket implements Serializable {
      @Id
      @GeneratedValue(strategy = GenerationType.IDENTITY)
      private long id;
-     private int bets;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date TicketDate;
      @ManyToOne
      private Cagnotte cagnotte;
      @ManyToOne
@@ -28,12 +30,12 @@ public class Ticket implements Serializable {
         this.id = id;
     }
 
-    public int getBets() {
-        return bets;
+    public Date getTicketDate() {
+        return TicketDate;
     }
 
-    public void setBets(int bets) {
-        this.bets = bets;
+    public void setTicketDate(Date ticketDate) {
+        TicketDate = ticketDate;
     }
 
     public Cagnotte getCagnotte() {
@@ -52,8 +54,8 @@ public class Ticket implements Serializable {
         this.user = user;
     }
 
-    public Ticket(long id, int bets) {
+    public Ticket(long id, Date ticketDate) {
         this.id = id;
-        this.bets = bets;
+        TicketDate = ticketDate;
     }
 }

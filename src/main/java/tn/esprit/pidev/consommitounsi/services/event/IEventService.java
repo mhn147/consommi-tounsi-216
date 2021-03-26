@@ -16,5 +16,5 @@ public interface IEventService {
      void saveOrUpdateEvents(Event event);
      void DeleteEvent(long id);
      void  RefreshEvent();
-     User getWinner();
+
 }
