@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.esprit.pidev.consommitounsi.entities.payment.Invoice;
 import tn.esprit.pidev.consommitounsi.entities.payment.Item;
+import tn.esprit.pidev.consommitounsi.entities.payment.Order;
 import tn.esprit.pidev.consommitounsi.repositories.payment.IItemRepository;
 import tn.esprit.pidev.consommitounsi.services.common.IService;
 
@@ -34,6 +35,12 @@ public class ItemService implements IService<Item>, IItemService {
 
     @Override
     public Item addOrUpdate(Item item) {
+        return this.itemRepository.save(item);
+    }
+
+    @Override
+    public Item updateItemQuantity(Item item, int quantity) {
+        item.setQuantity(quantity);
         return this.itemRepository.save(item);
     }
 
