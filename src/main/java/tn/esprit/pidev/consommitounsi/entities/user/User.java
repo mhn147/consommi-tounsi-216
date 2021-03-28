@@ -26,6 +26,10 @@ public class  User implements Serializable {
     @Enumerated(EnumType.STRING)
     private Gender gender;
     @Enumerated(EnumType.STRING)
+    private CivilState civilState;
+    @Enumerated(EnumType.STRING)
+    private Occupation occupation;
+    @Enumerated(EnumType.STRING)
     private UserType type;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
@@ -111,6 +115,22 @@ public class  User implements Serializable {
 
     public void setGender(Gender gender) {
         this.gender = gender;
+    }
+
+    public CivilState getCivilState() {
+        return civilState;
+    }
+
+    public void setCivilState(CivilState civilState) {
+        this.civilState = civilState;
+    }
+
+    public Occupation getOccupation() {
+        return occupation;
+    }
+
+    public void setOccupation(Occupation occupation) {
+        this.occupation = occupation;
     }
 
     public UserType getType() {

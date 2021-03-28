@@ -1,9 +1,10 @@
-package tn.esprit.pidev.consommitounsi.controllers;
+package tn.esprit.pidev.consommitounsi.controllers.event;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.pidev.consommitounsi.entities.events.Donation;
+import tn.esprit.pidev.consommitounsi.entities.forum.Post;
 import tn.esprit.pidev.consommitounsi.services.event.DonationService;
 
 import java.util.List;
@@ -15,10 +16,11 @@ public class DonationController {
     @Autowired
     DonationService donationService;
 
-    @PostMapping("/AddDonation")
-    public Donation addDonation(@RequestBody Donation donation) {
-        donationService.saveOrUpdateDonation(donation);
-        return donation;
+    @PostMapping("/donate/{userId}/{evId}")
+    @ResponseBody
+    public void addDonation(@RequestBody Donation d, @PathVariable("userId") long userId, @PathVariable("evId") long evId) {
+        donationService.Donate(d,userId,evId);
+
     }
     @GetMapping("/Donations")
     @ResponseBody
@@ -28,7 +30,7 @@ public class DonationController {
 
     @GetMapping("/Donation/{id}")
     @ResponseBody
-    public Donation getEventById(@PathVariable("id") long id) {
+    public Donation getDonationById(@PathVariable("id") long id) {
         return donationService.getDonationById(id);
     }
 

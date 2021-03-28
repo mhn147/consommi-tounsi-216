@@ -68,9 +68,11 @@ public class PostService implements IPostService {
         return postRepository.findById(id).orElse(null);
     }
 
+
     public List<Post> getAllPosts() {
         return (List<Post>)postRepository.findAll();
     }
+
 
     public List<Post> getAllPostsOrderedByDate(long topicId) {
         return postRepository.getAllPostsOrderedByDate(topicId);
