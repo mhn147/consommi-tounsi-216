@@ -35,6 +35,8 @@ public class UserController {
     @PostMapping("/users")
     @ResponseBody
     public UserErrors addUser(@RequestBody User user) {
+        if (user.getUsername().isEmpty() || user.getEmail().isEmpty() || user.getPassword().isEmpty())
+            return UserErrors.ERROR;
         if (userService.getByUsernameOrEmail(user.getUsername())!=null)
             return UserErrors.USERNAME_ALREADY_EXISTS;
         if (userService.getByUsernameOrEmail(user.getEmail())!=null)
@@ -49,6 +51,8 @@ public class UserController {
     @ResponseBody
     public UserErrors updateUser(@RequestBody User user) {
         if (UserSession.hasId(user.getId())||UserSession.isAdmin()) {
+            if (user.getUsername().isEmpty() || user.getEmail().isEmpty() || user.getPassword().isEmpty())
+                return UserErrors.ERROR;
             User existingUser = userService.getByUsernameOrEmail(user.getUsername());
             if (existingUser != null && existingUser.getId() != user.getId())
                 return UserErrors.USERNAME_ALREADY_EXISTS;

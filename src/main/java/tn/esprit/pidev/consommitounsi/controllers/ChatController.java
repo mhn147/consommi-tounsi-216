@@ -17,7 +17,7 @@ public class ChatController {
     @PostMapping("/customer/chats/{senderId}/{receiverId}")
     @ResponseBody
     public void addChat(@RequestBody Chat c, @PathVariable("senderId")long senderId, @PathVariable("receiverId")long receiverId) {
-        if (UserSession.hasId(senderId))
+        if (UserSession.hasId(senderId) && !c.getMessage().isEmpty())
             chatService.add(c, senderId, receiverId);
     }
 
