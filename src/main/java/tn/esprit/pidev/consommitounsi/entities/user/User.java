@@ -1,5 +1,6 @@
 package tn.esprit.pidev.consommitounsi.entities.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import tn.esprit.pidev.consommitounsi.entities.common.Address;
 import tn.esprit.pidev.consommitounsi.entities.payment.Invoice;
 import tn.esprit.pidev.consommitounsi.entities.payment.Order;
@@ -20,7 +21,7 @@ public class  User implements Serializable {
     private String email;
     private String password;
     private String phoneNumber;
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date birthDate;
     @Enumerated(EnumType.STRING)
     private Gender gender;

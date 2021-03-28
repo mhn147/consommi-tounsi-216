@@ -8,7 +8,10 @@ public interface IPostService {
     void addPost(Post p, long userId, long topicId);
     void updatePost(Post p);
     Post getPostById(long id);
+    List<Post> getAllPosts();
     List<Post> getAllPostsOrderedByDate(long topicId);
     void deletePost(long id);
     void likePost(long postId, long userId, boolean like);
+    String getForbiddenWords();
+    void setForbiddenWords(String words);
 }
