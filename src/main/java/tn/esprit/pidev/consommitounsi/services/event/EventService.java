@@ -6,7 +6,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import tn.esprit.pidev.consommitounsi.entities.common.Address;
 import tn.esprit.pidev.consommitounsi.entities.events.Event;
+import tn.esprit.pidev.consommitounsi.entities.user.CivilState;
 import tn.esprit.pidev.consommitounsi.entities.user.Gender;
+import tn.esprit.pidev.consommitounsi.entities.user.Occupation;
 import tn.esprit.pidev.consommitounsi.entities.user.User;
 import tn.esprit.pidev.consommitounsi.repositories.event.EventRepository;
 import tn.esprit.pidev.consommitounsi.repositories.user.AddressRepository;
@@ -34,8 +36,6 @@ public class EventService implements IEventService {
     AddressRepository addressRepository;
 
 
-
-
     @Override
     public Event getEventById(long id) {
         return eventRepository.findById(id).orElse(null);
@@ -51,38 +51,50 @@ public class EventService implements IEventService {
         return (List<Event>)eventRepository.getLastEvent();
     }
 
+
     @Override
     public List<Event> getSelectedEvents(long userId) throws ParseException {
+
         User user = userRepository.findById(userId).orElse(null);
-        Address adresse = addressRepository.findById(userId).orElse(null);
-
-
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        //
-        Date jeune = sdf.parse("1980-01-01 00:00:00");
-        Date girls = sdf.parse("2001-01-01 00:00:00");
-        Date charity = sdf.parse("1975-01-01 00:00:00");
-        Date culture2 = sdf.parse("2001-01-10 00:00:00");
 
-        // sport age -40//
+        Date quarante = sdf.parse("1980-01-01 00:00:00");
+        Date majeur = sdf.parse("2001-01-01 00:00:00");
+        Date soixante = sdf.parse("1960-01-10 00:00:00");
 
-        if(user.getGender()== Gender.MALE && user.getBirthDate().after(jeune) ){
-            return  (List<Event>)eventRepository.getSportEvent();
+        if(user.getCivilState()==CivilState.SINGLE){
+
+            if((user.getGender()==Gender.MALE && user.getOccupation()==Occupation.STUDENT) || user.getOccupation()==Occupation.RETIRED){
+                return  (List<Event>)eventRepository.getSportEvent();
+            }
+            else if ((user.getBirthDate().after(quarante) && user.getBirthDate().before(soixante)) ||user.getOccupation()==Occupation.BUSINESS_MAN ){
+                return  (List<Event>)eventRepository.getBusinessEvent();
+            }
+            else if (user.getGender()==Gender.FEMALE && user.getOccupation()==Occupation.STUDENT){
+                return  (List<Event>)eventRepository.getCultureEvent();
+            }
 
         }
-         //  +45 //
-         else if(user.getBirthDate().before(charity) ){
-            return  (List<Event>)eventRepository.getBusinessEvent();
-        }
-        //  girls cooking +18 ans inf 45 ans //
-        else if(user.getGender()== Gender.FEMALE && user.getBirthDate().after(charity) && user.getBirthDate().before(girls) ) {
 
-            return (List<Event>) eventRepository.getCookingEvent();
-        }
-        // plus 45 //
-        else if( user.getBirthDate().before(charity)) {
+        else if(user.getCivilState()==CivilState.MARRIED) {
 
-            return (List<Event>) eventRepository.getCharityEvent();
+            if (user.getGender()== Gender.FEMALE && user.getBirthDate().after(majeur) && user.getBirthDate().before(quarante)){
+                return  (List<Event>)eventRepository.getCookingEvent();
+            }
+        }
+
+        else if(user.getCivilState()==CivilState.DIVORCED) {
+
+            if(user.getOccupation()==Occupation.BUSINESS_MAN){
+                return  (List<Event>)eventRepository.getCharityEvent();
+            }
+            else if (user.getOccupation()==Occupation.ARTIST){
+                return  (List<Event>)eventRepository.getCultureEvent();
+            }
+
+        }
+        else if (user.getOccupation()==Occupation.SOCIAL_WORKER){
+            return (List<Event>)eventRepository.getCharityEvent();
         }
 
         return (List<Event>)eventRepository.findAll();

@@ -63,7 +63,7 @@ public class CagnotteService implements ICagnotteService{
     @Override
     public Ticket getWinner() {
 
-       // Optional<Ticket> first = ticketRepository.findById(0L);
+
         long sum = ticketRepository.count();
         long leftLimit = 1L;
         long rightLimit = sum + 1L;
