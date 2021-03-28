@@ -7,10 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.esprit.pidev.consommitounsi.entities.events.Cagnotte;
 
-import tn.esprit.pidev.consommitounsi.entities.events.Event;
 import tn.esprit.pidev.consommitounsi.entities.events.Ticket;
 import tn.esprit.pidev.consommitounsi.entities.user.User;
-import tn.esprit.pidev.consommitounsi.entities.user.UserErrors;
 import tn.esprit.pidev.consommitounsi.repositories.event.CagnotteRepository;
 
 import tn.esprit.pidev.consommitounsi.repositories.event.TicketRepository;
@@ -18,8 +16,7 @@ import tn.esprit.pidev.consommitounsi.repositories.user.UserRepository;
 
 import java.util.Date;
 import java.util.List;
-import java.util.ListIterator;
-import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class CagnotteService implements ICagnotteService{
@@ -41,6 +38,7 @@ public class CagnotteService implements ICagnotteService{
     @Override
     public List<Ticket> getAllticket(){return (List<Ticket>)ticketRepository.findAll(); }
 
+
     @Override
     public void bet(Ticket t, long userId, long cagnotteId) {
         User user = userRepository.findById(userId).orElse(null);
@@ -57,29 +55,37 @@ public class CagnotteService implements ICagnotteService{
     }
     @Override
     public void saveOrUpdateCagnotte(Cagnotte cagnotte) {
+        cagnotte.setJackpot(0);
+        cagnotte.setCagnotteDate(new Date());
         cagnotteRepository.save(cagnotte);
     }
 
     @Override
     public Ticket getWinner() {
 
+            List<Ticket> tik = (List<Ticket>)ticketRepository.findAll();
+            Ticket winner = tik.get(new Random().nextInt(tik.size()));
 
-        long sum = ticketRepository.count();
-        long leftLimit = 1L;
-        long rightLimit = sum + 1L;
 
-    long generatedLong = leftLimit + (long) (Math.random() * (rightLimit - leftLimit));
-    Ticket winner = ticketRepository.findById(generatedLong).orElse(null);
+/*
+            long sum = ticketRepository.count();
+            long leftLimit = 1L;
+            long rightLimit = sum + 1L;
+            long generatedLong = leftLimit + (long) (Math.random() * (rightLimit - leftLimit));
+            Ticket winner = ticketRepository.findById(generatedLong).orElse(null);
+*/
 
-        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
-        Message message = Message.creator(new PhoneNumber(winner.getUser().getPhoneNumber()),
-                new PhoneNumber("+19382385454"),
-                "Hi "+winner.getUser().getPhoneNumber() +
+            Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+            Message message = Message.creator(new PhoneNumber(winner.getUser().getPhoneNumber()),
+                    new PhoneNumber("+19382385454"),
+                    "Hi " + winner.getUser().getPhoneNumber() +
 
-                        "Congratulations, you’ve won the $500  Gift  Grand Prize in our ‘$500 Summer Giveaway’ ").create();
+                            "Congratulations, you’ve won the $500  Gift  Grand Prize in our ‘$500 Summer Giveaway’ ").create();
 
-        System.out.println(message.getSid());
-        return winner;
+            System.out.println(message.getSid());
+            return winner;
+
     }
+
 }
 
