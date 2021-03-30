@@ -8,7 +8,7 @@ import tn.esprit.pidev.consommitounsi.services.payment.ItemService;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "items")
+@RequestMapping
 public class ItemController {
 
     private final ItemService itemService;
@@ -18,27 +18,27 @@ public class ItemController {
         this.itemService = itemService;
     }
 
-    @GetMapping
+    @GetMapping(path = "items")
     public List<Item> getItems() {
         return this.itemService.getAll();
     }
 
-    @GetMapping(path = "{itemId}")
+    @GetMapping(path = "items/{itemId}")
     public Item get(@PathVariable("itemId") Long itemId) {
         return this.itemService.getById(itemId);
     }
 
-    @PostMapping
+    @PostMapping(path = "items")
     public Item add(@RequestBody Item item) {
         return this.itemService.addOrUpdate(item);
     }
 
-    @DeleteMapping(path = "{itemId}")
+    @DeleteMapping(path = "items/{itemId}")
     public void remove(@PathVariable("itemId") Long itemId) {
         this.itemService.remove(itemId);
     }
 
-    @PutMapping(path = "{itemId}")
+    @PutMapping(path = "items/{itemId}")
     public void update(@PathVariable("itemId") Long itemId,
                        @RequestBody Item item) {
         item.setId(itemId);
