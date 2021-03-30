@@ -82,8 +82,7 @@ public class Item implements Serializable {
     }
 
     public double getSubTotal() {
-        // TODO
-        return subTotal;
+        return this.product.getPrice() * this.quantity;
     }
 
     public void setSubTotal(double subTotal) {

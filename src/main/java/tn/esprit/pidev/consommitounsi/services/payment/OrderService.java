@@ -4,6 +4,7 @@ import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.esprit.pidev.consommitounsi.entities.common.Address;
+import tn.esprit.pidev.consommitounsi.entities.payment.Item;
 import tn.esprit.pidev.consommitounsi.entities.payment.Order;
 import tn.esprit.pidev.consommitounsi.entities.payment.OrderStatus;
 import tn.esprit.pidev.consommitounsi.entities.user.User;
@@ -61,6 +62,16 @@ public class OrderService implements IOrderService, IService<Order> {
         return this.orderRepository.save(newOrder);
     }
 
+    @Override
+    public double calculateOrderAmount(List<Item> items) {
+        // Not factoring in taxes and discounts for the moment
+        // TODO
+        double amount = 0;
+        for (Item item: items) {
+            amount += item.getSubTotal();
+        }
+        return amount;
+    }
 
     private Order emptyCart(Order cart) {
         cart.setItems(null);
