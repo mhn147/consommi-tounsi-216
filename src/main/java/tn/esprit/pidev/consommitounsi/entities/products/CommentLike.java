@@ -1,24 +1,26 @@
 package tn.esprit.pidev.consommitounsi.entities.products;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import tn.esprit.pidev.consommitounsi.entities.User;
+import tn.esprit.pidev.consommitounsi.entities.forum.Post;
+import tn.esprit.pidev.consommitounsi.entities.user.User;
+import tn.esprit.pidev.consommitounsi.repositories.products.CommentLikeRepository;
 
 import javax.persistence.*;
 import java.io.Serializable;
-
 @Entity
-public class Rating implements Serializable {
+public class CommentLike implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private int value;
+    private boolean liked;
     @ManyToOne
     private User user;
     @JsonIgnore
     @ManyToOne
-    private Product product;
+    private Comment comment;
 
-    public Rating() {
+
+    public CommentLike() {
         super();
     }
 
@@ -30,12 +32,12 @@ public class Rating implements Serializable {
         this.id = id;
     }
 
-    public int getValue() {
-        return value;
+    public boolean isLiked() {
+        return liked;
     }
 
-    public void setValue(int value) {
-        this.value = value;
+    public void setLiked(boolean liked) {
+        this.liked = liked;
     }
 
     public User getUser() {
@@ -46,11 +48,11 @@ public class Rating implements Serializable {
         this.user = user;
     }
 
-    public Product getProduct() {
-        return product;
+    public Comment getComment() {
+        return comment;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setComment(Comment comment) {
+        this.comment = comment;
     }
 }

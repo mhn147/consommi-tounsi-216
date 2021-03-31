@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import tn.esprit.pidev.consommitounsi.entities.advertisements.Advertisement;
 import tn.esprit.pidev.consommitounsi.entities.products.CompanyTax;
 import tn.esprit.pidev.consommitounsi.services.products.AdvertisementService;
+import tn.esprit.pidev.consommitounsi.services.products.CommentService;
 import tn.esprit.pidev.consommitounsi.services.products.CompanyTaxService;
 
 import java.util.List;
@@ -14,6 +15,8 @@ import java.util.List;
 public class CompanyTaxController {
     @Autowired
     CompanyTaxService companyTaxService;
+    @Autowired
+    CommentService commentService;
 
     @GetMapping("/companytaxs")
     private List<CompanyTax> getAllCompanyTaxs()
@@ -50,4 +53,6 @@ public class CompanyTaxController {
         companyTaxService.saveOrUpdate(companyTax);
         return companyTax;
     }
+
+
 }

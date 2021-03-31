@@ -24,26 +24,26 @@ public class CategoryController {
     }
 
     @GetMapping("/categories/{id}")
-    private Category getCategory(@PathVariable("categoryid") Long id)
+    private Category getCategory(@PathVariable("id") Long id)
     {
         return categoryService.getCategoryById(id);
     }
 
-    @DeleteMapping("/categories/{id}")
+    @DeleteMapping("/admin/categories/{id}")
     private void deleteCategory(@PathVariable("id") Long id )
     {
         categoryService.delete(id);
     }
 
-    //creating post mapping that post the ad detail in the database
-    @PostMapping("/categories")
+
+    @PostMapping("/admin/categories")
     private long saveCategory(@RequestBody Category category)
     {
         categoryService.saveOrUpdate(category);
         return  category.getId();
     }
     //creating put mapping that updates the ad detail
-    @PutMapping("/categories/{id}")
+    @PutMapping("/admin/categories/{id}")
     private Category update(@RequestBody Category category)
     {
         categoryService.saveOrUpdate(category);

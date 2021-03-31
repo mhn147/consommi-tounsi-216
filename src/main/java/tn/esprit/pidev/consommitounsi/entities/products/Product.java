@@ -1,7 +1,8 @@
 package tn.esprit.pidev.consommitounsi.entities.products;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.stereotype.Indexed;
-import tn.esprit.pidev.consommitounsi.entities.User;
+import tn.esprit.pidev.consommitounsi.entities.user.User;
 import tn.esprit.pidev.consommitounsi.entities.advertisements.Advertisement;
 
 import javax.persistence.*;
@@ -32,6 +33,7 @@ public class Product implements Serializable {
     @ManyToOne
     private Category category;
 
+    @JsonIgnore
     @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Advertisement> advertisementproduct;
 
@@ -41,7 +43,7 @@ public class Product implements Serializable {
     @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
     private List<Comment> comments;
     @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
-    private List<Rating> ratings;
+    private List<ProductRating> ratings;
 
 
 
@@ -154,10 +156,10 @@ public class Product implements Serializable {
         this.comments = comments;
     }
 
-    public List<Rating> getRatings() {
+    public List<ProductRating> getRatings() {
         return ratings;
     }
 
-    public void setRatings(List<Rating> ratings) {
+    public void setRatings(List<ProductRating> ratings) {
         this.ratings = ratings;
 }}
