@@ -14,6 +14,9 @@ public class OrderDelivery implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private int durationInHours;
+    private double deliveryCost;
+    @Transient
+    private String deliveryNoteDocument;
 
     @OneToMany
     private List<Address> deliveriesAddresses;
@@ -52,6 +55,23 @@ public class OrderDelivery implements Serializable {
 
     public void setDeliveriesAddresses(List<Address> deliveriesAddresses) {
         this.deliveriesAddresses = deliveriesAddresses;
+    }
+
+    public double getDeliveryCost() {
+        return deliveryCost;
+    }
+
+    public void setDeliveryCost(double deliveryCost) {
+        this.deliveryCost = deliveryCost;
+    }
+
+    public String getDeliveryNoteDocument() {
+        // TODO
+        return deliveryNoteDocument;
+    }
+
+    public void setDeliveryNoteDocument(String deliveryNoteDocument) {
+        this.deliveryNoteDocument = deliveryNoteDocument;
     }
 
     public Order getOrders() {

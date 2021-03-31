@@ -5,10 +5,8 @@ import net.ricecode.similarity.StringSimilarityService;
 import net.ricecode.similarity.StringSimilarityServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tn.esprit.pidev.consommitounsi.entities.forum.DuplicateTopic;
+import tn.esprit.pidev.consommitounsi.entities.forum.*;
 import tn.esprit.pidev.consommitounsi.entities.user.User;
-import tn.esprit.pidev.consommitounsi.entities.forum.Topic;
-import tn.esprit.pidev.consommitounsi.entities.forum.Star;
 import tn.esprit.pidev.consommitounsi.repositories.forum.DuplicateTopicRepository;
 import tn.esprit.pidev.consommitounsi.repositories.user.UserRepository;
 import tn.esprit.pidev.consommitounsi.repositories.forum.TopicRepository;
@@ -28,6 +26,8 @@ public class TopicService implements ITopicService {
     UserRepository userRepository;
     @Autowired
     DuplicateTopicRepository duplicateTopicRepository;
+    @Autowired
+    IPostService postService;
 
     public void add(Topic t, long userId) {
         User user = userRepository.findById(userId).orElse(null);
@@ -132,5 +132,43 @@ public class TopicService implements ITopicService {
     public void resolveDuplicate(long topicId) {
         DuplicateTopic dt = duplicateTopicRepository.findByDuplicate(topicId);
         duplicateTopicRepository.delete(dt);
+    }
+
+    public List<User> getUserRanking() {
+        List<Topic> topics=getAllOrderedByDate();
+        List<Post> posts=postService.getAllPosts();
+        return orderByPopularity((List<User>)userRepository.findAll(),
+                new int[]{3, 3, 1, 2, 1, 1, 2},
+                u -> topics.stream().filter(t -> t.getUser().getId()==u.getId())
+                        .mapToDouble(t->t.getStars().stream().mapToInt(Star::getValue).average().orElse(0))
+                        .average().orElse(0),//average topic ratings
+                u -> topics.stream().filter(t -> t.getUser().getId()==u.getId()).mapToInt(t->t.getPosts().size()).average().orElse(0),//average posts number
+                u -> (double)topics.stream().filter(t -> t.getUser().getId()==u.getId()).count(),//number of topics
+                u -> (double)posts.stream().filter(p->p.getUser().getId()==u.getId()).count(),//posts number
+                u -> (double)posts.stream().map(Post::getLikes)
+                        .reduce(new ArrayList<>(), (list, likes)->{list.addAll(likes); return list;})
+                        .stream().filter(l->l.getUser().getId()==u.getId()).count(),//likes / dislikes given
+                u -> posts.stream().filter(p->p.getUser().getId()==u.getId()).collect(Collectors.toList())
+                        .stream().mapToInt(p->p.getContent().length()).average().orElse(0),//average length of posts
+                u -> posts.stream().filter(p->p.getUser().getId()==u.getId())
+                        .mapToDouble(p->p.getLikes().stream().filter(PostLike::isLiked).count()/(double)p.getLikes().size())
+                        .average().orElse(0)//likes ratio average
+        );
+    }
+
+    public List<User> getUserRanking(long topicId) {
+        List<Post> posts=postService.getAllPostsOrderedByDate(topicId);
+        return orderByPopularity((List<User>)userRepository.findAll(),
+                new int[]{4, 1, 2, 3},
+                u -> (double)posts.stream().filter(p->p.getUser().getId()==u.getId()).count(),//posts number
+                u -> (double)posts.stream().map(Post::getLikes)
+                            .reduce(new ArrayList<>(), (list, likes)->{list.addAll(likes); return list;})
+                            .stream().filter(l->l.getUser().getId()==u.getId()).count(),//likes / dislikes given
+                u -> posts.stream().filter(p->p.getUser().getId()==u.getId()).collect(Collectors.toList())
+                        .stream().mapToInt(p->p.getContent().length()).average().orElse(0),//average length of posts
+                u -> posts.stream().filter(p->p.getUser().getId()==u.getId())
+                        .mapToDouble(p->p.getLikes().stream().filter(PostLike::isLiked).count()/(double)p.getLikes().size())
+                        .average().orElse(0)//likes ratio average
+                );
     }
 }

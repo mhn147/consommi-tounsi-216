@@ -2,6 +2,7 @@ package tn.esprit.pidev.consommitounsi.entities.events;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -12,6 +13,13 @@ public class Event implements Serializable {
     private String name;
     private String description;
     private String location;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date eventDate;
+    private float sumCollect;
+    private float maxCollect;
+
+    @Enumerated(EnumType.STRING)
+    private EventType eventType;
     @OneToMany
     private List<Donation> Events_donations;
 
@@ -51,6 +59,38 @@ public class Event implements Serializable {
         this.location = location;
     }
 
+    public Date getEventDate() {
+        return eventDate;
+    }
+
+    public void setEventDate(Date eventDate) {
+        this.eventDate = eventDate;
+    }
+
+    public float getMaxCollect() {
+        return maxCollect;
+    }
+
+    public void setMaxCollect(float maxCollect) {
+        this.maxCollect = maxCollect;
+    }
+
+    public float getSumCollect() {
+        return sumCollect;
+    }
+
+    public void setSumCollect(float sumCollect) {
+        this.sumCollect = sumCollect;
+    }
+
+    public EventType getEventType() {
+        return eventType;
+    }
+
+    public void setEventType(EventType eventType) {
+        this.eventType = eventType;
+    }
+
     public List<Donation> getEvents_donations() {
         return Events_donations;
     }
@@ -59,11 +99,14 @@ public class Event implements Serializable {
         this.Events_donations = Events_donations;
     }
 
-    public Event(long id, String name, String description, String location) {
+    public Event(long id, String name, String description, String location, Date eventDate, float sumCollect, float maxCollect, EventType eventType) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.location = location;
+        this.eventDate = eventDate;
+        this.sumCollect = sumCollect;
+        this.maxCollect = maxCollect;
+        this.eventType = eventType;
     }
-
 }

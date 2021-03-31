@@ -57,12 +57,13 @@ public class ProductService {
        //return ratedProducts;
     //}
 
-    //getting a specific record by using the method findById() of CrudRepository
-    public Product getProductById(Long id) {
 
-        Product product = productRepository.findById(id).orElse(null);
-        return product;
-    }
+//getting a specific record by using the method findById() of CrudRepository
+public Product getProductById(Long id)
+{
+    return productRepository.findById(id).orElse(null);
+}
+
 
     //saving a specific record by using the method save() of CrudRepository
     public void saveOrUpdate(Product product) {

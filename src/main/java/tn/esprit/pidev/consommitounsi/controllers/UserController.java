@@ -5,10 +5,13 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import tn.esprit.pidev.consommitounsi.entities.payment.Order;
+import tn.esprit.pidev.consommitounsi.entities.payment.OrderStatus;
 import tn.esprit.pidev.consommitounsi.entities.user.User;
 import tn.esprit.pidev.consommitounsi.entities.user.UserErrors;
 import tn.esprit.pidev.consommitounsi.entities.user.UserType;
 import tn.esprit.pidev.consommitounsi.entities.common.Address;
+import tn.esprit.pidev.consommitounsi.services.payment.IOrderService;
 import tn.esprit.pidev.consommitounsi.services.user.IUserService;
 import tn.esprit.pidev.consommitounsi.utils.UserSecurity;
 import tn.esprit.pidev.consommitounsi.utils.UserSession;
@@ -20,6 +23,8 @@ import java.util.List;
 public class UserController {
     @Autowired
     IUserService userService;
+    @Autowired
+    IOrderService orderService;
 
     @PostMapping("/users/login")
     @ResponseBody
@@ -35,6 +40,8 @@ public class UserController {
     @PostMapping("/users")
     @ResponseBody
     public UserErrors addUser(@RequestBody User user) {
+        if (user.getUsername().isEmpty() || user.getEmail().isEmpty() || user.getPassword().isEmpty())
+            return UserErrors.ERROR;
         if (userService.getByUsernameOrEmail(user.getUsername())!=null)
             return UserErrors.USERNAME_ALREADY_EXISTS;
         if (userService.getByUsernameOrEmail(user.getEmail())!=null)
@@ -42,6 +49,10 @@ public class UserController {
         user.setPassword(UserSecurity.encodePassword(user.getPassword()));
         user.setType(UserType.CUSTOMER);
         userService.addOrUpdate(user);
+        Order cart = new Order();
+        cart.setStatus(OrderStatus.CART);
+        cart.setUser(user);
+        orderService.addOrUpdate(cart);
         return UserErrors.SUCCESS;
     }
 
@@ -49,6 +60,8 @@ public class UserController {
     @ResponseBody
     public UserErrors updateUser(@RequestBody User user) {
         if (UserSession.hasId(user.getId())||UserSession.isAdmin()) {
+            if (user.getUsername().isEmpty() || user.getEmail().isEmpty() || user.getPassword().isEmpty())
+                return UserErrors.ERROR;
             User existingUser = userService.getByUsernameOrEmail(user.getUsername());
             if (existingUser != null && existingUser.getId() != user.getId())
                 return UserErrors.USERNAME_ALREADY_EXISTS;

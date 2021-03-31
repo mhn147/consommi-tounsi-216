@@ -1,5 +1,6 @@
 package tn.esprit.pidev.consommitounsi.entities.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import tn.esprit.pidev.consommitounsi.entities.common.Address;
 import tn.esprit.pidev.consommitounsi.entities.payment.Invoice;
 import tn.esprit.pidev.consommitounsi.entities.payment.Order;
@@ -24,6 +25,10 @@ public class  User implements Serializable {
     private Date birthDate;
     @Enumerated(EnumType.STRING)
     private Gender gender;
+    @Enumerated(EnumType.STRING)
+    private CivilState civilState;
+    @Enumerated(EnumType.STRING)
+    private Occupation occupation;
     @Enumerated(EnumType.STRING)
     private UserType type;
 
@@ -110,6 +115,22 @@ public class  User implements Serializable {
 
     public void setGender(Gender gender) {
         this.gender = gender;
+    }
+
+    public CivilState getCivilState() {
+        return civilState;
+    }
+
+    public void setCivilState(CivilState civilState) {
+        this.civilState = civilState;
+    }
+
+    public Occupation getOccupation() {
+        return occupation;
+    }
+
+    public void setOccupation(Occupation occupation) {
+        this.occupation = occupation;
     }
 
     public UserType getType() {

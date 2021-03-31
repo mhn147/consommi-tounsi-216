@@ -3,6 +3,7 @@ package tn.esprit.pidev.consommitounsi.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.pidev.consommitounsi.entities.forum.*;
+import tn.esprit.pidev.consommitounsi.entities.user.User;
 import tn.esprit.pidev.consommitounsi.services.forum.IPostService;
 import tn.esprit.pidev.consommitounsi.services.forum.ITopicService;
 import tn.esprit.pidev.consommitounsi.services.forum.TopicService;
@@ -20,7 +21,7 @@ public class ForumController {
     @PostMapping("/customer/topics/{userId}")
     @ResponseBody
     public void addTopic(@RequestBody Topic t, @PathVariable("userId") long userId) {
-        if (UserSession.hasId(userId))
+        if (UserSession.hasId(userId) && !t.getTitle().isEmpty())
             topicService.add(t, userId);
     }
 
@@ -28,7 +29,7 @@ public class ForumController {
     @ResponseBody
     public void updateTopic(@RequestBody Topic t) {
         Topic topic=topicService.getById(t.getId());
-        if (topic!=null&&(UserSession.hasId(topic.getUser().getId())||UserSession.isAdmin()))
+        if (topic!=null && (UserSession.hasId(topic.getUser().getId()) || UserSession.isAdmin()) && !t.getTitle().isEmpty())
             topicService.update(t);
     }
 
@@ -62,16 +63,17 @@ public class ForumController {
     @PutMapping("/customer/topics/{topicId}/{userId}/{value}")
     @ResponseBody
     public void rateTopic(@PathVariable("topicId")long topicId, @PathVariable("userId")long userId, @PathVariable("value")int value) {
-        topicService.rate(topicId, userId, value);
+        if (UserSession.hasId(userId) && value>=1 && value<=5)
+            topicService.rate(topicId, userId, value);
     }
   
-    @GetMapping("/topics/duplicates")
+    @GetMapping("/admin/topics/duplicates")
     @ResponseBody
     public List<DuplicateTopic> getDuplicates() {
         return topicService.getDuplicates();
     }
 
-    @PutMapping("/topics/{topicId}")
+    @PutMapping("/admin/topics/{topicId}")
     @ResponseBody
     public void resolveDuplicate(@PathVariable("topicId") long topicId) {
         topicService.resolveDuplicate(topicId);
@@ -80,7 +82,7 @@ public class ForumController {
     @PostMapping("/customer/posts/{userId}/{topicId}")
     @ResponseBody
     public void addPost(@RequestBody Post p,@PathVariable("userId") long userId,@PathVariable("topicId") long topicId) {
-        if (UserSession.hasId(userId))
+        if (UserSession.hasId(userId) && (!p.getContent().isEmpty() || !p.getMedias().isEmpty()))
             postService.addPost(p, userId, topicId);
     }
 
@@ -88,7 +90,7 @@ public class ForumController {
     @ResponseBody
     public void updatePost(@RequestBody Post p) {
         Post post=postService.getPostById(p.getId());
-        if (post!=null && (UserSession.hasId(post.getUser().getId())||UserSession.isAdmin()))
+        if (post!=null && (UserSession.hasId(post.getUser().getId())||UserSession.isAdmin()) && (!p.getContent().isEmpty() || !p.getMedias().isEmpty()))
             postService.updatePost(p);
     }
 
@@ -122,20 +124,33 @@ public class ForumController {
     @PutMapping("/customer/posts/{postId}/{userId}/{like}")
     @ResponseBody
     public void likePost(@PathVariable("postId")long postId, @PathVariable("userId")long userId, @PathVariable("like")boolean like) {
-        postService.likePost(postId, userId, like);
+        if (UserSession.hasId(userId))
+            postService.likePost(postId, userId, like);
     }
 
-    @GetMapping("/posts/forbidden")
+    @GetMapping("/admin/posts/forbidden")
     @ResponseBody
     public String getFobiddenWords() {
         return postService.getForbiddenWords();
     }
 
-    @PostMapping("/posts/forbidden")
+    @PostMapping("/admin/posts/forbidden")
     @ResponseBody
     public void setForbiddenWords(@RequestBody String forbiddenWords) {
         if (forbiddenWords==null)
             forbiddenWords="";
         postService.setForbiddenWords(forbiddenWords);
+    }
+
+    @GetMapping("/topics/users")
+    @ResponseBody
+    public List<User> getUserRanking() {
+        return topicService.getUserRanking();
+    }
+
+    @GetMapping("/topics/{topicId}/users")
+    @ResponseBody
+    public List<User> getUserRanking(@PathVariable("topicId") long topicId) {
+        return topicService.getUserRanking(topicId);
     }
 }
