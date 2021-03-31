@@ -4,15 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.esprit.pidev.consommitounsi.entities.payment.Item;
 import tn.esprit.pidev.consommitounsi.entities.payment.Order;
-import tn.esprit.pidev.consommitounsi.entities.payment.OrderStatus;
-import tn.esprit.pidev.consommitounsi.entities.products.Product;
-import tn.esprit.pidev.consommitounsi.models.payment.ResponseModel;
-import tn.esprit.pidev.consommitounsi.repositories.payment.IInvoiceRepository;
 import tn.esprit.pidev.consommitounsi.repositories.payment.IItemRepository;
 import tn.esprit.pidev.consommitounsi.repositories.payment.IOrderRepository;
 
-import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -31,9 +25,9 @@ public class CartService extends OrderService implements ICartService {
     @Override
     public Order addItem(long cartId, Item item) {
         Order cart = super.getById(cartId);
-        List<Item> cartItems = cart.getItems();
-        cartItems.add(item);
-        cart.setItems(cartItems);
+        List<Item> items = cart.getItems();
+        items.add(item);
+        cart.setItems(items);
         return super.addOrUpdate(cart);
     }
 
@@ -76,10 +70,5 @@ public class CartService extends OrderService implements ICartService {
         Order cart = this.orderRepository.getCartByUserId(userId);
 
         return cart;
-    }
-
-    @Override
-    public Order confirmCart() {
-        return null;
     }
 }

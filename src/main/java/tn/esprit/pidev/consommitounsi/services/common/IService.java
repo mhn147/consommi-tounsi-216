@@ -1,7 +1,5 @@
 package tn.esprit.pidev.consommitounsi.services.common;
 
-import tn.esprit.pidev.consommitounsi.entities.payment.Item;
-
 import java.util.List;
 
 public interface IService<T > {

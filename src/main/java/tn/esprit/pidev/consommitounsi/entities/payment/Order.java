@@ -25,6 +25,16 @@ public class Order implements Serializable   {
         this.status = orderStatus;
     }
 
+    public Order(OrderStatus orderStatus, List<Item> items) {
+        this(orderStatus);
+        this.items = items;
+    }
+
+    public Order(OrderStatus orderStatus, List<Item> items, User user) {
+        this(orderStatus, items);
+        this.user = user;
+    }
+
     public long getId() {
         return id;
     }

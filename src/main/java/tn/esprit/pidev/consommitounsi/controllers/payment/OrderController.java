@@ -8,7 +8,7 @@ import tn.esprit.pidev.consommitounsi.services.payment.IOrderService;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "orders")
+@RequestMapping
 public class OrderController {
 
     private final IOrderService orderService;
@@ -18,27 +18,27 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @GetMapping
+    @GetMapping(path = "orders")
     public List<Order> getOrders() {
         return this.orderService.getAll();
     }
 
-    @GetMapping(path = "{orderId}")
+    @GetMapping(path = "orders/{orderId}")
     public Order get(@PathVariable("orderId") Long orderId) {
         return this.orderService.getById(orderId);
     }
 
-    @PostMapping
+    @PostMapping(path = "orders")
     public Order add(@RequestBody Order order) {
         return this.orderService.addOrUpdate(order);
     }
 
-    @DeleteMapping(path = "{orderId}")
+    @DeleteMapping(path = "orders/{orderId}")
     public void remove(@PathVariable("orderId") Long orderId) {
         this.orderService.remove(orderId);
     }
 
-    @PutMapping(path = "{orderId}")
+    @PutMapping(path = "orders/{orderId}")
     public void update(@PathVariable("orderId") Long orderId,
                        @RequestBody Order order) {
         order.setId(orderId);

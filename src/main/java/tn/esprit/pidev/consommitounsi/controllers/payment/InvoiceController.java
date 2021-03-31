@@ -8,7 +8,7 @@ import tn.esprit.pidev.consommitounsi.services.payment.IInvoiceService;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "invoices")
+@RequestMapping
 public class InvoiceController {
 
     private final IInvoiceService invoiceService;
@@ -18,27 +18,27 @@ public class InvoiceController {
         this.invoiceService = invoiceService;
     }
 
-    @GetMapping
+    @GetMapping(path = "invoices")
     public List<Invoice> getInvoices() {
         return this.invoiceService.getAll();
     }
 
-    @GetMapping(path = "{invoiceId}")
+    @GetMapping(path = "invoices/{invoiceId}")
     public Invoice get(@PathVariable("invoiceId") Long invoiceId) {
         return this.invoiceService.getById(invoiceId);
     }
 
-    @PostMapping
+    @PostMapping(path = "invoices")
     public Invoice add(@RequestBody Invoice invoice) {
         return this.invoiceService.addOrUpdate(invoice);
     }
 
-    @DeleteMapping(path = "{invoiceId}")
+    @DeleteMapping(path = "invoices/{invoiceId}")
     public void remove(@PathVariable("invoiceId") Long invoiceId) {
         this.invoiceService.remove(invoiceId);
     }
 
-    @PutMapping(path = "{invoiceNumber}")
+    @PutMapping(path = "invoices/{invoiceNumber}")
     public void update(@PathVariable("invoiceNumber") Long invoiceNumber,
                        @RequestBody Invoice invoice) {
         invoice.setInvoiceNumber(invoiceNumber);
