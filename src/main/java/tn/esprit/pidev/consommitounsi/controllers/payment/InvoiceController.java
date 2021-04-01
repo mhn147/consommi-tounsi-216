@@ -1,10 +1,14 @@
 package tn.esprit.pidev.consommitounsi.controllers.payment;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.pidev.consommitounsi.entities.payment.Invoice;
+import tn.esprit.pidev.consommitounsi.services.payment.IInvoicePDFService;
 import tn.esprit.pidev.consommitounsi.services.payment.IInvoiceService;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 @RestController
@@ -12,9 +16,11 @@ import java.util.List;
 public class InvoiceController {
 
     private final IInvoiceService invoiceService;
+    private final IInvoicePDFService invoicePDFService;
 
     @Autowired
-    public InvoiceController(IInvoiceService invoiceService) {
+    public InvoiceController(IInvoiceService invoiceService, IInvoicePDFService invoicePDFService) {
+        this.invoicePDFService = invoicePDFService;
         this.invoiceService = invoiceService;
     }
 
@@ -43,5 +49,16 @@ public class InvoiceController {
                        @RequestBody Invoice invoice) {
         invoice.setInvoiceNumber(invoiceNumber);
         this.invoiceService.addOrUpdate(invoice);
+    }
+
+    @GetMapping(path = "invoices/pdf/{invoiceNumber}")
+    public @ResponseBody byte[] getInvoicePDF(@PathVariable("invoiceNumber") Long invoiceNumber) throws IOException {
+        Invoice invoice = this.invoiceService.getById(invoiceNumber);
+
+        if (invoice == null) {
+            return null;
+        }
+
+        return this.invoicePDFService.getFile(invoice);
     }
 }

@@ -50,8 +50,7 @@ public class PaymentController {
     }
 
     @PostMapping(path = "payments/at-delivery")
-    public ResponseEntity<ResponseModel<Order>> addAtDeliveryPayment(@RequestBody PaymentModel payment)
-    {
+    public ResponseEntity<ResponseModel<Order>> addAtDeliveryPayment(@RequestBody PaymentModel payment) throws InterruptedException {
         User user = this.userService.getById(payment.getUserId());
 
         if (user == null)
@@ -94,9 +93,7 @@ public class PaymentController {
 
     @PostMapping(path = "payments/online/confirmCardPayment")
     public ResponseEntity<ResponseModel<Order>> confirmOnlinePayment(
-            @RequestBody ConfirmOnlinePaymentBody confirmOnlinePaymentBody)
-
-    {
+            @RequestBody ConfirmOnlinePaymentBody confirmOnlinePaymentBody) throws InterruptedException {
         User user = this.userService.getById(confirmOnlinePaymentBody.getUserId());
 
         if (user == null)
@@ -111,7 +108,7 @@ public class PaymentController {
                     "User doesn't have a cart", null);
         }
 
-        Order newOrder = this.orderService.createOrder(user, cart, confirmOnlinePaymentBody.getShippingAddress());
+        Order newOrder = this.orderService.createOnlineOrder(user, cart, confirmOnlinePaymentBody.getShippingAddress());
 
         return this.responseBuilder.buildResponse(HttpStatus.CREATED, "Order created with success.", "", newOrder);
     }

@@ -29,7 +29,7 @@ public class UserController {
     @PostMapping("/users/login")
     @ResponseBody
     public User login() {
-        Authentication auth= SecurityContextHolder.getContext().getAuthentication();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth instanceof AnonymousAuthenticationToken || auth == null)
             return null;
         User user=userService.getByUsernameOrEmail(auth.getName());

@@ -11,7 +11,8 @@ import tn.esprit.pidev.consommitounsi.services.common.IService;
 import java.util.List;
 
 public interface IOrderService extends IService<Order> {
-    Order createOrder(User user, Order cart, Address shippingAddress);
+    Order createOrder(User user, Order cart, Address shippingAddress) throws InterruptedException;
+    Order createOnlineOrder(User user, Order cart, Address shippingAddress) throws InterruptedException;
     Order getCartByUserId(Long userId);
     double calculateOrderAmount(List<Item> items);
 }
