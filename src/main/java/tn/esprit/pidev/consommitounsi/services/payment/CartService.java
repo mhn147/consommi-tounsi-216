@@ -16,8 +16,10 @@ public class CartService extends OrderService implements ICartService {
 
     @Autowired
     public CartService(IOrderRepository orderRepository,
-                       IItemRepository itemRepository) {
-        super(orderRepository);
+                       IItemRepository itemRepository,
+                       IInvoiceService invoiceService,
+                       IItemService itemService) {
+        super(orderRepository, invoiceService, itemService);
         this.itemRepository = itemRepository;
     }
 

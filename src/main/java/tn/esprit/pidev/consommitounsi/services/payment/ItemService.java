@@ -6,6 +6,7 @@ import tn.esprit.pidev.consommitounsi.entities.payment.Item;
 import tn.esprit.pidev.consommitounsi.repositories.payment.IItemRepository;
 import tn.esprit.pidev.consommitounsi.services.common.IService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -39,6 +40,18 @@ public class ItemService implements IService<Item>, IItemService {
     public Item updateItemQuantity(Item item, int quantity) {
         item.setQuantity(quantity);
         return this.itemRepository.save(item);
+    }
+
+    @Override
+    public List<Item> addAll(List<Item> items) {
+        List<Item> newItems = new ArrayList<>();
+
+        for (Item item:
+             items) {
+            newItems.add(this.itemRepository.save(new Item(item.getQuantity(), item.getProduct())));
+        }
+
+        return newItems;
     }
 
     @Override

@@ -4,6 +4,7 @@ import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.esprit.pidev.consommitounsi.entities.common.Address;
+import tn.esprit.pidev.consommitounsi.entities.payment.Invoice;
 import tn.esprit.pidev.consommitounsi.entities.payment.Item;
 import tn.esprit.pidev.consommitounsi.entities.payment.Order;
 import tn.esprit.pidev.consommitounsi.entities.payment.OrderStatus;
@@ -20,10 +21,16 @@ import java.util.List;
 public class OrderService implements IOrderService, IService<Order> {
 
     protected final IOrderRepository orderRepository;
+    protected final IItemService itemService;
+    final IInvoiceService invoiceService;
 
     @Autowired
-    public OrderService(IOrderRepository orderRepository) {
+    public OrderService(IOrderRepository orderRepository,
+                        IInvoiceService invoiceService,
+                        IItemService itemService) {
+        this.itemService = itemService;
         this.orderRepository = orderRepository;
+        this.invoiceService = invoiceService;
     }
 
     @Override
@@ -55,12 +62,33 @@ public class OrderService implements IOrderService, IService<Order> {
     }
 
     @Override
-    public Order createOrder(User user, Order cart, Address shippingAddress) {
+    public Order createOrder(User user, Order cart, Address shippingAddress) throws InterruptedException {
+
+        List<Item> newItems = this.itemService.addAll(cart.getItems());
         this.emptyCart(cart);
 
-        Order newOrder = new Order(OrderStatus.PENDING, cart.getItems(), user);
-        return this.orderRepository.save(newOrder);
+        Order newOrder = new Order(OrderStatus.CONFIRMED, newItems, user);
+        newOrder = this.orderRepository.save(newOrder);
+
+        Invoice newInvoice = this.invoiceService.createInvoice(user, newOrder, newItems, shippingAddress, false);
+
+
+        return newOrder;
     }
+
+    @Override
+    public Order createOnlineOrder(User user, Order cart, Address shippingAddress) throws InterruptedException {
+        List<Item> newItems = this.itemService.addAll(cart.getItems());
+        this.emptyCart(cart);
+
+        Order newOrder = new Order(OrderStatus.CONFIRMED, newItems, user);
+        newOrder = this.orderRepository.save(newOrder);
+
+        Invoice newInvoice = this.invoiceService.createInvoice(user, newOrder, newItems, shippingAddress, true);
+
+        return newOrder;
+    }
+
 
     @Override
     public double calculateOrderAmount(List<Item> items) {
@@ -73,7 +101,8 @@ public class OrderService implements IOrderService, IService<Order> {
         return amount;
     }
 
-    private Order emptyCart(Order cart) {
+    @Transactional
+    protected Order emptyCart(Order cart) {
         cart.setItems(null);
         return this.orderRepository.save(cart);
     }

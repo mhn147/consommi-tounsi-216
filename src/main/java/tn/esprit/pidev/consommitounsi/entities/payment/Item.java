@@ -14,16 +14,11 @@ public class Item implements Serializable {
     private long id;
     private int quantity;
     private double discountRate;
-    @Transient
     private double discountAmount;
-    @Transient
     private double subTotal;
     private double VATRate;
-    @Transient
     private double VATAmount;
-    @Transient
     private double taxesExceptVATAmount;
-    @Transient
     private double totalTaxesAmount;
 
     @ManyToOne
@@ -44,7 +39,9 @@ public class Item implements Serializable {
     }
 
     public Item(int quantity, Product product) {
-        this(quantity, 0, 0, 0, 0, 0, 0, 0);
+        this(quantity, 0, 0, product.getPrice(),
+                0.1, product.getPrice() * 0.1,
+                0, product.getPrice() * 0.1);
         this.product = product;
     }
 
