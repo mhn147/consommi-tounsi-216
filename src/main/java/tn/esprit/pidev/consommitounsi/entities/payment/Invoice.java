@@ -29,10 +29,10 @@ public class Invoice implements Serializable {
     private User user;
     @OneToOne
     private Order order;
-    @OneToMany
-    private List<Item> items;
     @OneToOne
     private Payment payment;
+    @OneToMany
+    private List<Item> items;
 
     public Invoice () {}
 

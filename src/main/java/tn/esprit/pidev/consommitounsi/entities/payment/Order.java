@@ -5,6 +5,7 @@ import tn.esprit.pidev.consommitounsi.entities.user.User;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
@@ -14,8 +15,9 @@ public class Order implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Temporal(TemporalType.DATE)
+    private Calendar creationDate;
     private OrderStatus status;
-
     @ManyToOne
     @JsonIgnore
     public User user;
@@ -37,6 +39,14 @@ public class Order implements Serializable {
     public Order(OrderStatus orderStatus, List<Item> items, User user) {
         this(orderStatus, items);
         this.user = user;
+    }
+
+    public Calendar getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Calendar creationDate) {
+        this.creationDate = creationDate;
     }
 
     public long getId() {

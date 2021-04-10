@@ -2,6 +2,7 @@ package tn.esprit.pidev.consommitounsi.entities.products;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
@@ -11,6 +12,8 @@ public class CompanyTax implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
+    @Temporal(TemporalType.DATE)
+    private Calendar dueDate;
     private double taxValue;
     private ValueNature taxType;
 
@@ -21,10 +24,19 @@ public class CompanyTax implements Serializable {
 
     }
 
+
     public CompanyTax(String name, double taxValue, ValueNature taxType) {
         this.name = name;
         this.taxValue = taxValue;
         this.taxType = taxType;
+    }
+
+    public Calendar getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(Calendar dueDate) {
+        this.dueDate = dueDate;
     }
 
     public long getId() {

@@ -5,6 +5,7 @@ import tn.esprit.pidev.consommitounsi.entities.advertisements.Advertisement;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -14,6 +15,8 @@ public class Product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Temporal(TemporalType.DATE)
+    private Calendar dueDate;
     private String name;
     private String description;
     private double price;
@@ -41,6 +44,14 @@ public class Product implements Serializable {
         this.description = description;
         this.price = price;
         this.picture = picture;
+    }
+
+    public Calendar getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(Calendar dueDate) {
+        this.dueDate = dueDate;
     }
 
     public Discount getDiscount() {
