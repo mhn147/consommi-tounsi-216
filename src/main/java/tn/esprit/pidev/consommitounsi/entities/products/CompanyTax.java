@@ -6,14 +6,13 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-
 public class CompanyTax implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
     private double taxValue;
-    private TaxType taxType;
+    private ValueNature taxType;
 
     @ManyToMany
     private List<Product> products;
@@ -22,9 +21,9 @@ public class CompanyTax implements Serializable {
 
     }
 
-    public CompanyTax(String name, double taxvalue, TaxType taxType) {
+    public CompanyTax(String name, double taxValue, ValueNature taxType) {
         this.name = name;
-        this.taxValue = taxvalue;
+        this.taxValue = taxValue;
         this.taxType = taxType;
     }
 
@@ -52,11 +51,11 @@ public class CompanyTax implements Serializable {
         this.taxValue = taxvalue;
     }
 
-    public TaxType getTaxType() {
+    public ValueNature getTaxType() {
         return taxType;
     }
 
-    public void setTaxType(TaxType taxType) {
+    public void setTaxType(ValueNature taxType) {
         this.taxType = taxType;
     }
 
@@ -73,7 +72,8 @@ public class CompanyTax implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CompanyTax that = (CompanyTax) o;
-        return id == that.id && Double.compare(that.taxValue, taxValue) == 0 && Objects.equals(name, that.name) && taxType == that.taxType;
+        return id == that.id && Double.compare(that.taxValue, taxValue) == 0 &&
+                Objects.equals(name, that.name) && taxType == that.taxType;
     }
 
     @Override

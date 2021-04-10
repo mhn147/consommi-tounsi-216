@@ -1,5 +1,6 @@
 package tn.esprit.pidev.consommitounsi.entities.payment;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import tn.esprit.pidev.consommitounsi.entities.user.User;
 import tn.esprit.pidev.consommitounsi.entities.products.Product;
 
@@ -10,7 +11,6 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "t_invoice")
 public class Invoice implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,32 +19,20 @@ public class Invoice implements Serializable {
     private Calendar invoiceDate;
     @Temporal(TemporalType.DATE)
     private Calendar dueDate;
-    private double totalDiscountAmount;
-    @Transient
     private double subTotal;
-    @Transient
+    private double totalDiscountAmount;
     private double totalVATAmount;
-    @Transient
-    private double totalTaxesExceptVATAmount;
-    @Transient
-    private double totalTaxesAmount;
-    @Transient
     private double total;
 
-    @OneToMany
-    private List<Item> items;
-
-    @OneToOne
-    private Order order;
-
-    @OneToOne
-    private Payment payment;
-
-    @OneToMany
-    private List<Product> products;
 
     @ManyToOne
     private User user;
+    @OneToOne
+    private Order order;
+    @OneToMany
+    private List<Item> items;
+    @OneToOne
+    private Payment payment;
 
     public Invoice () {}
 
@@ -88,11 +76,7 @@ public class Invoice implements Serializable {
     }
 
     public double getSubTotal() {
-        double subTotal = 0;
-        for (Product product: products) {
-            subTotal += product.getPrice();
-        }
-        return subTotal;
+        throw new NotImplementedException();
     }
 
     public void setSubTotal(double subTotal) {
@@ -100,38 +84,11 @@ public class Invoice implements Serializable {
     }
 
     public double getTotalVATAmount() {
-        double totalVATAmount = 0;
-        for (Product product: this.products) {
-            totalVATAmount += product.getVatamount();
-        }
-        return totalVATAmount;
+       throw new NotImplementedException();
     }
 
     public void setTotalVATAmount(double totalVATAmount) {
         this.totalVATAmount = totalVATAmount;
-    }
-
-    public double getTotalTaxesExceptVATAmount() {
-        // TODO
-        return totalTaxesExceptVATAmount;
-    }
-
-    public void setTotalTaxesExceptVATAmount(double totalTaxesExceptVATAmount) {
-        this.totalTaxesExceptVATAmount = totalTaxesExceptVATAmount;
-    }
-
-    public double getTotalTaxesAmount() {
-        // TODO
-        return totalTaxesAmount;
-    }
-
-    public void setTotalTaxesAmount(double totalTaxesAmount) {
-        this.totalTaxesAmount = totalTaxesAmount;
-    }
-
-    public double getTotal() {
-        return this.getSubTotal() + this.getTotalTaxesAmount()
-                - this.totalDiscountAmount;
     }
 
     public void setTotal(double total) {
@@ -162,40 +119,11 @@ public class Invoice implements Serializable {
         this.payment = payment;
     }
 
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<Product> products) {
-        this.products = products;
-    }
-
     public User getUser() {
         return user;
     }
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Invoice invoice = (Invoice) o;
-        return invoiceNumber == invoice.invoiceNumber &&
-                Double.compare(invoice.totalDiscountAmount, totalDiscountAmount) == 0 &&
-                Double.compare(invoice.subTotal, subTotal) == 0 &&
-                Double.compare(invoice.totalVATAmount, totalVATAmount) == 0 &&
-                Double.compare(invoice.totalTaxesExceptVATAmount, totalTaxesExceptVATAmount) == 0 &&
-                Double.compare(invoice.totalTaxesAmount, totalTaxesAmount) == 0 &&
-                Objects.equals(invoiceDate, invoice.invoiceDate) &&
-                Objects.equals(dueDate, invoice.dueDate);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(invoiceNumber, invoiceDate, dueDate, totalDiscountAmount,
-                subTotal, totalVATAmount, totalTaxesExceptVATAmount, totalTaxesAmount);
     }
 }

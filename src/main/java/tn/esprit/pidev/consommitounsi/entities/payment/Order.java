@@ -10,16 +10,20 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "t_order")
-public class Order implements Serializable   {
+public class Order implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private OrderStatus status;
 
+    @ManyToOne
+    @JsonIgnore
+    public User user;
     @OneToMany
     private List<Item> items;
 
-    public Order() {}
+    public Order() {
+    }
 
     public Order(OrderStatus orderStatus) {
         this.status = orderStatus;
@@ -60,22 +64,6 @@ public class Order implements Serializable   {
         this.items = items;
     }
 
-    @ManyToOne
-    @JsonIgnore
-    public User user;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Order order = (Order) o;
-        return id == order.id && status == order.status;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, status);
-    }
 
     public User getUser() {
         return user;

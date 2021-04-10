@@ -1,6 +1,7 @@
 package tn.esprit.pidev.consommitounsi.entities.payment;
 
 import tn.esprit.pidev.consommitounsi.entities.common.Address;
+import tn.esprit.pidev.consommitounsi.entities.user.User;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -23,6 +24,9 @@ public class OrderDelivery implements Serializable {
 
     @OneToOne
     private Order order;
+
+    @OneToOne
+    private User deliverer;
 
     @ManyToOne
     private Address address;
@@ -98,16 +102,11 @@ public class OrderDelivery implements Serializable {
         this.address = address;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        OrderDelivery that = (OrderDelivery) o;
-        return id == that.id && durationInHours == that.durationInHours;
+    public User getDeliverer() {
+        return deliverer;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, durationInHours);
+    public void setDeliverer(User deliverer) {
+        this.deliverer = deliverer;
     }
 }

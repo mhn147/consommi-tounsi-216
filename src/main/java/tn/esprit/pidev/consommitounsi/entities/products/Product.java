@@ -1,5 +1,6 @@
 package tn.esprit.pidev.consommitounsi.entities.products;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import tn.esprit.pidev.consommitounsi.entities.advertisements.Advertisement;
 
 import javax.persistence.*;
@@ -17,29 +18,37 @@ public class Product implements Serializable {
     private String description;
     private double price;
     private String picture;
-    @Transient
-    private double vatamount;
 
     @ManyToMany(mappedBy = "products")
     private List<CompanyTax> taxes;
 
     @ManyToOne
+    private Discount discount;
+
+    @ManyToOne
     private Category category;
 
     @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE})
-    private List<Advertisement> advertisementproduct;
+    private List<Advertisement> advertisementProduct;
 
     public Product() {
 
     }
 
-    public Product(long id, String name, String description, double price, String picture, double vatamount ) {
+    public Product(long id, String name, String description, double price, String picture) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.picture = picture;
-        this.vatamount = vatamount;
+    }
+
+    public Discount getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Discount discount) {
+        this.discount = discount;
     }
 
     public long getId() {
@@ -82,18 +91,8 @@ public class Product implements Serializable {
         this.picture = picture;
     }
 
-    public double getVatamount() {
-        double vatAmount = 0;
-        for (CompanyTax tax: this.taxes) {
-            if (tax.getTaxType() == TaxType.RATE && tax.getName().equals("VAT")) {
-                vatAmount = this.price * tax.getTaxValue();
-            }
-        }
-        return vatAmount;
-    }
-
-    public void setVatamount(double vatamount) {
-        this.vatamount = vatamount;
+    public double getVatAmount() {
+        throw new NotImplementedException();
     }
 
     public List<CompanyTax> getTaxes() {
@@ -112,11 +111,11 @@ public class Product implements Serializable {
         this.category = category;
     }
 
-    public List<Advertisement> getAdvertisementproduct() {
-        return advertisementproduct;
+    public List<Advertisement> getAdvertisementProduct() {
+        return advertisementProduct;
     }
 
-    public void setAdvertisementproduct(List<Advertisement> advertisementproduct) {
-        this.advertisementproduct = advertisementproduct;
+    public void setAdvertisementProduct(List<Advertisement> advertisementProduct) {
+        this.advertisementProduct = advertisementProduct;
     }
 }
