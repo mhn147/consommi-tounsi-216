@@ -1,6 +1,5 @@
 package tn.esprit.pidev.consommitounsi.services.payment;
 
-import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.esprit.pidev.consommitounsi.entities.common.Address;
@@ -8,16 +7,13 @@ import tn.esprit.pidev.consommitounsi.entities.payment.Item;
 import tn.esprit.pidev.consommitounsi.entities.payment.Order;
 import tn.esprit.pidev.consommitounsi.entities.payment.OrderStatus;
 import tn.esprit.pidev.consommitounsi.entities.user.User;
-import tn.esprit.pidev.consommitounsi.models.payment.PaymentModel;
-import tn.esprit.pidev.consommitounsi.models.payment.ResponseModel;
 import tn.esprit.pidev.consommitounsi.repositories.payment.IOrderRepository;
-import tn.esprit.pidev.consommitounsi.services.common.IService;
+import tn.esprit.pidev.consommitounsi.services.payment.interfaces.IOrderService;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-public class OrderService implements IOrderService, IService<Order> {
+public class OrderService implements IOrderService {
 
     protected final IOrderRepository orderRepository;
 
@@ -49,10 +45,10 @@ public class OrderService implements IOrderService, IService<Order> {
         orderRepository.delete(order);
     }
 
-    @Override
-    public Order getCartByUserId(Long userId) {
-        return this.orderRepository.getCartByUserId(userId);
-    }
+//    @Override
+//    public Order getCartByUserId(Long userId) {
+//        return this.orderRepository.getCartByUserId(userId);
+//    }
 
     @Override
     public Order createOrder(User user, Order cart, Address shippingAddress) {
