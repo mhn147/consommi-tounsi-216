@@ -114,34 +114,4 @@ public class CartController {
                 cart);
     }
 
-
-
-//    private ResponseEntity<ResponseModel<Order>> buildResponse(HttpStatus httpStatus, String success, String error, Order body) {
-//        ResponseModel<Order> response = new ResponseModel<>(success,
-//                error,
-//                body);
-//        return ResponseEntity.status(httpStatus).body(response);
-//    }
-//    private ResponseEntity<ResponseModel<Order>> validateCartItem(CartItem cartItem) {
-//        if (cartItem == null) {
-//            return this.buildResponse(HttpStatus.BAD_REQUEST, "",
-//                    "Cart's item is empty.", null);
-//        }
-//
-//        if (cartItem.getQuantity() <= 0) {
-//            return this.buildResponse(HttpStatus.BAD_REQUEST, "",
-//                    "Invalid item quantity value.", null);
-//        }
-//
-//        if (cartItem.getProductId() <= 0) {
-//            return this.buildResponse(HttpStatus.BAD_REQUEST, "",
-//                    "Invalid Cart-item's product.", null);
-//        }
-//
-//        if (productService.getProductById(cartItem.getProductId()) == null) {
-//            return this.buildResponse(HttpStatus.BAD_REQUEST, "",
-//                    "Cart-item's product doesn't exist.", null);
-//        }
-//        return null;
-//    }
 }

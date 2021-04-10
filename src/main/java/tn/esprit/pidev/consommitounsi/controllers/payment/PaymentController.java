@@ -28,8 +28,6 @@ import java.util.List;
 @RestController
 @RequestMapping
 public class PaymentController {
-    //"pk_test_51IZDC9Dnznjyl503ZfnPyTPrlzW3kNOMmYEjJogLySOGrokf1zpQHmarcyPiYl6h7PwnbnCpeuKSq1bcG8MKpj3W00RD7OpTDl"
-
     private final IPaymentService paymentService;
     private final IUserService userService;
     private final IOrderService orderService;
