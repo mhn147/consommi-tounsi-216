@@ -1,6 +1,5 @@
 package tn.esprit.pidev.consommitounsi.entities.products;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import tn.esprit.pidev.consommitounsi.entities.advertisements.Advertisement;
 
 import javax.persistence.*;
@@ -16,7 +15,7 @@ public class Product implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Temporal(TemporalType.DATE)
-    private Calendar dueDate;
+    private Calendar creationDate;
     private String name;
     private String description;
     private double price;
@@ -46,12 +45,12 @@ public class Product implements Serializable {
         this.picture = picture;
     }
 
-    public Calendar getDueDate() {
-        return dueDate;
+    public Calendar getCreationDate() {
+        return creationDate;
     }
 
-    public void setDueDate(Calendar dueDate) {
-        this.dueDate = dueDate;
+    public void setCreationDate(Calendar dueDate) {
+        this.creationDate = dueDate;
     }
 
     public Discount getDiscount() {
@@ -100,10 +99,6 @@ public class Product implements Serializable {
 
     public void setPicture(String picture) {
         this.picture = picture;
-    }
-
-    public double getVatAmount() {
-        throw new NotImplementedException();
     }
 
     public List<CompanyTax> getTaxes() {

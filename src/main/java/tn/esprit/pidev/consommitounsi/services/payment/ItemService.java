@@ -25,9 +25,7 @@ public class ItemService implements IItemService {
 
     @Override
     public Item getById(Long id) {
-        return this.itemRepository.findById(id).orElseThrow(
-                () -> new IllegalStateException("Item with id " + id + " does not exist.")
-        );
+        return this.itemRepository.findById(id).orElse(null);
     }
 
     @Override

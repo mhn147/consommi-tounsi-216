@@ -1,21 +1,6 @@
 package tn.esprit.pidev.consommitounsi.controllers.payment;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import tn.esprit.pidev.consommitounsi.entities.payment.Item;
-import tn.esprit.pidev.consommitounsi.entities.payment.Order;
-import tn.esprit.pidev.consommitounsi.entities.products.Product;
-import tn.esprit.pidev.consommitounsi.models.payment.ResponseModel;
-import tn.esprit.pidev.consommitounsi.services.payment.interfaces.ICartService;
-import tn.esprit.pidev.consommitounsi.services.payment.interfaces.IItemService;
-import tn.esprit.pidev.consommitounsi.services.payment.interfaces.IOrderService;
-import tn.esprit.pidev.consommitounsi.services.products.ProductService;
-
-import tn.esprit.pidev.consommitounsi.models.payment.CartItem;
-import tn.esprit.pidev.consommitounsi.utils.payment.ResponseBuilder;
-import tn.esprit.pidev.consommitounsi.utils.payment.Validators;
 
 @RestController
 @RequestMapping

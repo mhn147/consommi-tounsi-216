@@ -16,10 +16,10 @@ public class ProductController {
     ProductService productService;
 
     @GetMapping("/products")
-    private List<Product>getAllProducts()
+    private List<Product> getAllProducts()
     {
-        return productService.getAllProduct();
-
+        List<Product> products = productService.getAllProduct();
+        return products;
     }
 
     @GetMapping("/products/{id}")

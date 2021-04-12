@@ -1,27 +1,6 @@
 package tn.esprit.pidev.consommitounsi.controllers.payment;
 
-import com.stripe.exception.StripeException;
-import com.stripe.model.PaymentIntent;
-import com.stripe.param.PaymentIntentCreateParams;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import tn.esprit.pidev.consommitounsi.entities.payment.Order;
-import tn.esprit.pidev.consommitounsi.entities.payment.Payment;
-import tn.esprit.pidev.consommitounsi.entities.user.User;
-import tn.esprit.pidev.consommitounsi.models.payment.PaymentModel;
-import tn.esprit.pidev.consommitounsi.models.payment.ResponseModel;
-import tn.esprit.pidev.consommitounsi.models.payment.online.ConfirmOnlinePaymentBody;
-import tn.esprit.pidev.consommitounsi.models.payment.online.CreatePaymentBody;
-import tn.esprit.pidev.consommitounsi.models.payment.online.CreatePaymentResponse;
-import tn.esprit.pidev.consommitounsi.services.payment.interfaces.IOrderService;
-import tn.esprit.pidev.consommitounsi.services.payment.interfaces.IPaymentService;
-import tn.esprit.pidev.consommitounsi.services.user.IUserService;
-import tn.esprit.pidev.consommitounsi.utils.payment.ResponseBuilder;
-import tn.esprit.pidev.consommitounsi.utils.payment.Validators;
-
-import java.util.List;
 
 @RestController
 @RequestMapping
