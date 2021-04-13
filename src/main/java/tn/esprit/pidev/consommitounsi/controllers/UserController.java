@@ -7,6 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.pidev.consommitounsi.entities.payment.Order;
 import tn.esprit.pidev.consommitounsi.entities.payment.OrderStatus;
+import tn.esprit.pidev.consommitounsi.entities.user.EditPassword;
 import tn.esprit.pidev.consommitounsi.entities.user.User;
 import tn.esprit.pidev.consommitounsi.entities.user.UserErrors;
 import tn.esprit.pidev.consommitounsi.entities.user.UserType;
@@ -60,7 +61,7 @@ public class UserController {
     @ResponseBody
     public UserErrors updateUser(@RequestBody User user) {
         if (UserSession.hasId(user.getId())||UserSession.isAdmin()) {
-            if (user.getUsername().isEmpty() || user.getEmail().isEmpty() || user.getPassword().isEmpty())
+            if (user.getUsername().isEmpty() || user.getEmail().isEmpty())
                 return UserErrors.ERROR;
             User existingUser = userService.getByUsernameOrEmail(user.getUsername());
             if (existingUser != null && existingUser.getId() != user.getId())
@@ -68,10 +69,26 @@ public class UserController {
             existingUser = userService.getByUsernameOrEmail(user.getEmail());
             if (existingUser != null && existingUser.getId() != user.getId())
                 return UserErrors.EMAIL_ALREADY_EXISTS;
-            user.setPassword(UserSecurity.encodePassword(user.getPassword()));
-            user.setType(userService.getById(user.getId()).getType());
+            User u =userService.getById(user.getId());
+            user.setPassword(u.getPassword());
+            user.setType(u.getType());
             userService.addOrUpdate(user);
             return UserErrors.SUCCESS;
+        }
+        return UserErrors.ERROR;
+    }
+
+    @PostMapping("/customer/users/{userId}/password")
+    @ResponseBody
+    public UserErrors changePassword(@RequestBody EditPassword password, @PathVariable("userId") long userId) {
+        User user =userService.getById(userId);
+        if (user!=null && UserSession.hasId(userId)) {
+            if (UserSecurity.checkPassword(password.getOldPassword(), user.getPassword())) {
+                user.setPassword(UserSecurity.encodePassword(password.getNewPassword()));
+                userService.addOrUpdate(user);
+                return UserErrors.SUCCESS;
+            }
+            return UserErrors.WRONG_PASSWORD;
         }
         return UserErrors.ERROR;
     }
