@@ -44,10 +44,6 @@ public class Item implements Serializable {
         this.quantity = quantity;
     }
 
-    public double getSubTotal() {
-        return this.product.getPrice() * this.quantity;
-    }
-
     public Product getProduct() {
         return product;
     }

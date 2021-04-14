@@ -62,11 +62,7 @@ public class OrderService implements IOrderService {
     public double calculateOrderAmount(List<Item> items) {
         // Not factoring in taxes and discounts for the moment
         // TODO
-        double amount = 0;
-        for (Item item: items) {
-            amount += item.getSubTotal();
-        }
-        return amount;
+        return 0;
     }
 
     private Order emptyCart(Order cart) {
