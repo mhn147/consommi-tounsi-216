@@ -14,5 +14,4 @@ public interface ICartService {
     Cart removeItem(long cartId, Item item);
     Cart empty(long cartId);
     boolean containsItem(long cartId, long itemId);
-    boolean itemProductExistsInCart(long cartId, long productId);
 }

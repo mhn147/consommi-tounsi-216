@@ -9,11 +9,10 @@ import tn.esprit.pidev.consommitounsi.entities.payment.Cart;
 import tn.esprit.pidev.consommitounsi.entities.payment.Item;
 import tn.esprit.pidev.consommitounsi.models.payment.ResponseModel;
 import tn.esprit.pidev.consommitounsi.models.payment.ValidationResult;
-import tn.esprit.pidev.consommitounsi.services.payment.ItemValidator;
-import tn.esprit.pidev.consommitounsi.services.payment.CartValidator;
 import tn.esprit.pidev.consommitounsi.services.payment.interfaces.ICartService;
-import tn.esprit.pidev.consommitounsi.services.payment.interfaces.IEntityValidator;
 import tn.esprit.pidev.consommitounsi.services.payment.interfaces.IItemService;
+import tn.esprit.pidev.consommitounsi.services.payment.validators.CartValidator;
+import tn.esprit.pidev.consommitounsi.services.payment.validators.ItemValidator;
 import tn.esprit.pidev.consommitounsi.services.user.IUserService;
 
 @RestController
@@ -24,8 +23,8 @@ public class CartController {
     private final ICartService cartService;
     private final IItemService itemService;
     private final IResponseBuilder<Cart> responseBuilder;
-    private final IEntityValidator<Cart> cartValidator;
-    private final IEntityValidator<Item> itemValidator;
+    private final CartValidator cartValidator;
+    private final ItemValidator itemValidator;
 
     @Autowired
     public CartController(IUserService userService,
@@ -44,8 +43,8 @@ public class CartController {
 
     @GetMapping(path = "users/{userId}/cart")
     public ResponseEntity<ResponseModel<Cart>> get(@PathVariable("userId") Long userId) {
-        ValidationResult validationResult = this.cartValidator.validateExistence(userId);
 
+        ValidationResult validationResult = this.cartValidator.validateExistence(userId);
         if (!validationResult.isValid()) {
             return this.responseBuilder.notFoundResponse(
                     validationResult.getValidationError());
@@ -65,7 +64,7 @@ public class CartController {
                     validationResult.getValidationError());
         }
 
-        validationResult = this.itemValidator.validateInput(item);
+        validationResult = this.itemValidator.validateAdd(item);
         if (!validationResult.isValid()) {
             return this.responseBuilder.badRequestResponse(
                     validationResult.getValidationError());
@@ -73,9 +72,9 @@ public class CartController {
 
         Cart userCart = this.cartService.getByUserId(userId);
 
-        if (this.cartService.itemProductExistsInCart(userCart.getId(), item.getProduct().getId())) {
-            return this.responseBuilder.badRequestResponse(
-                    "The item contains a product that already exists in another item");
+        validationResult = this.cartValidator.validateNoDuplicateItemProduct(userCart, item.getProduct().getId());
+        if (!validationResult.isValid()) {
+            return this.responseBuilder.badRequestResponse(validationResult.getValidationError());
         }
 
         Item createdItem = this.itemService.addOrUpdate(item);

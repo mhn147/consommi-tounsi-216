@@ -52,18 +52,6 @@ public class CartService implements ICartService {
         return this.itemService.addOrUpdate(item);
     }
 
-
-    @Override
-    public boolean itemProductExistsInCart(long cartId, long productId) {
-        Cart cart = this.cartRepository.findById(cartId).orElseThrow(IllegalArgumentException::new);
-        for (Item item : cart.getItems()) {
-            if (item.getProduct().getId() == productId) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     @Override
     public Cart removeItem(long cartId, Item item) {
         Cart cart = this.cartRepository.findById(cartId).orElseThrow(IllegalArgumentException::new);
