@@ -3,7 +3,7 @@ package tn.esprit.pidev.consommitounsi.controllers.payment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.pidev.consommitounsi.entities.payment.Order;
-import tn.esprit.pidev.consommitounsi.services.payment.IOrderService;
+import tn.esprit.pidev.consommitounsi.services.payment.interfaces.IOrderService;
 
 import java.util.List;
 

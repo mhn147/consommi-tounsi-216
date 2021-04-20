@@ -2,16 +2,14 @@ package tn.esprit.pidev.consommitounsi.services.payment;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tn.esprit.pidev.consommitounsi.entities.payment.Order;
 import tn.esprit.pidev.consommitounsi.entities.payment.OrderDelivery;
 import tn.esprit.pidev.consommitounsi.repositories.payment.IOrderDeliveryRepository;
-import tn.esprit.pidev.consommitounsi.services.common.IService;
+import tn.esprit.pidev.consommitounsi.services.payment.interfaces.IOrderDeliveryService;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-public class OrderDeliveryService implements IOrderDeliveryService, IService<OrderDelivery> {
+public class OrderDeliveryService implements IOrderDeliveryService {
 
     private final IOrderDeliveryRepository orderDeliveryRepository;
 

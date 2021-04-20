@@ -3,10 +3,10 @@ package tn.esprit.pidev.consommitounsi.repositories.payment;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
+import tn.esprit.pidev.consommitounsi.entities.payment.Cart;
 import tn.esprit.pidev.consommitounsi.entities.payment.Order;
-import tn.esprit.pidev.consommitounsi.entities.payment.OrderStatus;
 
-@Repository
-public interface IOrderRepository extends CrudRepository<Order, Long> {
+public interface ICartRepository extends CrudRepository<Cart, Long> {
+    @Query("SELECT c FROM Cart c WHERE c.user.id= :userId")
+    Cart getCartByUserId(@Param("userId")long userId);
 }

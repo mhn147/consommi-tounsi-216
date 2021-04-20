@@ -26,7 +26,7 @@ public class Advertisement implements Serializable {
     @ManyToMany
     private List<User> users;
 
-    @ManyToMany(mappedBy="advertisementproduct", cascade = { CascadeType.PERSIST, CascadeType.REMOVE})
+    @ManyToMany(mappedBy="advertisementProduct", cascade = { CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Product> products;
 
     public Advertisement(){

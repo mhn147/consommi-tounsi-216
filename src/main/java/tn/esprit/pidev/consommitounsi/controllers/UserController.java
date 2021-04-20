@@ -5,6 +5,7 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import tn.esprit.pidev.consommitounsi.entities.payment.Cart;
 import tn.esprit.pidev.consommitounsi.entities.payment.Order;
 import tn.esprit.pidev.consommitounsi.entities.payment.OrderStatus;
 import tn.esprit.pidev.consommitounsi.entities.user.EditPassword;
@@ -12,7 +13,8 @@ import tn.esprit.pidev.consommitounsi.entities.user.User;
 import tn.esprit.pidev.consommitounsi.entities.user.UserErrors;
 import tn.esprit.pidev.consommitounsi.entities.user.UserType;
 import tn.esprit.pidev.consommitounsi.entities.common.Address;
-import tn.esprit.pidev.consommitounsi.services.payment.IOrderService;
+import tn.esprit.pidev.consommitounsi.services.payment.interfaces.ICartService;
+import tn.esprit.pidev.consommitounsi.services.payment.interfaces.IOrderService;
 import tn.esprit.pidev.consommitounsi.services.user.IUserService;
 import tn.esprit.pidev.consommitounsi.utils.UserSecurity;
 import tn.esprit.pidev.consommitounsi.utils.UserSession;
@@ -25,7 +27,7 @@ public class UserController {
     @Autowired
     IUserService userService;
     @Autowired
-    IOrderService orderService;
+    ICartService cartService;
 
     @PostMapping("/users/login")
     @ResponseBody
@@ -50,10 +52,7 @@ public class UserController {
         user.setPassword(UserSecurity.encodePassword(user.getPassword()));
         user.setType(UserType.CUSTOMER);
         userService.addOrUpdate(user);
-        Order cart = new Order();
-        cart.setStatus(OrderStatus.CART);
-        cart.setUser(user);
-        orderService.addOrUpdate(cart);
+        cartService.createCart(user);
         return UserErrors.SUCCESS;
     }
 

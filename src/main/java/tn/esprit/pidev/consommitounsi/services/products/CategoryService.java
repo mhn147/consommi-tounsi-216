@@ -9,10 +9,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class CategoryService {
+public class CategoryService implements ICategoryService {
     @Autowired
     CategoryRepository categoryRepository;
     //getting all categories record by using the method findaAll() of CrudRepository
+
+
+    public List<Category> getAll()
+    {
+        List<Category> categories = new ArrayList<Category>();
+        categoryRepository.findAll().forEach(c-> categories.add(c));
+        return categories;
+    }
 
     public List<Category> getAllAdvertisement()
     {

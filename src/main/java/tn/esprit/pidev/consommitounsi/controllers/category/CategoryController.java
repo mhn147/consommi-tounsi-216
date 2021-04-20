@@ -1,4 +1,4 @@
-package tn.esprit.pidev.consommitounsi.controllers.CategoriesController;
+package tn.esprit.pidev.consommitounsi.controllers.category;
 
 import org.springframework.beans.factory.annotation.Autowired;
 

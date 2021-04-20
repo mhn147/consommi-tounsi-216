@@ -1,9 +1,11 @@
 package tn.esprit.pidev.consommitounsi.entities.payment;
 
 import tn.esprit.pidev.consommitounsi.entities.common.Address;
+import tn.esprit.pidev.consommitounsi.entities.user.User;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
@@ -13,25 +15,20 @@ public class OrderDelivery implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private int durationInHours;
-    private double deliveryCost;
-    @Transient
-    private String deliveryNoteDocument;
-
-    @OneToMany
-    private List<Address> deliveriesAddresses;
+    @Temporal(TemporalType.DATE)
+    private Calendar startsAt;
+    @Temporal(TemporalType.DATE)
+    private Calendar endsAt;
 
     @OneToOne
-    private Order order;
-
-    @ManyToOne
+    private Invoice invoice;
+    @OneToOne
     private Address address;
+    @OneToOne
+    private User deliverer;
+
 
     public OrderDelivery() {}
-
-    public OrderDelivery(int durationInHours) {
-        this.durationInHours = durationInHours;
-    }
 
     public long getId() {
         return id;
@@ -39,55 +36,6 @@ public class OrderDelivery implements Serializable {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public int getDurationInHours() {
-        return durationInHours;
-    }
-
-    public void setDurationInHours(int durationInHours) {
-        this.durationInHours = durationInHours;
-    }
-
-    public List<Address> getDeliveriesAddresses() {
-        return deliveriesAddresses;
-    }
-
-    public void setDeliveriesAddresses(List<Address> deliveriesAddresses) {
-        this.deliveriesAddresses = deliveriesAddresses;
-    }
-
-    public double getDeliveryCost() {
-        return deliveryCost;
-    }
-
-    public void setDeliveryCost(double deliveryCost) {
-        this.deliveryCost = deliveryCost;
-    }
-
-    public String getDeliveryNoteDocument() {
-        // TODO
-        return deliveryNoteDocument;
-    }
-
-    public void setDeliveryNoteDocument(String deliveryNoteDocument) {
-        this.deliveryNoteDocument = deliveryNoteDocument;
-    }
-
-    public Order getOrders() {
-        return order;
-    }
-
-    public void setOrders(Order order) {
-        this.order = order;
-    }
-
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
     }
 
     public Address getAddress() {
@@ -98,16 +46,35 @@ public class OrderDelivery implements Serializable {
         this.address = address;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        OrderDelivery that = (OrderDelivery) o;
-        return id == that.id && durationInHours == that.durationInHours;
+    public User getDeliverer() {
+        return deliverer;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, durationInHours);
+    public void setDeliverer(User deliverer) {
+        this.deliverer = deliverer;
+    }
+
+    public Calendar getStartsAt() {
+        return startsAt;
+    }
+
+    public void setStartsAt(Calendar startsAt) {
+        this.startsAt = startsAt;
+    }
+
+    public Calendar getEndsAt() {
+        return endsAt;
+    }
+
+    public void setEndsAt(Calendar endsAt) {
+        this.endsAt = endsAt;
+    }
+
+    public Invoice getInvoice() {
+        return invoice;
+    }
+
+    public void setInvoice(Invoice invoice) {
+        this.invoice = invoice;
     }
 }

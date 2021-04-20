@@ -7,6 +7,7 @@ import tn.esprit.pidev.consommitounsi.entities.advertisements.Advertisement;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -17,6 +18,8 @@ public class Product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Temporal(TemporalType.DATE)
+    private Calendar creationDate;
     private String name;
     private String description;
 
@@ -24,18 +27,19 @@ public class Product implements Serializable {
     //@Facet(forField = "price", encoding = FacetEncodingType.DOUBLE) // You need to add this
     private double price;
     private String picture;
-    @Transient
-    private double vatamount;
 
     @ManyToMany(mappedBy = "products")
     private List<CompanyTax> taxes;
+
+    @ManyToOne
+    private Discount discount;
 
     @ManyToOne
     private Category category;
 
     @JsonIgnore
     @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE})
-    private List<Advertisement> advertisementproduct;
+    private List<Advertisement> advertisementProduct;
 
 
     @ManyToOne
@@ -53,13 +57,28 @@ public class Product implements Serializable {
 
     }
 
-    public Product(long id, String name, String description, double price, String picture, double vatamount ) {
+    public Product(long id, String name, String description, double price, String picture) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.picture = picture;
-        this.vatamount = vatamount;
+    }
+
+    public Calendar getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Calendar dueDate) {
+        this.creationDate = dueDate;
+    }
+
+    public Discount getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Discount discount) {
+        this.discount = discount;
     }
 
     public long getId() {
@@ -102,20 +121,6 @@ public class Product implements Serializable {
         this.picture = picture;
     }
 
-    public double getVatamount() {
-        double vatAmount = 0;
-        for (CompanyTax tax: this.taxes) {
-            if (tax.getTaxType() == TaxType.RATE && tax.getName().equals("VAT")) {
-                vatAmount = this.price * tax.getTaxValue();
-            }
-        }
-        return vatAmount;
-    }
-
-    public void setVatamount(double vatamount) {
-        this.vatamount = vatamount;
-    }
-
     public List<CompanyTax> getTaxes() {
         return taxes;
     }
@@ -132,12 +137,12 @@ public class Product implements Serializable {
         this.category = category;
     }
 
-    public List<Advertisement> getAdvertisementproduct() {
-        return advertisementproduct;
+    public List<Advertisement> getAdvertisementProduct() {
+        return advertisementProduct;
     }
 
-    public void setAdvertisementproduct(List<Advertisement> advertisementproduct) {
-        this.advertisementproduct = advertisementproduct;
+    public void setAdvertisementProduct(List<Advertisement> advertisementProduct) {
+        this.advertisementProduct = advertisementProduct;
     }
 
     public User getUser() {

@@ -16,9 +16,9 @@ public class Category implements Serializable {
     private List<Product> Products;
 
     @ManyToOne
-    private Category category;
+    private Category baseCategory;
 
-    @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "category")
+    @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "baseCategory")
     private List<Category> subCategories;
 
 
