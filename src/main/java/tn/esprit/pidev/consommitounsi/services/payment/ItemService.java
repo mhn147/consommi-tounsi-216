@@ -34,20 +34,6 @@ public class ItemService implements IItemService {
         return this.itemRepository.save(item);
     }
 
-
-
-    @Override
-    public List<Item> addAll(List<Item> items) {
-        List<Item> newItems = new ArrayList<>();
-
-        for (Item item:
-             items) {
-            newItems.add(this.itemRepository.save(new Item(item.getQuantity(), item.getProduct())));
-        }
-
-        return newItems;
-    }
-
     @Override
     public void remove(Long id) {
         Item item = this.getById(id);
