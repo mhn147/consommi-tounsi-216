@@ -3,6 +3,7 @@ package tn.esprit.pidev.consommitounsi.services.products;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.esprit.pidev.consommitounsi.entities.products.Category;
+import tn.esprit.pidev.consommitounsi.entities.products.Product;
 import tn.esprit.pidev.consommitounsi.repositories.products.CategoryRepository;
 
 import java.util.ArrayList;
@@ -39,9 +40,18 @@ public class CategoryService implements ICategoryService {
     //saving a specific record by using the method save() of CrudRepository
     public Category saveOrUpdate(Category category)
     {
-        return categoryRepository.save(category);
+        Category savedCategory = categoryRepository.save(category);
+        return savedCategory;
     }
 
+    public Category assignProductToCategory(long categoryId, Product product) {
+        Category category = this.categoryRepository.findById(categoryId).orElse(null);
+        if (category == null) {
+            throw new IllegalArgumentException("");
+        }
+        category.getProducts().add(product);
+        return this.categoryRepository.save(category);
+    }
 
     //deleting a specific record by using the method deleteById() of CrudRepository
 
