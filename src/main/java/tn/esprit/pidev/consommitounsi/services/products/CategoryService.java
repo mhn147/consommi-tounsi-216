@@ -37,9 +37,9 @@ public class CategoryService implements ICategoryService {
     }
 
     //saving a specific record by using the method save() of CrudRepository
-    public void saveOrUpdate(Category category)
+    public Category saveOrUpdate(Category category)
     {
-        categoryRepository.save(category);
+        return categoryRepository.save(category);
     }
 
 

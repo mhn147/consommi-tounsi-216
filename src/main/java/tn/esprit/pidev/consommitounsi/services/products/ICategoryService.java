@@ -8,7 +8,7 @@ public interface ICategoryService {
     List<Category> getAllAdvertisement();
     Category getCategoryById(Long id);
     List<Category> getAll();
-    void saveOrUpdate(Category category);
+    Category saveOrUpdate(Category category);
     void delete( Long id);
     void update(Category category, Long id);
 }

@@ -23,6 +23,11 @@ public class CategoryController {
 
     }
 
+    @PostMapping("categories")
+    private Category add(@RequestBody Category category) {
+        return this.categoryService.saveOrUpdate(category);
+    }
+
     @GetMapping("/categories/{id}")
     private Category getCategory(@PathVariable("id") Long id)
     {
