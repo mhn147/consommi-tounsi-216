@@ -46,7 +46,7 @@ public class CartController {
 
         ValidationResult validationResult = this.cartValidator.validateExistence(userId);
         if (!validationResult.isValid()) {
-            return this.responseBuilder.notFoundResponse(
+            return this.responseBuilder.badRequestResponse(
                     validationResult.getValidationError());
         }
 
@@ -60,7 +60,7 @@ public class CartController {
 
         ValidationResult validationResult = this.cartValidator.validateExistence(userId);
         if (!validationResult.isValid()) {
-            return this.responseBuilder.notFoundResponse(
+            return this.responseBuilder.badRequestResponse(
                     validationResult.getValidationError());
         }
 
@@ -123,12 +123,12 @@ public class CartController {
 
         ValidationResult validationResult = this.cartValidator.validateExistence(userId);
         if (!validationResult.isValid()) {
-            return this.responseBuilder.notFoundResponse(validationResult.getValidationError());
+            return this.responseBuilder.badRequestResponse(validationResult.getValidationError());
         }
 
         validationResult = this.itemValidator.validateExistence(itemId);
         if (!validationResult.isValid()) {
-            return this.responseBuilder.notFoundResponse(validationResult.getValidationError());
+            return this.responseBuilder.badRequestResponse(validationResult.getValidationError());
         }
 
         return null;

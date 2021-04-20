@@ -40,7 +40,7 @@ public class ItemController {
 
         ValidationResult validationResult = this.itemValidator.validateExistence(itemId);
         if (!validationResult.isValid()) {
-            return this.responseBuilder.notFoundResponse("Item don't exist.");
+            return this.responseBuilder.badRequestResponse("Item don't exist.");
         }
 
         Item item = this.itemService.getById(itemId);
@@ -65,7 +65,7 @@ public class ItemController {
 
         ValidationResult validationResult = this.itemValidator.validateExistence(itemId);
         if (!validationResult.isValid()) {
-            return this.responseBuilder.notFoundResponse("Item don't exist.");
+            return this.responseBuilder.badRequestResponse("Item don't exist.");
         }
 
         Item item = this.itemService.getById(itemId);
@@ -79,12 +79,12 @@ public class ItemController {
 
         ValidationResult validationResult = this.itemValidator.validateExistence(itemId);
         if (!validationResult.isValid()) {
-            return this.responseBuilder.notFoundResponse(validationResult.getValidationError());
+            return this.responseBuilder.badRequestResponse(validationResult.getValidationError());
         }
 
         validationResult =  this.itemValidator.validateAdd(item);
         if (!validationResult.isValid()) {
-            return this.responseBuilder.notFoundResponse(validationResult.getValidationError());
+            return this.responseBuilder.badRequestResponse(validationResult.getValidationError());
         }
 
         item.setId(itemId);
