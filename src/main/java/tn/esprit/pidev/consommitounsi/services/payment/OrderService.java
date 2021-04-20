@@ -1,21 +1,21 @@
-//package tn.esprit.pidev.consommitounsi.services.payment;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Service;
-//import tn.esprit.pidev.consommitounsi.entities.common.Address;
-//import tn.esprit.pidev.consommitounsi.entities.payment.Invoice;
-//import tn.esprit.pidev.consommitounsi.entities.payment.Item;
-//import tn.esprit.pidev.consommitounsi.entities.payment.Order;
-//import tn.esprit.pidev.consommitounsi.entities.payment.OrderStatus;
-//import tn.esprit.pidev.consommitounsi.entities.user.User;
-//import tn.esprit.pidev.consommitounsi.repositories.payment.IOrderRepository;
-//import tn.esprit.pidev.consommitounsi.services.payment.interfaces.IOrderService;
-//
-//import java.util.List;
-//
-//@Service
-//public class OrderService implements IOrderService {
-//
+package tn.esprit.pidev.consommitounsi.services.payment;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import tn.esprit.pidev.consommitounsi.entities.common.Address;
+import tn.esprit.pidev.consommitounsi.entities.payment.Invoice;
+import tn.esprit.pidev.consommitounsi.entities.payment.Item;
+import tn.esprit.pidev.consommitounsi.entities.payment.Order;
+import tn.esprit.pidev.consommitounsi.entities.payment.OrderStatus;
+import tn.esprit.pidev.consommitounsi.entities.user.User;
+import tn.esprit.pidev.consommitounsi.repositories.payment.IOrderRepository;
+import tn.esprit.pidev.consommitounsi.services.payment.interfaces.IOrderService;
+
+import java.util.List;
+
+@Service
+public class OrderService {
+
 //    protected final IOrderRepository orderRepository;
 //    protected final IItemService itemService;
 //    final IInvoiceService invoiceService;
@@ -98,4 +98,4 @@
 //        cart.setItems(null);
 //        return this.orderRepository.save(cart);
 //    }
-//}
+}

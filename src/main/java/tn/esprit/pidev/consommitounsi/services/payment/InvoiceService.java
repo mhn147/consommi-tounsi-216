@@ -1,20 +1,20 @@
-//package tn.esprit.pidev.consommitounsi.services.payment;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Service;
-//import tn.esprit.pidev.consommitounsi.entities.common.Address;
-//import tn.esprit.pidev.consommitounsi.entities.payment.Invoice;
-//import tn.esprit.pidev.consommitounsi.entities.payment.Item;
-//import tn.esprit.pidev.consommitounsi.entities.payment.Order;
-//import tn.esprit.pidev.consommitounsi.entities.user.User;
-//import tn.esprit.pidev.consommitounsi.repositories.payment.IInvoiceRepository;
-//import tn.esprit.pidev.consommitounsi.services.payment.interfaces.IInvoiceService;
-//
-//import java.util.List;
-//
-//@Service
-//public class InvoiceService implements IInvoiceService {
-//
+package tn.esprit.pidev.consommitounsi.services.payment;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import tn.esprit.pidev.consommitounsi.entities.common.Address;
+import tn.esprit.pidev.consommitounsi.entities.payment.Invoice;
+import tn.esprit.pidev.consommitounsi.entities.payment.Item;
+import tn.esprit.pidev.consommitounsi.entities.payment.Order;
+import tn.esprit.pidev.consommitounsi.entities.user.User;
+import tn.esprit.pidev.consommitounsi.repositories.payment.IInvoiceRepository;
+import tn.esprit.pidev.consommitounsi.services.payment.interfaces.IInvoiceService;
+
+import java.util.List;
+
+@Service
+public class InvoiceService {
+
 //    private final IInvoiceRepository invoiceRepository;
 //    private final IInvoicePDFService invoicePDFService;
 //
@@ -57,4 +57,4 @@
 //        newInvoice.setInvoiceFilePath(invoiceFilePath);
 //        return this.invoiceRepository.save(newInvoice);
 //    }
-//}
+}
