@@ -1,9 +1,10 @@
-package tn.esprit.pidev.consommitounsi.controllers.CategoriesController;
+package tn.esprit.pidev.consommitounsi.controllers.category;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.pidev.consommitounsi.entities.products.Category;
+import tn.esprit.pidev.consommitounsi.entities.products.Product;
 import tn.esprit.pidev.consommitounsi.services.products.CategoryService;
 
 
@@ -24,7 +25,7 @@ public class CategoryController {
     }
 
     @GetMapping("/categories/{id}")
-    private Category getCategory(@PathVariable("categoryid") Long id)
+    private Category getCategory(@PathVariable("id") Long id)
     {
         return categoryService.getCategoryById(id);
     }
@@ -35,13 +36,20 @@ public class CategoryController {
         categoryService.delete(id);
     }
 
-    //creating post mapping that post the ad detail in the database
+
     @PostMapping("/categories")
     private long saveCategory(@RequestBody Category category)
     {
         categoryService.saveOrUpdate(category);
         return  category.getId();
     }
+
+    @PostMapping("/categories/{categoryId}/products")
+    private Category assignProductToCategory(@PathVariable("categoryId") Long categoryId, @RequestBody Product product)
+    {
+        return categoryService.assignProductToCategory(categoryId, product);
+    }
+
     //creating put mapping that updates the ad detail
     @PutMapping("/categories/{id}")
     private Category update(@RequestBody Category category)

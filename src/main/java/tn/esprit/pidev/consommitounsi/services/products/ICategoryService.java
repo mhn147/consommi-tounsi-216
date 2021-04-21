@@ -7,7 +7,8 @@ import java.util.List;
 public interface ICategoryService {
     List<Category> getAllAdvertisement();
     Category getCategoryById(Long id);
-    void saveOrUpdate(Category category);
+    List<Category> getAll();
+    Category saveOrUpdate(Category category);
     void delete( Long id);
     void update(Category category, Long id);
 }

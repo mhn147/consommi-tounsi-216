@@ -19,6 +19,10 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
         <dependency>
@@ -55,6 +59,21 @@
             <groupId>net.ricecode</groupId>
             <artifactId>string-similarity</artifactId>
             <version>1.0.0</version>
+        </dependency>
+
+        <!-- Stripe Payment Module Dependencies -->
+        <dependency>
+            <groupId>com.stripe</groupId>
+            <artifactId>stripe-java</artifactId>
+            <version>20.44.0</version>
+        </dependency>
+        <!-- End Stripe Payment Module Dependencies -->
+
+        <!-- Property Configuration for storing invoice pdf files -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 

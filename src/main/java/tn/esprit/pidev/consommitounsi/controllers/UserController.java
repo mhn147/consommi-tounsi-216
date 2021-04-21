@@ -5,13 +5,15 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import tn.esprit.pidev.consommitounsi.entities.payment.Cart;
 import tn.esprit.pidev.consommitounsi.entities.payment.Order;
 import tn.esprit.pidev.consommitounsi.entities.payment.OrderStatus;
+import tn.esprit.pidev.consommitounsi.entities.user.EditPassword;
 import tn.esprit.pidev.consommitounsi.entities.user.User;
 import tn.esprit.pidev.consommitounsi.entities.user.UserErrors;
 import tn.esprit.pidev.consommitounsi.entities.user.UserType;
 import tn.esprit.pidev.consommitounsi.entities.common.Address;
-import tn.esprit.pidev.consommitounsi.services.payment.IOrderService;
+import tn.esprit.pidev.consommitounsi.services.payment.interfaces.ICartService;
 import tn.esprit.pidev.consommitounsi.services.user.IUserService;
 import tn.esprit.pidev.consommitounsi.utils.UserSecurity;
 import tn.esprit.pidev.consommitounsi.utils.UserSession;
@@ -24,12 +26,12 @@ public class UserController {
     @Autowired
     IUserService userService;
     @Autowired
-    IOrderService orderService;
+    ICartService cartService;
 
     @PostMapping("/users/login")
     @ResponseBody
     public User login() {
-        Authentication auth= SecurityContextHolder.getContext().getAuthentication();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth instanceof AnonymousAuthenticationToken || auth == null)
             return null;
         User user=userService.getByUsernameOrEmail(auth.getName());
@@ -49,10 +51,7 @@ public class UserController {
         user.setPassword(UserSecurity.encodePassword(user.getPassword()));
         user.setType(UserType.CUSTOMER);
         userService.addOrUpdate(user);
-        Order cart = new Order();
-        cart.setStatus(OrderStatus.CART);
-        cart.setUser(user);
-        orderService.addOrUpdate(cart);
+        cartService.createCart(user);
         return UserErrors.SUCCESS;
     }
 
@@ -60,7 +59,7 @@ public class UserController {
     @ResponseBody
     public UserErrors updateUser(@RequestBody User user) {
         if (UserSession.hasId(user.getId())||UserSession.isAdmin()) {
-            if (user.getUsername().isEmpty() || user.getEmail().isEmpty() || user.getPassword().isEmpty())
+            if (user.getUsername().isEmpty() || user.getEmail().isEmpty())
                 return UserErrors.ERROR;
             User existingUser = userService.getByUsernameOrEmail(user.getUsername());
             if (existingUser != null && existingUser.getId() != user.getId())
@@ -68,10 +67,26 @@ public class UserController {
             existingUser = userService.getByUsernameOrEmail(user.getEmail());
             if (existingUser != null && existingUser.getId() != user.getId())
                 return UserErrors.EMAIL_ALREADY_EXISTS;
-            user.setPassword(UserSecurity.encodePassword(user.getPassword()));
-            user.setType(userService.getById(user.getId()).getType());
+            User u =userService.getById(user.getId());
+            user.setPassword(u.getPassword());
+            user.setType(u.getType());
             userService.addOrUpdate(user);
             return UserErrors.SUCCESS;
+        }
+        return UserErrors.ERROR;
+    }
+
+    @PostMapping("/customer/users/{userId}/password")
+    @ResponseBody
+    public UserErrors changePassword(@RequestBody EditPassword password, @PathVariable("userId") long userId) {
+        User user =userService.getById(userId);
+        if (user!=null && UserSession.hasId(userId)) {
+            if (UserSecurity.checkPassword(password.getOldPassword(), user.getPassword())) {
+                user.setPassword(UserSecurity.encodePassword(password.getNewPassword()));
+                userService.addOrUpdate(user);
+                return UserErrors.SUCCESS;
+            }
+            return UserErrors.WRONG_PASSWORD;
         }
         return UserErrors.ERROR;
     }

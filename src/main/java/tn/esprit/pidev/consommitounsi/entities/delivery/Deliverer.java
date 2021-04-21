@@ -1,7 +1,7 @@
 package tn.esprit.pidev.consommitounsi.entities.delivery;
 
+import tn.esprit.pidev.consommitounsi.entities.payment.Invoice;
 import tn.esprit.pidev.consommitounsi.entities.user.User;
-import tn.esprit.pidev.consommitounsi.entities.payment.AtDeliveryPayment;
 import tn.esprit.pidev.consommitounsi.entities.payment.OrderDelivery;
 
 import javax.persistence.Entity;
@@ -16,7 +16,7 @@ public class Deliverer extends User implements Serializable {
     private float bonuses;
 
     @OneToMany
-    private List<AtDeliveryPayment> atDeliveryPayments;
+    private List<Invoice> invoices;
 
     @OneToMany
     private List<OrderDelivery> ordersDeliveries;
@@ -38,12 +38,14 @@ public class Deliverer extends User implements Serializable {
     }
 
 
-    public List<AtDeliveryPayment> getAtDeliveryPayments() {
-        return atDeliveryPayments;
+    @Override
+    public List<Invoice> getInvoices() {
+        return invoices;
     }
 
-    public void setAtDeliveryPayments(List<AtDeliveryPayment> atDeliveryPayments) {
-        this.atDeliveryPayments = atDeliveryPayments;
+    @Override
+    public void setInvoices(List<Invoice> invoices) {
+        this.invoices = invoices;
     }
 
     public List<OrderDelivery> getOrdersDeliveries() {

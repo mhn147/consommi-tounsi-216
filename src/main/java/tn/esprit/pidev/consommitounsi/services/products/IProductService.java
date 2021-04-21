@@ -10,4 +10,5 @@ public interface IProductService {
     void saveOrUpdate(Product product);
     void delete( Long id);
     void update(Product product, Long id);
+    public  List<Product> search (double min, double max);
 }

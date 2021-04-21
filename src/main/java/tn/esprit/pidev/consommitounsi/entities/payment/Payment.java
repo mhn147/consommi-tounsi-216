@@ -9,9 +9,17 @@ import java.util.Objects;
 @Entity
 @Table(name = "t_payment")
 public class Payment implements Serializable {
+    enum PaymentType {
+        AtDelivery,
+        Online
+    }
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Enumerated(EnumType.STRING)
+    private PaymentType paymentType;
     @Temporal(TemporalType.DATE)
     private Calendar purchaseTime;
     private double amount;
@@ -26,6 +34,14 @@ public class Payment implements Serializable {
         this.purchaseTime = purchaseTime;
         this.amount = amount;
         this.details = details;
+    }
+
+    public PaymentType getPaymentType() {
+        return paymentType;
+    }
+
+    public void setPaymentType(PaymentType paymentType) {
+        this.paymentType = paymentType;
     }
 
     public long getId() {

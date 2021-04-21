@@ -27,7 +27,8 @@ public class UserSecurity extends WebSecurityConfigurerAdapter {
         http.csrf().disable().authorizeRequests()
                 .antMatchers("/admin/**").hasAuthority(UserType.ADMIN.toString())
                 .antMatchers("/deliverer/**").hasAnyAuthority(UserType.DELIVERER.toString(), UserType.ADMIN.toString())
-                .antMatchers("/customer/**").hasAnyAuthority(UserType.CUSTOMER.toString(), UserType.DELIVERER.toString(), UserType.ADMIN.toString())
+                .antMatchers("/customer/**").hasAnyAuthority(UserType.CUSTOMER.toString(), UserType.DELIVERER.toString(),
+                UserType.ADMIN.toString())
                 .anyRequest().permitAll()
                 .and().formLogin().successForwardUrl("/users/login").failureForwardUrl("/users/login")
                 .and().exceptionHandling().authenticationEntryPoint(new Http403ForbiddenEntryPoint());
@@ -40,5 +41,9 @@ public class UserSecurity extends WebSecurityConfigurerAdapter {
 
     public static String encodePassword(String password) {
         return new BCryptPasswordEncoder().encode(password);
+    }
+
+    public static boolean checkPassword(String clear, String encoded) {
+        return new BCryptPasswordEncoder().matches(clear, encoded);
     }
 }

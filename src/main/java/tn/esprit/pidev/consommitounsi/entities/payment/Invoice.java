@@ -1,13 +1,12 @@
 package tn.esprit.pidev.consommitounsi.entities.payment;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import tn.esprit.pidev.consommitounsi.entities.user.User;
-import tn.esprit.pidev.consommitounsi.entities.products.Product;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name = "t_invoice")
@@ -20,16 +19,13 @@ public class Invoice implements Serializable {
     @Temporal(TemporalType.DATE)
     private Calendar dueDate;
     private double totalDiscountAmount;
-    @Transient
     private double subTotal;
-    @Transient
     private double totalVATAmount;
-    @Transient
     private double totalTaxesExceptVATAmount;
-    @Transient
     private double totalTaxesAmount;
-    @Transient
     private double total;
+    @JsonIgnore
+    private String invoiceFilePath;
 
     @OneToMany
     private List<Item> items;
@@ -39,9 +35,6 @@ public class Invoice implements Serializable {
 
     @OneToOne
     private Payment payment;
-
-    @OneToMany
-    private List<Product> products;
 
     @ManyToOne
     private User user;
@@ -53,6 +46,47 @@ public class Invoice implements Serializable {
         this.invoiceDate = invoiceDate;
         this.dueDate = dueDate;
         this.totalDiscountAmount = totalDiscountAmount;
+    }
+
+    public Invoice(User user, Order order, List<Item> items) {
+        this.user = user;
+        this.order = order;
+        this.items = items;
+        this.invoiceDate = Calendar.getInstance();
+        this.dueDate = this.invoiceDate;
+        this.dueDate.add(Calendar.DATE, 90);
+        setSubTotal();
+        setTaxes();
+        setTotal();
+        this.invoiceFilePath = "";
+    }
+
+    public String getInvoiceFilePath() {
+        return invoiceFilePath;
+    }
+
+    public void setInvoiceFilePath(String invoiceFilePath) {
+        this.invoiceFilePath = invoiceFilePath;
+    }
+
+    private void setSubTotal() {
+        for (Item item:
+             this.items) {
+            this.subTotal += item.getSubTotal();
+        }
+    }
+
+    private void setTaxes() {
+        this.totalDiscountAmount = 0;
+        for (Item item: this.items) {
+            this.totalVATAmount += item.getVATAmount();
+        }
+        this.totalTaxesExceptVATAmount = 0;
+        this.totalTaxesAmount = this.totalVATAmount;
+    }
+
+    private void setTotal() {
+        this.total = this.totalTaxesAmount + this.subTotal;
     }
 
     public long getInvoiceNumber() {
@@ -88,10 +122,6 @@ public class Invoice implements Serializable {
     }
 
     public double getSubTotal() {
-        double subTotal = 0;
-        for (Product product: products) {
-            subTotal += product.getPrice();
-        }
         return subTotal;
     }
 
@@ -100,10 +130,6 @@ public class Invoice implements Serializable {
     }
 
     public double getTotalVATAmount() {
-        double totalVATAmount = 0;
-        for (Product product: this.products) {
-            totalVATAmount += product.getVatamount();
-        }
         return totalVATAmount;
     }
 
@@ -112,7 +138,6 @@ public class Invoice implements Serializable {
     }
 
     public double getTotalTaxesExceptVATAmount() {
-        // TODO
         return totalTaxesExceptVATAmount;
     }
 
@@ -121,7 +146,6 @@ public class Invoice implements Serializable {
     }
 
     public double getTotalTaxesAmount() {
-        // TODO
         return totalTaxesAmount;
     }
 
@@ -130,8 +154,7 @@ public class Invoice implements Serializable {
     }
 
     public double getTotal() {
-        return this.getSubTotal() + this.getTotalTaxesAmount()
-                - this.totalDiscountAmount;
+        return total;
     }
 
     public void setTotal(double total) {
@@ -162,40 +185,11 @@ public class Invoice implements Serializable {
         this.payment = payment;
     }
 
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<Product> products) {
-        this.products = products;
-    }
-
     public User getUser() {
         return user;
     }
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Invoice invoice = (Invoice) o;
-        return invoiceNumber == invoice.invoiceNumber &&
-                Double.compare(invoice.totalDiscountAmount, totalDiscountAmount) == 0 &&
-                Double.compare(invoice.subTotal, subTotal) == 0 &&
-                Double.compare(invoice.totalVATAmount, totalVATAmount) == 0 &&
-                Double.compare(invoice.totalTaxesExceptVATAmount, totalTaxesExceptVATAmount) == 0 &&
-                Double.compare(invoice.totalTaxesAmount, totalTaxesAmount) == 0 &&
-                Objects.equals(invoiceDate, invoice.invoiceDate) &&
-                Objects.equals(dueDate, invoice.dueDate);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(invoiceNumber, invoiceDate, dueDate, totalDiscountAmount,
-                subTotal, totalVATAmount, totalTaxesExceptVATAmount, totalTaxesAmount);
     }
 }

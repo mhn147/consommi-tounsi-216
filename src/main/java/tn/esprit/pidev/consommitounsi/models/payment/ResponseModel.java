@@ -3,32 +3,32 @@ package tn.esprit.pidev.consommitounsi.models.payment;
 import java.io.Serializable;
 
 public class ResponseModel<T> implements Serializable {
-    private String success;
-    private String error;
+    private String successMessage;
+    private String errorMessage;
     private T body;
 
     public ResponseModel() {}
 
     public ResponseModel(String success, String error, T body) {
-        this.success = success;
-        this.error = error;
+        this.successMessage = success;
+        this.errorMessage = error;
         this.body = body;
     }
 
-    public String getSuccess() {
-        return success;
+    public String getSuccessMessage() {
+        return successMessage;
     }
 
-    public void setSuccess(String success) {
-        this.success = success;
+    public void setSuccessMessage(String successMessage) {
+        this.successMessage = successMessage;
     }
 
-    public String getError() {
-        return error;
+    public String getErrorMessage() {
+        return errorMessage;
     }
 
-    public void setError(String error) {
-        this.error = error;
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
 
     public T getBody() {

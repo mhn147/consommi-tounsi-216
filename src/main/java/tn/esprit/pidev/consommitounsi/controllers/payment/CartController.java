@@ -1,139 +1,137 @@
 package tn.esprit.pidev.consommitounsi.controllers.payment;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import tn.esprit.pidev.consommitounsi.controllers.payment.helpers.IResponseBuilder;
+import tn.esprit.pidev.consommitounsi.controllers.payment.helpers.ResponseBuilder;
+import tn.esprit.pidev.consommitounsi.entities.payment.Cart;
 import tn.esprit.pidev.consommitounsi.entities.payment.Item;
-import tn.esprit.pidev.consommitounsi.entities.payment.Order;
-import tn.esprit.pidev.consommitounsi.entities.products.Product;
-import tn.esprit.pidev.consommitounsi.models.payment.CartItem;
 import tn.esprit.pidev.consommitounsi.models.payment.ResponseModel;
-import tn.esprit.pidev.consommitounsi.services.payment.ICartService;
-import tn.esprit.pidev.consommitounsi.services.payment.IItemService;
-import tn.esprit.pidev.consommitounsi.services.payment.IOrderService;
-import tn.esprit.pidev.consommitounsi.services.products.IProductService;
-import tn.esprit.pidev.consommitounsi.services.products.ProductService;
+import tn.esprit.pidev.consommitounsi.models.payment.ValidationResult;
+import tn.esprit.pidev.consommitounsi.services.payment.interfaces.ICartService;
+import tn.esprit.pidev.consommitounsi.services.payment.interfaces.IItemService;
+import tn.esprit.pidev.consommitounsi.services.payment.validators.CartValidator;
+import tn.esprit.pidev.consommitounsi.services.payment.validators.ItemValidator;
+import tn.esprit.pidev.consommitounsi.services.user.IUserService;
 
 @RestController
-@RequestMapping(path = "cart")
+@RequestMapping
 public class CartController {
 
-    private final IOrderService orderService;
-    private final IItemService itemService;
+    private final IUserService userService;
     private final ICartService cartService;
-    private final ProductService productService;
+    private final IItemService itemService;
+    private final IResponseBuilder<Cart> responseBuilder;
+    private final CartValidator cartValidator;
+    private final ItemValidator itemValidator;
 
     @Autowired
-    public CartController(IOrderService orderService,
-                          IItemService itemService,
+    public CartController(IUserService userService,
                           ICartService cartService,
-                          ProductService productService) {
-        this.orderService = orderService;
-        this.itemService = itemService;
+                          IItemService itemService,
+                          ResponseBuilder<Cart> responseBuilder,
+                          CartValidator cartValidator,
+                          ItemValidator itemValidator) {
+        this.userService = userService;
         this.cartService = cartService;
-        this.productService = productService;
+        this.itemService = itemService;
+        this.responseBuilder = responseBuilder;
+        this.cartValidator = cartValidator;
+        this.itemValidator = itemValidator;
     }
 
-    @GetMapping("{userId}")
-    public ResponseEntity<ResponseModel<Order>> getCartByUserId(@PathVariable("userId") Long userId) {
-        Order cart = this.cartService.getByUserId(userId);
+    @GetMapping(path = "users/{userId}/cart")
+    public ResponseEntity<ResponseModel<Cart>> get(@PathVariable("userId") Long userId) {
 
-        if (cart == null) {
-            return this.buildResponse(HttpStatus.NOT_FOUND, "",
-                    "User doesn't have a cart", cart);
-        } else {
-            return this.buildResponse(HttpStatus.OK, "",
-                    "", cart);
+        ValidationResult validationResult = this.cartValidator.validateExistence(userId);
+        if (!validationResult.isValid()) {
+            return this.responseBuilder.badRequestResponse(
+                    validationResult.getValidationError());
         }
+
+        Cart userCart = this.cartService.getByUserId(userId);
+        return this.responseBuilder.okResponse(userCart, null);
     }
 
-    @PostMapping("{cartId}/items")
-    public ResponseEntity<ResponseModel<Order>> addItem(@PathVariable("cartId") Long cartId,
-                                                        @RequestBody CartItem cartItem) {
+    @PostMapping(path = "users/{userId}/cart/items")
+    public ResponseEntity<ResponseModel<Cart>> addItem(@PathVariable("userId") Long userId,
+                                                       @RequestBody Item item) {
 
-        ResponseEntity<ResponseModel<Order>> validationResult = validateCartItem(cartItem);
-        if (validationResult != null) return validationResult;
-
-        if (this.cartService.itemProductExistsInCart(cartId, cartItem.getProductId())) {
-            return this.buildResponse(HttpStatus.BAD_REQUEST, "",
-                    "Invalid Cart id.", null);
+        ValidationResult validationResult = this.cartValidator.validateExistence(userId);
+        if (!validationResult.isValid()) {
+            return this.responseBuilder.badRequestResponse(
+                    validationResult.getValidationError());
         }
 
-        Product cartItemProduct = this.productService.getProductById(cartItem.getProductId());
-        Item item = new Item(cartItem.getQuantity(), cartItemProduct);
+        validationResult = this.itemValidator.validateAdd(item);
+        if (!validationResult.isValid()) {
+            return this.responseBuilder.badRequestResponse(
+                    validationResult.getValidationError());
+        }
+
+        Cart userCart = this.cartService.getByUserId(userId);
+
+        validationResult = this.cartValidator.validateNoDuplicateItemProduct(userCart, item.getProduct().getId());
+        if (!validationResult.isValid()) {
+            return this.responseBuilder.badRequestResponse(validationResult.getValidationError());
+        }
+
+        Item createdItem = this.itemService.addOrUpdate(item);
+        userCart = this.cartService.addItem(userCart.getId(), createdItem);
+        return this.responseBuilder.okResponse(userCart, "Item added to user's cart.");
+    }
+
+    @DeleteMapping(path = "users/{userId}/cart/items/{itemId}")
+    public ResponseEntity<ResponseModel<Cart>> deleteItem(@PathVariable("userId") Long userId,
+                                                          @PathVariable("itemId") Long itemId) {
+
+        ResponseEntity<ResponseModel<Cart>> validateExistence = this.validateExistence(userId, itemId);
+        if (validateExistence != null) {
+            return validateExistence;
+        }
+
+        this.itemService.remove(itemId);
+        return this.responseBuilder.okResponse(null, "Item deleted.");
+    }
+
+    @PatchMapping(path = "users/{userId}/cart/items/{itemId}")
+    public ResponseEntity<ResponseModel<Cart>> updateItemQuantity(@PathVariable("userId") Long userId,
+                                                                  @PathVariable("itemId") Long itemId,
+                                                                  @RequestBody int quantity) {
+        if (quantity <= 0) {
+            return this.responseBuilder.badRequestResponse("Invalid quantity value");
+        }
+
+        ResponseEntity<ResponseModel<Cart>> validateExistence = this.validateExistence(userId, itemId);
+        if (validateExistence != null) {
+            return validateExistence;
+        }
+
+        Item item = this.itemService.getById(itemId);
+        item.setId(itemId);
+        item.setQuantity(quantity);
+
         this.itemService.addOrUpdate(item);
-        this.cartService.addItem(cartId, item);
-
-        Order cart = this.orderService.getById(cartId);
-        return this.buildResponse(HttpStatus.CREATED, "Cart-item added with success.",
-                "", cart);
+        Cart updatedCart = this.cartService.getByUserId(userId);
+        return this.responseBuilder.createdResponse(updatedCart, "Item updated.");
     }
 
-    @PatchMapping("{cartId}/items/{itemId}")
-    public ResponseEntity<ResponseModel<Order>> updateQuantity(@PathVariable("cartId") Long cartId,
-                                                               @PathVariable("itemId") Long itemId,
-                                                               @RequestBody CartItem cartItem) {
+    private ResponseEntity<ResponseModel<Cart>> validateExistence(
+            @PathVariable("userId") Long userId,
+            @PathVariable("itemId") Long itemId) {
 
-        ResponseEntity<ResponseModel<Order>> validationResult = validateCartItem(cartItem);
-        if (validationResult != null) return validationResult;
-
-        Item item = this.itemService.getById(itemId);
-        if (item == null || !this.cartService.containsItem(cartId, itemId)) {
-            return this.buildResponse(HttpStatus.BAD_REQUEST, "",
-                    "The cart-item does not exist.", null);
+        ValidationResult validationResult = this.cartValidator.validateExistence(userId);
+        if (!validationResult.isValid()) {
+            return this.responseBuilder.badRequestResponse(validationResult.getValidationError());
         }
 
-        this.itemService.updateItemQuantity(item, cartItem.getQuantity());
-        Order cart = this.orderService.getById(cartId);
-        return this.buildResponse(HttpStatus.OK, "Cart-item's updated with success.",
-                "",
-                cart);
-    }
-
-    @DeleteMapping("{cartId}/items/{itemId}")
-    public ResponseEntity<ResponseModel<Order>> removeItem(@PathVariable("cartId") Long cartId,
-                                                           @PathVariable("itemId") Long itemId) {
-        Item item = this.itemService.getById(itemId);
-        if (item == null) {
-            return this.buildResponse(HttpStatus.BAD_REQUEST, "",
-                    "The cart-item does not exist.", null);
+        validationResult = this.itemValidator.validateExistence(itemId);
+        if (!validationResult.isValid()) {
+            return this.responseBuilder.badRequestResponse(validationResult.getValidationError());
         }
 
-        Order cart = this.cartService.removeItem(cartId, item);
-        return this.buildResponse(HttpStatus.OK, "Item has been removed from the cart.",
-                "",
-                cart);
-    }
-
-    private ResponseEntity<ResponseModel<Order>> buildResponse(HttpStatus httpStatus, String success, String error, Order body) {
-        ResponseModel<Order> response = new ResponseModel<>(success,
-                error,
-                body);
-        return ResponseEntity.status(httpStatus).body(response);
-    }
-
-
-    private ResponseEntity<ResponseModel<Order>> validateCartItem(CartItem cartItem) {
-        if (cartItem == null) {
-            return this.buildResponse(HttpStatus.BAD_REQUEST, "",
-                    "Cart's item is empty.", null);
-        }
-
-        if (cartItem.getQuantity() <= 0) {
-            return this.buildResponse(HttpStatus.BAD_REQUEST, "",
-                    "Invalid item quantity value.", null);
-        }
-
-        if (cartItem.getProductId() <= 0) {
-            return this.buildResponse(HttpStatus.BAD_REQUEST, "",
-                    "Invalid Cart-item's product.", null);
-        }
-
-        if (productService.getProductById(cartItem.getProductId()) == null) {
-            return this.buildResponse(HttpStatus.BAD_REQUEST, "",
-                    "Cart-item's product doesn't exist.", null);
-        }
         return null;
     }
+
 }
