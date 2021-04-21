@@ -35,6 +35,7 @@ public class Product implements Serializable {
     private Discount discount;
 
     @ManyToOne
+    @JsonIgnore
     private Category category;
 
     @JsonIgnore

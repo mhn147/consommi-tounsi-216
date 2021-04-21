@@ -54,7 +54,7 @@ public class ProductController {
          //return productService.getAllProducts(q,min,max);
     }
 
-    @GetMapping("/products")
+    //@GetMapping("/products")
     private List<Product>getAllProducts(@RequestParam (required = false) Double min,
                                         @RequestParam(required = false)Double max,
                                         @RequestParam(required = false) String q)
@@ -67,6 +67,11 @@ public class ProductController {
         }
     }
 
+
+    @GetMapping("/products")
+    public List<Product> getAll() {
+        return this.productService.getAllProducts(null, null, null);
+    }
 
     @GetMapping("/products/{id}")
    public Product getProduct(@PathVariable("id") Long id)
