@@ -21,6 +21,7 @@ public class  User implements Serializable {
     private String email;
     private String password;
     private String phoneNumber;
+    private int BettingLimit;
     @Temporal(TemporalType.DATE)
     private Date birthDate;
     @Enumerated(EnumType.STRING)
@@ -100,6 +101,10 @@ public class  User implements Serializable {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
+    public int getBettingLimit() { return BettingLimit; }
+
+    public void setBettingLimit(int bettingLimit) { BettingLimit = bettingLimit; }
 
     public Date getBirthDate() {
         return birthDate;

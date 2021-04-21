@@ -12,9 +12,11 @@ public interface IEventService {
      Event getEventById(long id);
      List<Event> getAllEvents();
      List<Event> getLastEvents();
+     List<Event> getDisponibleEvent();
      List<Event> getSelectedEvents(long userId) throws ParseException;
      void saveOrUpdateEvents(Event event);
      void DeleteEvent(long id);
      void  RefreshEvent();
+
 
 }

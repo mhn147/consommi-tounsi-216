@@ -30,6 +30,9 @@ public interface EventRepository extends CrudRepository<Event, Long> {
     @Query("select e from Event e order by  e.eventDate DESC ")
     List<Event> getLastEvent();
 
+    @Query("select e from Event e where e.number<e.Maxnumber order by  e.number ASC ")
+    List<Event> getDisponibleEvent();
+
     @Scheduled(fixedRate = 1000L)
     @Transactional
     @Modifying

@@ -13,6 +13,8 @@ public class Event implements Serializable {
     private String name;
     private String description;
     private String location;
+    private int number;
+    private int Maxnumber;
     @Temporal(TemporalType.TIMESTAMP)
     private Date eventDate;
     private float sumCollect;
@@ -22,7 +24,8 @@ public class Event implements Serializable {
     private EventType eventType;
     @OneToMany
     private List<Donation> Events_donations;
-
+    @OneToMany
+    private List<Participation> participations;
     public Event() {
 
     }
@@ -57,6 +60,22 @@ public class Event implements Serializable {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public int getMaxnumber() {
+        return Maxnumber;
+    }
+
+    public void setMaxnumber(int maxnumber) {
+        Maxnumber = maxnumber;
     }
 
     public Date getEventDate() {
@@ -99,11 +118,21 @@ public class Event implements Serializable {
         this.Events_donations = Events_donations;
     }
 
-    public Event(long id, String name, String description, String location, Date eventDate, float sumCollect, float maxCollect, EventType eventType) {
+    public List<Participation> getParticipations() {
+        return participations;
+    }
+
+    public void setParticipations(List<Participation> participations) {
+        this.participations = participations;
+    }
+
+    public Event(long id, String name, String description, String location, int number, int maxnumber, Date eventDate, float sumCollect, float maxCollect, EventType eventType) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.location = location;
+        this.number = number;
+        Maxnumber = maxnumber;
         this.eventDate = eventDate;
         this.sumCollect = sumCollect;
         this.maxCollect = maxCollect;
