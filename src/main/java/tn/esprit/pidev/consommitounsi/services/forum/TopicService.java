@@ -96,7 +96,11 @@ public class TopicService implements ITopicService {
                 sum+=(scores.get(i).get(element)/maxScores[i])*100*coefficients[i];
             finalScore.put(element, sum/Arrays.stream(coefficients).sum());
         }
-        ArrayList<Map.Entry<T, Double>> results=new ArrayList<>(finalScore.entrySet());
+        ArrayList<Map.Entry<T,
+
+
+
+                Double>> results=new ArrayList<>(finalScore.entrySet());
         Collections.sort(results, (e1, e2)->e2.getValue().compareTo(e1.getValue()));
         return results.stream().map(Map.Entry::getKey).collect(Collectors.toList());
     }

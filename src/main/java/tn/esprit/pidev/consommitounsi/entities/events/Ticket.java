@@ -1,5 +1,6 @@
 package tn.esprit.pidev.consommitounsi.entities.events;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import tn.esprit.pidev.consommitounsi.entities.user.User;
 
 import javax.persistence.*;
@@ -13,8 +14,10 @@ public class Ticket implements Serializable {
      private long id;
     @Temporal(TemporalType.TIMESTAMP)
     private Date TicketDate;
+    @JsonIgnore
      @ManyToOne
      private Cagnotte cagnotte;
+    @JsonIgnore
      @ManyToOne
      private User user;
 

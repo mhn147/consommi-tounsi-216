@@ -4,13 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.esprit.pidev.consommitounsi.entities.payment.Payment;
 import tn.esprit.pidev.consommitounsi.repositories.payment.IPaymentRepository;
-import tn.esprit.pidev.consommitounsi.services.common.IService;
+import tn.esprit.pidev.consommitounsi.services.payment.interfaces.IPaymentService;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-public class PaymentService implements IPaymentService, IService<Payment> {
+public class PaymentService implements IPaymentService {
     @Autowired
     private final IPaymentRepository paymentRepository;
 

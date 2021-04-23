@@ -1,4 +1,4 @@
-package tn.esprit.pidev.consommitounsi.models.payment.online;
+package tn.esprit.pidev.consommitounsi.models.payment;
 
 public class CreatePaymentResponse {
     private String publishableKey;

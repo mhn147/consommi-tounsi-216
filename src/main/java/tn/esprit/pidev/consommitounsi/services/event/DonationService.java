@@ -38,7 +38,7 @@ public class DonationService implements IDonationService {
         if (user!=null && event!=null) {
             d.setUser(user);
             d.setEv(event);
-
+            event.setSumCollect(event.getSumCollect()+d.getAmount());
             donationRepository.save(d);
         }
 

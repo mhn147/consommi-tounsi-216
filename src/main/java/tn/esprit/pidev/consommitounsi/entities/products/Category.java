@@ -12,15 +12,39 @@ public class Category implements Serializable {
     private long Id;
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
+    @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "category")
     private List<Product> Products;
 
     @ManyToOne
-    private Category category;
+    private Category baseCategory;
 
-    @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "category")
+    @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "baseCategory")
     private List<Category> subCategories;
 
+
+    public List<Product> getProducts() {
+        return Products;
+    }
+
+    public void setProducts(List<Product> products) {
+        Products = products;
+    }
+
+    public Category getBaseCategory() {
+        return baseCategory;
+    }
+
+    public void setBaseCategory(Category baseCategory) {
+        this.baseCategory = baseCategory;
+    }
+
+    public List<Category> getSubCategories() {
+        return subCategories;
+    }
+
+    public void setSubCategories(List<Category> subCategories) {
+        this.subCategories = subCategories;
+    }
 
     public Category(){
 

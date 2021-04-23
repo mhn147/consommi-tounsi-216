@@ -3,16 +3,25 @@ package tn.esprit.pidev.consommitounsi.services.products;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.esprit.pidev.consommitounsi.entities.products.Category;
+import tn.esprit.pidev.consommitounsi.entities.products.Product;
 import tn.esprit.pidev.consommitounsi.repositories.products.CategoryRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class CategoryService {
+public class CategoryService implements ICategoryService {
     @Autowired
     CategoryRepository categoryRepository;
     //getting all categories record by using the method findaAll() of CrudRepository
+
+
+    public List<Category> getAll()
+    {
+        List<Category> categories = new ArrayList<Category>();
+        categoryRepository.findAll().forEach(c-> categories.add(c));
+        return categories;
+    }
 
     public List<Category> getAllAdvertisement()
     {
@@ -29,11 +38,20 @@ public class CategoryService {
     }
 
     //saving a specific record by using the method save() of CrudRepository
-    public void saveOrUpdate(Category category)
+    public Category saveOrUpdate(Category category)
     {
-        categoryRepository.save(category);
+        Category savedCategory = categoryRepository.save(category);
+        return savedCategory;
     }
 
+    public Category assignProductToCategory(long categoryId, Product product) {
+        Category category = this.categoryRepository.findById(categoryId).orElse(null);
+        if (category == null) {
+            throw new IllegalArgumentException("");
+        }
+        category.getProducts().add(product);
+        return this.categoryRepository.save(category);
+    }
 
     //deleting a specific record by using the method deleteById() of CrudRepository
 

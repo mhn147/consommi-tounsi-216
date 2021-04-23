@@ -1,9 +1,15 @@
 package tn.esprit.pidev.consommitounsi.controllers.payment;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import tn.esprit.pidev.consommitounsi.controllers.payment.helpers.IResponseBuilder;
+import tn.esprit.pidev.consommitounsi.controllers.payment.helpers.ResponseBuilder;
+import tn.esprit.pidev.consommitounsi.models.payment.ResponseModel;
 import tn.esprit.pidev.consommitounsi.entities.payment.Item;
-import tn.esprit.pidev.consommitounsi.services.payment.ItemService;
+import tn.esprit.pidev.consommitounsi.models.payment.ValidationResult;
+import tn.esprit.pidev.consommitounsi.services.payment.interfaces.IItemService;
+import tn.esprit.pidev.consommitounsi.services.payment.validators.ItemValidator;
 
 import java.util.List;
 
@@ -11,37 +17,78 @@ import java.util.List;
 @RequestMapping
 public class ItemController {
 
-    private final ItemService itemService;
+    private final IItemService itemService;
+    private final ItemValidator itemValidator;
+    private final IResponseBuilder<Item> responseBuilder;
 
     @Autowired
-    public ItemController(ItemService itemService) {
+    public ItemController(IItemService itemService,
+                          ItemValidator itemValidator,
+                          ResponseBuilder<Item> responseBuilder) {
         this.itemService = itemService;
+        this.itemValidator = itemValidator;
+        this.responseBuilder = responseBuilder;
     }
 
     @GetMapping(path = "items")
     public List<Item> getItems() {
-        return this.itemService.getAll();
+            return this.itemService.getAll();
     }
 
     @GetMapping(path = "items/{itemId}")
-    public Item get(@PathVariable("itemId") Long itemId) {
-        return this.itemService.getById(itemId);
+    public ResponseEntity<ResponseModel<Item>> get(@PathVariable("itemId") Long itemId) {
+
+        ValidationResult validationResult = this.itemValidator.validateExistence(itemId);
+        if (!validationResult.isValid()) {
+            return this.responseBuilder.badRequestResponse("Item don't exist.");
+        }
+
+        Item item = this.itemService.getById(itemId);
+        return this.responseBuilder.okResponse(item, null);
     }
 
     @PostMapping(path = "items")
-    public Item add(@RequestBody Item item) {
-        return this.itemService.addOrUpdate(item);
+    public ResponseEntity<ResponseModel<Item>> add(@RequestBody Item item) {
+
+        ValidationResult validationResult = this.itemValidator.validateAdd(item);
+        if (!validationResult.isValid()) {
+            return this.responseBuilder.badRequestResponse(
+                    validationResult.getValidationError());
+        }
+
+        Item createdItem = this.itemService.addOrUpdate(item);
+        return this.responseBuilder.createdResponse(createdItem, "Item created.");
     }
 
     @DeleteMapping(path = "items/{itemId}")
-    public void remove(@PathVariable("itemId") Long itemId) {
+    public ResponseEntity<ResponseModel<Item>> delete(@PathVariable("itemId") Long itemId) {
+
+        ValidationResult validationResult = this.itemValidator.validateExistence(itemId);
+        if (!validationResult.isValid()) {
+            return this.responseBuilder.badRequestResponse("Item don't exist.");
+        }
+
+        Item item = this.itemService.getById(itemId);
         this.itemService.remove(itemId);
+        return this.responseBuilder.okResponse(item, "Item deleted.");
     }
 
     @PutMapping(path = "items/{itemId}")
-    public void update(@PathVariable("itemId") Long itemId,
+    public ResponseEntity<ResponseModel<Item>> update(@PathVariable("itemId") Long itemId,
                        @RequestBody Item item) {
+
+        ValidationResult validationResult = this.itemValidator.validateExistence(itemId);
+        if (!validationResult.isValid()) {
+            return this.responseBuilder.badRequestResponse(validationResult.getValidationError());
+        }
+
+        validationResult =  this.itemValidator.validateAdd(item);
+        if (!validationResult.isValid()) {
+            return this.responseBuilder.badRequestResponse(validationResult.getValidationError());
+        }
+
         item.setId(itemId);
-        this.itemService.addOrUpdate(item);
+        Item updatedItem = this.itemService.addOrUpdate(item);
+        return this.responseBuilder.createdResponse(updatedItem, "Item updated.");
     }
 }

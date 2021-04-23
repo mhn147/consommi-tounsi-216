@@ -11,7 +11,11 @@ import java.util.List;
 
 public interface TicketRepository extends CrudRepository<Ticket, Long> {
 
-    @Query("select t from Ticket t where t.cagnotte.id=: cagnotteId ")
+    @Query("select t from Ticket t where t.cagnotte.id = :cagnotteId ")
     List<Ticket> getTicketByCagnotte(@Param("cagnotteId") long cagnotteId);
+
+
+    @Query("select t from Ticket t where t.user.id= :userId ")
+    List<Ticket> getTicketById(@Param("userId") long userId);
 
 }

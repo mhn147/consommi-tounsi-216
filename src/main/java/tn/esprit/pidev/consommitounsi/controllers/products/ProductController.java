@@ -54,7 +54,7 @@ public class ProductController {
          //return productService.getAllProducts(q,min,max);
     }
 
-    @GetMapping("/products")
+    //@GetMapping("/products")
     private List<Product>getAllProducts(@RequestParam (required = false) Double min,
                                         @RequestParam(required = false)Double max,
                                         @RequestParam(required = false) String q)
@@ -68,6 +68,11 @@ public class ProductController {
     }
 
 
+    @GetMapping("/products")
+    public List<Product> getAll() {
+        return this.productService.getAllProducts(null, null, null);
+    }
+
     @GetMapping("/products/{id}")
    public Product getProduct(@PathVariable("id") Long id)
     {
@@ -75,14 +80,14 @@ public class ProductController {
         return productService.getProductById(id);
     }
 
-    @DeleteMapping ("/admin/products/{id}")
+    @DeleteMapping ("/products/{id}")
     private void deleteProduct(@PathVariable("id") Long id)
     {
         productService.delete(id);
     }
 
     //creating post mapping that post the prod detail in the database
-    @PostMapping("/admin/products")
+    @PostMapping("/products")
     private long saveProduct(@RequestBody Product product)
     {
         productService.saveOrUpdate(product);
@@ -90,7 +95,7 @@ public class ProductController {
     }
 
     //creating put mapping that updates the prod detail
-    @PutMapping("/admin/products/{id}")
+    @PutMapping("/products/{id}")
     private Product update(@RequestBody Product product)
     {
         productService.saveOrUpdate(product);
@@ -99,7 +104,7 @@ public class ProductController {
 
 
     //hedhy
-    @PostMapping("/customer/comments/{userId}/{productId}")
+    @PostMapping("/comments/{userId}/{productId}")
     @ResponseBody
     public void addComment(@RequestBody Comment c,
                            @PathVariable("userId") long userId,
@@ -110,7 +115,7 @@ public class ProductController {
           //  commentService.addComment(c, userId, productId);
     }
 
-    @PostMapping("/customer/comments/edit")
+    @PostMapping("/comments/edit")
     @ResponseBody
     public void updateComment(@RequestBody Comment c) {
         Comment comment=commentService.getCommentById(c.getId());
@@ -124,7 +129,7 @@ public class ProductController {
         return commentService.getCommentById(id);
     }
 
-    @DeleteMapping("/customer/customer/comments/{id}")
+    @DeleteMapping("/customer/comments/{id}")
     @ResponseBody
     public void deleteComment(@PathVariable("id") long id) {
         Comment c = commentService.getCommentById(id);
