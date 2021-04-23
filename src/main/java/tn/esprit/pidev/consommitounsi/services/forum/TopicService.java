@@ -29,14 +29,16 @@ public class TopicService implements ITopicService {
     @Autowired
     IPostService postService;
 
-    public void add(Topic t, long userId) {
+    public Topic add(Topic t, long userId) {
         User user = userRepository.findById(userId).orElse(null);
         if (user!=null) {
             t.setDate(new Date());
             t.setUser(user);
-            topicRepository.save(t);
+            t = topicRepository.save(t);
             checkDuplicates(t);
+            return t;
         }
+        return null;
     }
 
     public void update(Topic t) {

@@ -7,7 +7,7 @@ import tn.esprit.pidev.consommitounsi.entities.user.User;
 import java.util.List;
 
 public interface ITopicService {
-    void add(Topic t, long userId);
+    Topic add(Topic t, long userId);
     void update(Topic t);
     Topic getById(long id);
     List<Topic> getAllOrderedByDate();

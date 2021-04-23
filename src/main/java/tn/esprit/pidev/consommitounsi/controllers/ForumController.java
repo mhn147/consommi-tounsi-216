@@ -20,9 +20,10 @@ public class ForumController {
 
     @PostMapping("/customer/topics/{userId}")
     @ResponseBody
-    public void addTopic(@RequestBody Topic t, @PathVariable("userId") long userId) {
+    public Topic addTopic(@RequestBody Topic t, @PathVariable("userId") long userId) {
         if (UserSession.hasId(userId) && !t.getTitle().isEmpty())
-            topicService.add(t, userId);
+            return topicService.add(t, userId);
+        return null;
     }
 
     @PostMapping("/customer/topics")
