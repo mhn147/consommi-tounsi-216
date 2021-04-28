@@ -33,6 +33,7 @@ public class  User implements Serializable {
     @Enumerated(EnumType.STRING)
     private UserType type;
 
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Address> addresses;
 

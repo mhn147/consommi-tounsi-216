@@ -57,4 +57,17 @@ public class CagnotteController {
     @GetMapping("/winner/{cagnotteId}")
     @ResponseBody
     public Ticket getWinner(@PathVariable("cagnotteId") long cagnotteId){return cagnotteService.getWinner(cagnotteId); }
+
+    @DeleteMapping("/deleteTicket/{id}")
+    @ResponseBody
+    public void deleteEvent(@PathVariable("id")long id) {
+        cagnotteService.DeleteTicket(id);
+    }
+
+    @DeleteMapping("/deleteCagnotte/{id}")
+    @ResponseBody
+    public void deleteCagnotte(@PathVariable("id")long id) {
+        cagnotteService.DeleteCagnotte(id);
+    }
+
 }

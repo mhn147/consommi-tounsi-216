@@ -19,6 +19,7 @@ public class Event implements Serializable {
     private Date eventDate;
     private float sumCollect;
     private float maxCollect;
+    private String picture;
 
     @Enumerated(EnumType.STRING)
     private EventType eventType;
@@ -126,7 +127,15 @@ public class Event implements Serializable {
         this.participations = participations;
     }
 
-    public Event(long id, String name, String description, String location, int number, int maxnumber, Date eventDate, float sumCollect, float maxCollect, EventType eventType) {
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
+    public Event(long id, String name, String description, String location, int number, int maxnumber, Date eventDate, float sumCollect, float maxCollect, String picture, EventType eventType) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -136,6 +145,7 @@ public class Event implements Serializable {
         this.eventDate = eventDate;
         this.sumCollect = sumCollect;
         this.maxCollect = maxCollect;
+        this.picture = picture;
         this.eventType = eventType;
     }
 }

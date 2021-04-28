@@ -17,4 +17,7 @@ public interface ICagnotteService {
     List<Ticket> getAllticket();
     boolean limit(long userID);
      void SetLimit(long userId, int limit);
+    void DeleteTicket(long id);
+    void DeleteCagnotte(long id);
+    void  RefreshCagnotte();
 }

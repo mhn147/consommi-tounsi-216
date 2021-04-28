@@ -14,7 +14,7 @@ public class Ticket implements Serializable {
      private long id;
     @Temporal(TemporalType.TIMESTAMP)
     private Date TicketDate;
-    @JsonIgnore
+    private Boolean valide;
      @ManyToOne
      private Cagnotte cagnotte;
     @JsonIgnore
@@ -41,6 +41,14 @@ public class Ticket implements Serializable {
         TicketDate = ticketDate;
     }
 
+    public Boolean getValide() {
+        return valide;
+    }
+
+    public void setValide(Boolean valide) {
+        this.valide = valide;
+    }
+
     public Cagnotte getCagnotte() {
         return cagnotte;
     }
@@ -57,8 +65,9 @@ public class Ticket implements Serializable {
         this.user = user;
     }
 
-    public Ticket(long id, Date ticketDate) {
+    public Ticket(long id, Date ticketDate, Boolean valide) {
         this.id = id;
         TicketDate = ticketDate;
+        this.valide = valide;
     }
 }

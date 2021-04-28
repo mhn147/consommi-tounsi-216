@@ -13,6 +13,7 @@ public class Cagnotte implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private int jackpot;
+    private boolean expired;
     @Temporal(TemporalType.TIMESTAMP)
     private Date CagnotteDate;
     @OneToMany
@@ -46,6 +47,14 @@ public class Cagnotte implements Serializable {
         CagnotteDate = cagnotteDate;
     }
 
+    public boolean isExpired() {
+        return expired;
+    }
+
+    public void setExpired(boolean expired) {
+        this.expired = expired;
+    }
+
     public List<Ticket> getTickets() {
         return tickets;
     }
@@ -54,9 +63,10 @@ public class Cagnotte implements Serializable {
         this.tickets = tickets;
     }
 
-    public Cagnotte(long id, int jackpot, Date cagnotteDate) {
+    public Cagnotte(long id, int jackpot, boolean expired, Date cagnotteDate) {
         this.id = id;
         this.jackpot = jackpot;
+        this.expired = expired;
         CagnotteDate = cagnotteDate;
     }
 }
