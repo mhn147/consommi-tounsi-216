@@ -14,7 +14,7 @@ public class Application {
     // Stripe secret key
     @PostConstruct
     public void setup() {
-        Stripe.apiKey = "sk_test_51IZDC9Dnznjyl503QI1f7zydGwSZwkgDHLibxIHhyNjvPpFsi79SZEfuaiCPV8XO7nzUUEap1N5Cjnqo8U3IG1Yi00Wx8ExOzT";
+        Stripe.apiKey = "sk_test_51IlUUVCoa56OaMeIGuB3oqT1WNPPl8hMBj9OvlLu4kRs8T2bqVUBHGmcT5YrBh3aMJdUggDYvYOGrryPQvYQYM4l00TIDG07Fe";
     }
 
     public static void main(String[] args) {

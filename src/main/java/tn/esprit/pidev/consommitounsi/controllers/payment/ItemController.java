@@ -73,21 +73,17 @@ public class ItemController {
         return this.responseBuilder.okResponse(item, "Item deleted.");
     }
 
-    @PutMapping(path = "items/{itemId}")
-    public ResponseEntity<ResponseModel<Item>> update(@PathVariable("itemId") Long itemId,
-                       @RequestBody Item item) {
+    @PutMapping(path = "items/{itemId}/{quantity}")
+    public ResponseEntity<ResponseModel<Item>> updateItemQuantity(@PathVariable("itemId") Long itemId,
+                                                                  @PathVariable("quantity") Long quantity) {
 
         ValidationResult validationResult = this.itemValidator.validateExistence(itemId);
         if (!validationResult.isValid()) {
             return this.responseBuilder.badRequestResponse(validationResult.getValidationError());
         }
 
-        validationResult =  this.itemValidator.validateAdd(item);
-        if (!validationResult.isValid()) {
-            return this.responseBuilder.badRequestResponse(validationResult.getValidationError());
-        }
-
-        item.setId(itemId);
+        Item item = this.itemService.getById(itemId);
+        item.setQuantity(quantity.intValue());
         Item updatedItem = this.itemService.addOrUpdate(item);
         return this.responseBuilder.createdResponse(updatedItem, "Item updated.");
     }

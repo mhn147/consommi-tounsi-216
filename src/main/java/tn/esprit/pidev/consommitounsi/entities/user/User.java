@@ -36,10 +36,11 @@ public class  User implements Serializable {
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Address> addresses;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     private List<Order> orders;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<Invoice> invoices;
 
     public User() {

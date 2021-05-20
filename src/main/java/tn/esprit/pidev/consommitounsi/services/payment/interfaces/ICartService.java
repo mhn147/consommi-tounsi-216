@@ -10,8 +10,9 @@ public interface ICartService {
     Cart createCart(User user);
     Cart getByUserId(long userId);
     Cart addItem(long cartId, Item item);
+    Cart get(long cartId);
     Item updateItemQuantity(Item item, int quantity);
-    Cart removeItem(long cartId, Item item);
+    Cart removeItem(long cartId, long itemId);
     Cart empty(long cartId);
     boolean containsItem(long cartId, long itemId);
 }

@@ -91,7 +91,7 @@ public class InvoicePDFService implements IInvoicePDFService {
         Calendar dueDate = invoice.getInvoiceDate();
         dueDate.add(Calendar.DATE, 60);
         pdfModel.setDue_date(dueDate);
-        pdfModel.setItems(this.mapInvoiceItemsToPDFInvoiceItems(invoice.getItems()));
+        pdfModel.setItems(this.mapInvoiceItemsToPDFInvoiceItems(invoice.getOrder().getItems()));
         pdfModel.setFields(new Fields());
         pdfModel.setTax(10);
         pdfModel.setShipping(1);
