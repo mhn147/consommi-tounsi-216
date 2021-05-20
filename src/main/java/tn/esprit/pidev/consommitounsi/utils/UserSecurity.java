@@ -46,4 +46,6 @@ public class UserSecurity extends WebSecurityConfigurerAdapter {
     public static boolean checkPassword(String clear, String encoded) {
         return new BCryptPasswordEncoder().matches(clear, encoded);
     }
+
+
 }

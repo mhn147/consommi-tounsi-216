@@ -5,26 +5,28 @@ var stripe = Stripe("pk_test_51IZDC9Dnznjyl503ZfnPyTPrlzW3kNOMmYEjJogLySOGrokf1z
 var purchase = {
     items: [
         {
-            "id": 9,
-            "quantity": 100,
+            "id": 24,
+            "quantity": 99,
             "discountRate": 0.0,
             "discountAmount": 0.0,
-            "subTotal": 1000.0,
+            "subTotal": 148.5,
             "taxesExceptVATAmount": 0.0,
             "totalTaxesAmount": 0.0,
             "product": {
-                "id": 1,
-                "name": "abc",
-                "description": "abc",
-                "price": 10.0,
-                "picture": "",
-                "vatamount": 0.0,
+                "id": 10,
+                "creationDate": "2021-01-01T00:00:00.000+00:00",
+                "name": "Sablito",
+                "description": "",
+                "price": 1.5,
+                "picture": "http://www.saida-group.com/interface/catalog/images/product/20150504111644_IM__sablito2.jpg",
                 "taxes": [],
-                "category": null,
-                "advertisementproduct": []
+                "discount": null,
+                "user": null,
+                "comments": [],
+                "ratings": []
             },
-            "vatrate": 0.0,
-            "vatamount": 0.0
+            "vatamount": 0.0,
+            "vatrate": 0.0
         }
     ],
     currency: "usd"
@@ -92,6 +94,8 @@ var payWithCard = function(stripe, card, clientSecret) {
             }
         })
         .then(function(result) {
+            console.log('hahaha')
+            console.log(result);
             if (result.error) {
                 // Show error to your customer
                 showError(result.error.message);
@@ -102,7 +106,7 @@ var payWithCard = function(stripe, card, clientSecret) {
             }
         }).then(function(result) {
             var body = {
-                userId: 1,
+                userId: 3,
                 amount: result.paymentIntent.amount,
                 shippingAddress: {
                     recipientName: "mohamed",

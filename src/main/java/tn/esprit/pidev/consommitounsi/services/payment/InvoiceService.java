@@ -13,48 +13,48 @@ import tn.esprit.pidev.consommitounsi.services.payment.interfaces.IInvoiceServic
 import java.util.List;
 
 @Service
-public class InvoiceService {
+public class InvoiceService implements IInvoiceService {
 
-//    private final IInvoiceRepository invoiceRepository;
-//    private final IInvoicePDFService invoicePDFService;
-//
-//    @Autowired
-//    public InvoiceService(IInvoiceRepository invoiceRepository,
-//                          IInvoicePDFService invoicePDFService) {
-//        this.invoicePDFService = invoicePDFService;
-//        this.invoiceRepository = invoiceRepository;
-//    }
-//
-//    @Override
-//    public List<Invoice> getAll() {
-//        return (List<Invoice>)invoiceRepository.findAll();
-//    }
-//
-//    @Override
-//    public Invoice getById(Long id) {
-//        return this.invoiceRepository.findById(id).orElse(null);
-//    }
-//
-//    @Override
-//    public Invoice addOrUpdate(Invoice invoice) {
-//        return this.invoiceRepository.save(invoice);
-//    }
-//
-//    @Override
-//    public void remove(Long id) {
-//        Invoice invoice = this.getById(id);
-//        invoiceRepository.delete(invoice);
-//    }
-//
-//    @Override
-//    public Invoice createInvoice(User user, Order order, List<Item> items, Address shippingAddress,
-//                                 boolean isPayed) throws InterruptedException {
-//        Invoice newInvoice = new Invoice(user, order, items);
-//        String invoiceFilePath = this.invoicePDFService.saveInvoicePDF(newInvoice,
-//                user.getFirstName() + " " + user.getLastName(),
-//                shippingAddress.toString(),
-//                isPayed);
-//        newInvoice.setInvoiceFilePath(invoiceFilePath);
-//        return this.invoiceRepository.save(newInvoice);
-//    }
+    private final IInvoiceRepository invoiceRepository;
+    private final IInvoicePDFService invoicePDFService;
+
+    @Autowired
+    public InvoiceService(IInvoiceRepository invoiceRepository,
+                          IInvoicePDFService invoicePDFService) {
+        this.invoicePDFService = invoicePDFService;
+        this.invoiceRepository = invoiceRepository;
+    }
+
+    @Override
+    public List<Invoice> getAll() {
+        return (List<Invoice>)invoiceRepository.findAll();
+    }
+
+    @Override
+    public Invoice getById(Long id) {
+        return this.invoiceRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public Invoice addOrUpdate(Invoice invoice) {
+        return this.invoiceRepository.save(invoice);
+    }
+
+    @Override
+    public void remove(Long id) {
+        Invoice invoice = this.getById(id);
+        invoiceRepository.delete(invoice);
+    }
+
+
+    public Invoice createInvoice(User user, Order order, Address shippingAddress,
+                                 boolean isPayed) throws InterruptedException {
+        Invoice newInvoice = new Invoice(user, order);
+        String invoiceFilePath = this.invoicePDFService.saveInvoicePDF(newInvoice,
+                user.getFirstName() + " " + user.getLastName(),
+                shippingAddress.toString(),
+                isPayed);
+        newInvoice.setInvoiceFilePath(invoiceFilePath);
+        return this.invoiceRepository.save(newInvoice);
+    }
 }

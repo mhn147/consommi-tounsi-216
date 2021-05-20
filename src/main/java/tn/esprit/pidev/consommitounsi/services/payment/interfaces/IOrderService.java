@@ -8,8 +8,8 @@ import tn.esprit.pidev.consommitounsi.entities.user.User;
 import java.util.List;
 
 public interface IOrderService {
-    Order createOrder(User user, Order cart, Address shippingAddress) throws InterruptedException;
-    Order createOnlineOrder(User user, Order cart, Address shippingAddress) throws InterruptedException;
-    Order getCartByUserId(Long userId);
-    double calculateOrderAmount(List<Item> items);
+    List<Order> getAll();
+    Order getById(long orderId);
+    Order addOrUpdate(Order order);
+    void delete(long orderId);
 }

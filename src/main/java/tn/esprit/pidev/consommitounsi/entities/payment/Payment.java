@@ -9,12 +9,6 @@ import java.util.Objects;
 @Entity
 @Table(name = "t_payment")
 public class Payment implements Serializable {
-    enum PaymentType {
-        AtDelivery,
-        Online
-    }
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

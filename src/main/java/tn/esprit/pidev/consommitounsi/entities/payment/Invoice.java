@@ -27,9 +27,6 @@ public class Invoice implements Serializable {
     @JsonIgnore
     private String invoiceFilePath;
 
-    @OneToMany
-    private List<Item> items;
-
     @OneToOne
     private Order order;
 
@@ -48,10 +45,9 @@ public class Invoice implements Serializable {
         this.totalDiscountAmount = totalDiscountAmount;
     }
 
-    public Invoice(User user, Order order, List<Item> items) {
+    public Invoice(User user, Order order) {
         this.user = user;
         this.order = order;
-        this.items = items;
         this.invoiceDate = Calendar.getInstance();
         this.dueDate = this.invoiceDate;
         this.dueDate.add(Calendar.DATE, 90);
@@ -71,14 +67,14 @@ public class Invoice implements Serializable {
 
     private void setSubTotal() {
         for (Item item:
-             this.items) {
+             this.order.getItems()) {
             this.subTotal += item.getSubTotal();
         }
     }
 
     private void setTaxes() {
         this.totalDiscountAmount = 0;
-        for (Item item: this.items) {
+        for (Item item: order.getItems()) {
             this.totalVATAmount += item.getVATAmount();
         }
         this.totalTaxesExceptVATAmount = 0;
@@ -159,14 +155,6 @@ public class Invoice implements Serializable {
 
     public void setTotal(double total) {
         this.total = total;
-    }
-
-    public List<Item> getItems() {
-        return items;
-    }
-
-    public void setItems(List<Item> items) {
-        this.items = items;
     }
 
     public Order getOrder() {

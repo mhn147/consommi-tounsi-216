@@ -18,7 +18,7 @@ public class Cart {
     @ManyToOne
     @JsonIgnore
     public User user;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE)
     private List<Item> items;
 
     public Cart() {}

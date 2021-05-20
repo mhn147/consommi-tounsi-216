@@ -1,7 +1,7 @@
 package tn.esprit.pidev.consommitounsi.models.payment;
 
 public class CartItem {
-    private long itemId;
+    private long id;
     private int quantity;
     private long productId;
 
@@ -21,11 +21,11 @@ public class CartItem {
         this.productId = productId;
     }
 
-    public long getItemId() {
-        return itemId;
+    public long getId() {
+        return id;
     }
 
-    public void setItemId(long itemId) {
-        this.itemId = itemId;
+    public void setId(long id) {
+        this.id = id;
     }
 }

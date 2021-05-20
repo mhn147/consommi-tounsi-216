@@ -47,14 +47,20 @@ public class CartService implements ICartService {
     }
 
     @Override
+    public Cart get(long cartId) {
+        return this.cartRepository.findById(cartId).orElse(null);
+    }
+
+    @Override
     public Item updateItemQuantity(Item item, int quantity) {
         item.setQuantity(quantity);
         return this.itemService.addOrUpdate(item);
     }
 
     @Override
-    public Cart removeItem(long cartId, Item item) {
-        Cart cart = this.cartRepository.findById(cartId).orElseThrow(IllegalArgumentException::new);
+    public Cart removeItem(long cartId, long itemId) {
+        Cart cart = this.get(cartId);
+        Item item = this.itemService.getById(itemId);
         cart.getItems().remove(item);
         return this.cartRepository.save(cart);
     }
